@@ -13,6 +13,7 @@ const recruiterSchema = mongoose.Schema(
             state: String,
             country: String
         },
+        role: { type: String, default: "RECRUITER" },
         industry: [{ type: String }],
         bio: { type: String }
     },

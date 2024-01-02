@@ -17,7 +17,7 @@ const loginRecruiter = async (req, res) => {
             res.status(200).json({
                 success: true,
                 recruiter,
-                accessToken: generateToken(recruiter._id),
+                accessToken: generateToken(recruiter.role),
                 message: `Logged In Successfully`
             })
         } else {
@@ -62,7 +62,7 @@ const registerRecruiter = async (req, res) => {
         })
         res.status(200).json({
             success: true,
-            accessToken: generateToken(newRecruiter._id),
+            accessToken: generateToken(newRecruiter.role),
             recruiter: newRecruiter,
             message: `Register in Successfully`,
         })
@@ -100,7 +100,6 @@ const updateRecruiter = async (req, res) => {
         res.status(200).json({
             success: true,
             recruiter: recruiterUpdate,
-            accessToken: generateToken(recruiterExists._id),
             message: `Update Recruiter Successfully`,
         })
 

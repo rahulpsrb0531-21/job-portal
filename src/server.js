@@ -7,6 +7,7 @@ import bodyParser from 'body-parser'
 import config from './config/db.js'
 import Logging from './library/Logging.js'
 import recruiterRoute from './routes/recruiterRoute.js'
+import jobRoute from './routes/jobRoute.js'
 
 const router = express()
 
@@ -59,6 +60,7 @@ const StartServer = () => {
 
     /** Routes */
     router.use('/api/recruiter', recruiterRoute)
+    router.use('/api/job', jobRoute)
 
     router.listen(config.server.port, () => Logging.info(`Server is running on port ${config.server.port}`));
 };
