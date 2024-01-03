@@ -1,5 +1,6 @@
 import customError from '../custom/customError.js'
 import generateToken from '../custom/generateToken.js'
+import Job from '../model/jobModel.js'
 import Recruiter from '../model/recruiterModel.js'
 
 // @desc    login Recruiter
@@ -41,9 +42,13 @@ const loginRecruiter = async (req, res) => {
 // @access  public
 const registerRecruiter = async (req, res) => {
     try {
-        const { name, phoneNumber, email, password, website, location, industry, bio } = req.body
-        if (!name || !phoneNumber || !email || !password || !website || !location
-            || !industry || !bio) throw customError.dataInvalid
+        const { companyLogo, companyName, title, companyDescription, companySize,
+            companyType, markets, phoneNumber, email, password, website, role,
+            location } = req.body
+        if (!companyLogo || !companyName || !title || !companyDescription ||
+            !companySize || !companyType || !markets || !phoneNumber ||
+            !email || !password || !website || !role || !location
+        ) throw customError.dataInvalid
 
         const recruiterExists = await Recruiter.findOne({ phoneNumber })
         if (recruiterExists) {
@@ -51,14 +56,19 @@ const registerRecruiter = async (req, res) => {
             throw new Error("Recruiter already exists")
         }
         const newRecruiter = await Recruiter.create({
-            name,
+            companyLogo,
+            companyName,
+            title,
+            companyDescription,
+            companySize,
+            companyType,
+            markets,
             phoneNumber,
             email,
             password,
             website,
-            location,
-            industry,
-            bio
+            role,
+            location
         })
         res.status(200).json({
             success: true,
@@ -81,20 +91,28 @@ const registerRecruiter = async (req, res) => {
 // @access  private
 const updateRecruiter = async (req, res) => {
     try {
-        const { name, phoneNumber, email, password, website, location, industry, bio } = req.body
-        if (!name || !phoneNumber || !email || !password || !website || !location
-            || !industry || !bio) throw customError.dataInvalid
+        const { companyLogo, companyName, title, companyDescription, companySize,
+            companyType, markets, phoneNumber, email, password, website, role,
+            location } = req.body
+        if (!companyLogo || !companyName || !title || !companyDescription ||
+            !companySize || !companyType || !markets || !phoneNumber ||
+            !email || !password || !website || !location
+        ) throw customError.dataInvalid
 
         const recruiterExists = await Recruiter.findOne({ phoneNumber })
         if (recruiterExists) {
-            recruiterExists.name = name,
-                recruiterExists.phoneNumber = phoneNumber,
-                recruiterExists.email = email,
-                recruiterExists.password = password,
-                recruiterExists.website = website,
-                recruiterExists.location = location,
-                recruiterExists.industry = industry,
-                recruiterExists.bio = bio
+            recruiterExists.companyLogo = companyLogo
+            recruiterExists.companyName = companyName
+            recruiterExists.title = title
+            recruiterExists.companyDescription = companyDescription
+            recruiterExists.companySize = companySize
+            recruiterExists.companyType = companyType
+            recruiterExists.markets = markets
+            recruiterExists.phoneNumber = phoneNumber
+            recruiterExists.email = email
+            recruiterExists.password = password
+            recruiterExists.website = website
+            recruiterExists.location = location
         }
         let recruiterUpdate = await recruiterExists.save()
         res.status(200).json({
@@ -136,4 +154,27 @@ const deleteRecruiter = async (req, res) => {
     }
 }
 
-export { registerRecruiter, loginRecruiter, updateRecruiter, deleteRecruiter }
+
+// @desc    Get All Jobs By Recruiter Id
+// @route   Get /api/get all/job/recruiter/id
+// @access  Public
+const getAllJobByRecruiterId = async (req, res) => {
+    try {
+        const _id = req.params.id
+        // console.log(_id)
+        const jobs = await Job.find({ recruiterId: _id })
+        res.status(200).json({
+            success: true,
+            data: jobs,
+            message: 'Get All Jobs successfully',
+        })
+    } catch (error) {
+        console.log(`***** ERROR: ${req.originalUrl, error} error`)
+        res.status({
+            success: false,
+            data: error
+        })
+    }
+}
+
+export { registerRecruiter, loginRecruiter, updateRecruiter, deleteRecruiter, getAllJobByRecruiterId }

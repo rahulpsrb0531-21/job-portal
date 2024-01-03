@@ -110,8 +110,8 @@ const updateJob = async (req, res) => {
     }
 }
 
-// @desc    Delete Recruiter
-// @route   DELETE /api/recruiter/delete
+// @desc    Delete Job
+// @route   DELETE /api/Job/delete
 // @access  private
 const deleteJob = async (req, res) => {
     try {
@@ -130,6 +130,26 @@ const deleteJob = async (req, res) => {
     }
 }
 
+// @desc    Get Job By Id
+// @route   GET /api/Job/get/:id
+// @access  public
+const getJob = async (req, res) => {
+    try {
+        const _id = req.params.id
+        const job = await Job.findById({ _id: _id })
+        res.status(200).json({
+            success: true,
+            data: job,
+            message: 'Job data successfully',
+        })
+    } catch (error) {
+        console.log(`***** ERROR: ${req.originalUrl, error} error`)
+        res.status({
+            success: false,
+            data: error
+        })
+    }
+}
 
 
-export { createJob, updateJob, deleteJob }
+export { createJob, updateJob, deleteJob, getJob }

@@ -3,19 +3,35 @@ import bcrypt from 'bcryptjs'
 
 const recruiterSchema = mongoose.Schema(
     {
-        name: { type: String },
+        companyLogo: { type: String, required: true },
+        companyName: { type: String, required: true },
+        companyDescription: { type: String, required: true },
+        title: { type: String, required: true },
+        companySize: {
+            type: {
+                minimum: {
+                    type: String,
+                    required: true,
+                },
+                maximum: {
+                    type: String,
+                    required: true,
+                },
+            },
+            required: true,
+        },
+        companyType: {
+            type: String,
+            enum: ["Startup", "mnc"]
+        },
+        markets: [{ type: String }],
         phoneNumber: { type: Number, required: true, unique: true },
         email: { type: String, unique: true },
         password: { type: String },
         website: { type: String },
-        location: {
-            city: String,
-            state: String,
-            country: String
-        },
+        location: { type: String },
         role: { type: String, default: "RECRUITER" },
-        industry: [{ type: String }],
-        bio: { type: String }
+        // bio: { type: String }
     },
     { timestamps: { createdAt: 'created_at', updatedAt: 'updated_at' } }
 )

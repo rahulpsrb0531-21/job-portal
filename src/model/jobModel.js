@@ -45,7 +45,6 @@ const jobSchema = mongoose.Schema(
             required: true,
         },
         location: { type: String, required: true },
-        // industry: [{ type: String, required: true }],
         skills: [{ type: String, required: true }],
         visaSponsorship: {
             type: Boolean,
@@ -63,6 +62,18 @@ const jobSchema = mongoose.Schema(
             type: Schema.Types.ObjectId,
             ref: "Recruiter"
         },
+        jobSaved: [
+            {
+                type: mongoose.Schema.Types.ObjectId,
+                ref: 'Candidate'
+            }
+        ],
+        jobApplied: [
+            {
+                type: mongoose.Schema.Types.ObjectId,
+                ref: 'Candidate'
+            }
+        ]
         // recruiterName: { type: String, required: true },
         // recruiterEmail: { type: String, required: true },
         // deadline: {
