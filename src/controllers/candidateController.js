@@ -38,6 +38,40 @@ const registerCandidate = async (req, res) => {
     }
 }
 
+// @desc    login Candidate
+// @route   POST /api/candidate/login
+// @access  public
+const loginCandidate = async (req, res) => {
+    try {
+        const { email, password } = req.body
+        if (!email || !password) throw customError.dataInvalid
+
+        let foundCandidate = await Candidate.findOne({ email })
+
+        if (foundCandidate && (await foundCandidate.matchPassword(password))) {
+            let candidate = await Candidate.findOne({ email }).select('-password')
+            res.status(200).json({
+                success: true,
+                candidate,
+                accessToken: generateToken(candidate.role),
+                message: `Logged In Successfully`
+            })
+        } else {
+            res.status(200).json({
+                success: false,
+                data: "User is not registered"
+            })
+        }
+
+    } catch (error) {
+        console.log(`***** ERROR : ${req.originalUrl, error} error`);
+        res.status(200).json({
+            success: false,
+            data: error,
+        })
+    }
+}
+
 // @desc    Update Candidate
 // @route   PUT /api/candidate/update/:id
 // @access  private
@@ -78,4 +112,4 @@ const updateCandidate = async (req, res) => {
     }
 }
 
-export { registerCandidate, updateCandidate }
+export { registerCandidate, loginCandidate, updateCandidate }

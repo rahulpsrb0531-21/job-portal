@@ -11,6 +11,7 @@ import Logging from './library/Logging.js'
 import recruiterRoute from './routes/recruiterRoute.js'
 import jobRoute from './routes/jobRoute.js'
 import candidateRoute from './routes/candidateRoute.js'
+import applicationRoute from './routes/applicationRoute.js'
 import { handleResumeUpload } from './custom/uploadFile.js'
 
 const router = express()
@@ -100,6 +101,7 @@ const StartServer = () => {
 
     /** Routes */
     router.use('/api/candidate', candidateRoute)
+    router.use('/api/application', applicationRoute)
     router.use('/api/recruiter', recruiterRoute)
     router.use('/api/job', jobRoute)
     router.post('/upload', handleResumeUpload, (req, res) => {

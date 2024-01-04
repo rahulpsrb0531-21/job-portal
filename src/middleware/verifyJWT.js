@@ -51,6 +51,7 @@ const isAdmin = (req, res, next) => {
 // Middleware to check if user is a candidate
 const isCandidate = (req, res, next) => {
   const { role } = req.decoded;
+  // console.log(role)
 
   if (role !== 'CANDIDATE') {
     return res.status(403).json({ message: 'Access denied! Only candidates are allowed.' });
