@@ -130,7 +130,7 @@ const updateRecruiter = async (req, res) => {
     }
 }
 
-// @desc    Delete Recruiter
+// @desc   Delete Recruiter
 // @route   DELETE /api/recruiter/delete
 // @access  private
 const deleteRecruiter = async (req, res) => {

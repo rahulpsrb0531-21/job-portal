@@ -1,3 +1,4 @@
+import Candidate from '../model/candidateModal.js'
 import Job from '../model/jobModel.js'
 import Recruiter from '../model/recruiterModel.js'
 
@@ -151,5 +152,37 @@ const getJob = async (req, res) => {
     }
 }
 
+// @desc    Post Candidate saved job in jobSaved array
+// @route   GET /api/Job/saved/candidate
+// @access  public
+const candidateSaveJob = async (req, res) => {
+    try {
+        const { candidateId, jobId } = req.body
 
-export { createJob, updateJob, deleteJob, getJob }
+        Candidate.findByIdAndUpdate(
+            { _id: candidateId },
+            { $push: { jobsSaved: jobId } },
+            { new: true }
+        )
+            .exec()
+            .then(updatedCandidate => {
+                if (!updatedCandidate) {
+                    throw new Error('Candidate not found');
+                }
+            })
+
+        res.status(200).json({
+            success: true,
+            message: 'Job saved successfully',
+        })
+    } catch (error) {
+        console.log(`***** ERROR: ${req.originalUrl, error} error`)
+        res.status({
+            success: false,
+            data: error
+        })
+    }
+}
+
+
+export { createJob, updateJob, deleteJob, getJob, candidateSaveJob }

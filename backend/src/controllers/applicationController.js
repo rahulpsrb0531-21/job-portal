@@ -29,6 +29,32 @@ const createApplication = async (req, res) => {
             status: 'pending'
         })
 
+        // Update the candidate document to include the application ID in the appliedJobs array
+        Candidate.findByIdAndUpdate(
+            { _id: candidateId },
+            { $push: { jobsApplied: newApplication._id } },
+            { new: true }
+        )
+            .exec()
+            .then(updatedCandidate => {
+                if (!updatedCandidate) {
+                    throw new Error('Candidate not found');
+                }
+            })
+
+        // Update the job document to include the candidate ID in the appliedJobs array
+        Job.findByIdAndUpdate(
+            { _id: jobId },
+            { $push: { jobApplied: candidateExists._id } },
+            { new: true }
+        )
+            .exec()
+            .then(updatedJob => {
+                if (!updatedJob) {
+                    throw new Error('Job not found');
+                }
+            })
+
         res.status(200).json({
             success: true,
             application: newApplication,
@@ -43,4 +69,5 @@ const createApplication = async (req, res) => {
         });
     }
 }
+
 export { createApplication }
