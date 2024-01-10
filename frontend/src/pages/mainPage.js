@@ -1,4 +1,5 @@
 import { Stack, Typography, Button, Box } from "@mui/material"
+import { useNavigate } from "react-router-dom"
 import Header from "../components/header"
 
 
@@ -26,6 +27,7 @@ export function MainPage() {
 }
 
 const MainHeader = () => {
+    const navigate = useNavigate()
     return (
         <Stack direction={'row'} alignItems={'center'}
             justifyContent={'space-between'}
@@ -55,7 +57,9 @@ const MainHeader = () => {
                         textDecoration: 'underline'
                     }
                 }} >For Recruiter</Typography>
-                <Button variant="outlined">Log In</Button>
+                <Button variant="outlined"
+                    onClick={() => navigate('/login')}
+                >Log In</Button>
                 <Button variant="blackButton" >Sign Up</Button>
             </Stack>
         </Stack>

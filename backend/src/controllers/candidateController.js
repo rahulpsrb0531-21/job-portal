@@ -1,3 +1,4 @@
+import customError from "../custom/customError.js"
 import generateToken from "../custom/generateToken.js"
 import Candidate from "../model/candidateModal.js"
 import Job from "../model/jobModel.js"
@@ -8,6 +9,7 @@ import Job from "../model/jobModel.js"
 // @access  public
 const registerCandidate = async (req, res) => {
     try {
+        console.log('req.body', req.body)
         const { candidateName, email, password, role } = req.body
         if (!candidateName || !email || !password || !role) throw customError.dataInvalid
 
