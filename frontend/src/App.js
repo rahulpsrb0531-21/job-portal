@@ -4,7 +4,7 @@ import Router from './routes'
 import { SnackbarProvider } from 'notistack'
 import { authHeader } from './helpers/authHeader'
 
-console.log = function () { }
+// console.log = function () { }
 
 const interCeptor = () => {
   server.interceptors.request.use((config) => {

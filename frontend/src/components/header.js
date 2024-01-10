@@ -47,10 +47,6 @@ const StyledInputBase = styled(InputBase)(({ theme }) => ({
 }));
 
 const Header = () => {
-    // const [index, setIndex] = useState(0)
-    // const handlLinkClick = () => {
-    //     setIndex(0)
-    // }
 
     return (
         <Stack direction={'row'} alignItems={'center'}

@@ -9,22 +9,22 @@ const navConfig = [
   {
     title: 'Home',
     // path: '/my/home',
-    path: '/home',
+    path: '/jobs/home',
     icon: 'ri:home-line'
   },
   {
     title: 'Profile',
-    path: '/profile',
+    path: '/jobs/profile',
     icon: 'system-uicons:user-male'
   },
   {
     title: 'Jobs',
-    path: '/jobs',
+    path: '/jobs/lists',
     icon: 'streamline:bag-suitcase-2'
   },
   {
     title: 'Applied',
-    path: '/applications',
+    path: '/jobs/applications',
     icon: 'octicon:checklist-24'
   },
   {
