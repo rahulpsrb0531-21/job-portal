@@ -4,7 +4,8 @@ const jobSchema = mongoose.Schema(
     {
         title: { type: String, required: true },
         // companyLogo: { type: String },
-        // companyName: { type: String, required: true },
+        companyName: { type: String, required: true },
+        companyDescription: { type: String, required: true },
         website: { type: String, required: true },
         experience: { type: String, required: true },
         aboutCompany: [{ type: String, required: true }],
@@ -13,7 +14,6 @@ const jobSchema = mongoose.Schema(
         jobRequirements: [{ type: String, required: true }],
         jobResponsibilities: [{ type: String }],
         culture: [{ type: String, required: true }],
-        // jobDescription: { type: String},
         companyType: {
             type: String,
             enum: ["Startup", "mnc"]
@@ -62,6 +62,7 @@ const jobSchema = mongoose.Schema(
             type: Schema.Types.ObjectId,
             ref: "Recruiter"
         },
+        // jobSaved: [],
         jobSaved: [
             {
                 type: mongoose.Schema.Types.ObjectId,

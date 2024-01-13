@@ -1,7 +1,12 @@
-import { Box, Stack, Typography } from "@mui/material";
+import { Box, Stack, Typography } from "@mui/material"
 import Iconify from "../Iconify";
+import { useSelector } from "react-redux"
+import { useState } from "react";
 
 export default function Overview() {
+    const { candidate } = useSelector((state) => state.auth)
+    // console.log(candidate?._id)
+    // const [candidateData,setCandidateData] = useState(null)
     return (
         <Box sx={{
             bgcolor: 'rgb(255, 255, 255)', width: '100%',

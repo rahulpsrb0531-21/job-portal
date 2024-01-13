@@ -21,21 +21,17 @@ const socialMediaSchema = mongoose.Schema({
 const workExperienceSchema = mongoose.Schema({
     company: {
         type: String,
-        required: true,
     },
     title: {
         type: String,
-        required: true,
     },
     startDate: {
         type: String,
-        required: true,
     },
     endDate: {
         type: String,
-        required: true,
     },
-    currentWorkHere: { type: Boolean, required: true },
+    currentWorkHere: { type: Boolean },
     description: { type: String }
 })
 
@@ -43,23 +39,18 @@ const workExperienceSchema = mongoose.Schema({
 const eductionSchema = mongoose.Schema({
     education: {
         type: String,
-        required: true,
     },
     graduation: {
         type: String,
-        required: true,
     },
     degreeAndMajor: {
         type: String,
-        required: true,
     },
     gpa: {
         type: String,
-        required: true,
     },
     gpaMax: {
         type: String,
-        required: true,
     },
 })
 
@@ -89,10 +80,14 @@ const conditateSchema = mongoose.Schema(
         primaryRole: { type: String },
         yearsOfExperience: { type: String },
         bio: { type: String },
-        socialMedia: [socialMediaSchema],
+        website: { type: String },
+        linkedin: { type: String },
+        twitter: { type: String },
+        gitHub: { type: String },
+        // socialMedia: [socialMediaSchema],
         workExperience: [workExperienceSchema],
         eduction: [eductionSchema],
-        skills: [{ type: String }],
+        skills: [],
         achivements: { type: String },
         jobsApplied: [
             {
@@ -100,12 +95,7 @@ const conditateSchema = mongoose.Schema(
                 ref: 'Job'
             }
         ],
-        jobsSaved: [
-            {
-                type: mongoose.Schema.Types.ObjectId,
-                ref: 'Job'
-            }
-        ],
+        jobsSaved: [{}],
         role: { type: String, default: "CANDIDATE" },
     },
     { timestamps: { createdAt: 'created_at', updatedAt: 'updated_at' } }

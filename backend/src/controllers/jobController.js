@@ -1,3 +1,4 @@
+import mongoose from 'mongoose'
 import Candidate from '../model/candidateModal.js'
 import Job from '../model/jobModel.js'
 import Recruiter from '../model/recruiterModel.js'
@@ -7,7 +8,8 @@ import Recruiter from '../model/recruiterModel.js'
 // @access  private
 const createJob = async (req, res) => {
     try {
-        const { title, experience, website, companyName,
+        const { title, companyName,
+            companyDescription, experience, website,
             aboutCompany, jobOverview, qualifications, jobResponsibilities, jobRequirements, culture, location, reLocation, visaSponsorship, companyType, salaryRange, salaryCurrency, skills, jobDescription,
             employmentType, recruiterId, } = req.body
 
@@ -16,9 +18,10 @@ const createJob = async (req, res) => {
         if (recruiterExists) {
             const newJob = Job({
                 title,
+                companyName,
+                companyDescription,
                 experience,
                 website,
-                companyName,
                 aboutCompany,
                 jobOverview,
                 qualifications,
@@ -152,16 +155,53 @@ const getJob = async (req, res) => {
     }
 }
 
-// @desc    Post Candidate saved job in jobSaved array
-// @route   GET /api/Job/saved/candidate
+// @desc    Get Job All
+// @route   GET /api/Job/get/all
 // @access  public
+const getJobAll = async (req, res) => {
+    try {
+        // const job = await Job.find({})
+        const job = await Job.aggregate([
+            {
+                $group: {
+                    _id: "$companyName",
+                    jobs: { $push: "$$ROOT" }
+                }
+            },
+            {
+                $project: {
+                    _id: 0,
+                    companyName: "$_id",
+                    companyDescription: { $first: "$jobs.companyDescription" },
+                    jobs: 1
+                }
+            }
+        ])
+        res.status(200).json({
+            success: true,
+            job,
+            message: 'Get All Job  successfully',
+        })
+    } catch (error) {
+        console.log(`***** ERROR: ${req.originalUrl, error} error`)
+        res.status({
+            success: false,
+            data: error
+        })
+    }
+}
+
+// @desc    Post Candidate saved job in jobSaved array
+// @route   FindAndUpdate /api/Job/saved/candidate
+// @access  private
 const candidateSaveJob = async (req, res) => {
     try {
-        const { candidateId, jobId } = req.body
+        const { candidateId, job } = req.body
+        console.log(job)
 
         Candidate.findByIdAndUpdate(
             { _id: candidateId },
-            { $push: { jobsSaved: jobId } },
+            { $push: { jobsSaved: job } },
             { new: true }
         )
             .exec()
@@ -185,4 +225,6 @@ const candidateSaveJob = async (req, res) => {
 }
 
 
-export { createJob, updateJob, deleteJob, getJob, candidateSaveJob }
+
+
+export { createJob, updateJob, deleteJob, getJob, getJobAll, candidateSaveJob }

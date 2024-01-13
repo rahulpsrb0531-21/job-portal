@@ -2,8 +2,9 @@ import { Box, Button, Stack, Typography } from "@mui/material"
 import Iconify from "../Iconify"
 
 
-export function BrowseAllJobs() {
-    const data = [
+export function BrowseAllJobs({ data }) {
+    console.log(data)
+    const datas = [
         {
             company: "Qiro Finance",
             dec: "Qiro is  an private finance",
@@ -38,7 +39,7 @@ export function BrowseAllJobs() {
     return (
         <Box >
             {
-                data?.map((item, idx) => (
+                datas?.map((item, idx) => (
                     <Stack sx={{ border: '1px solid #e0e0e0', borderRadius: "8px" }} >
                         <Stack direction={'row'} justifyContent={'space-between'} sx={{ px: 1 }} >
                             <Stack direction={'row'} spacing={1} >

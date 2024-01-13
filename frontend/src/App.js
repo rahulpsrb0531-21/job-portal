@@ -3,6 +3,11 @@ import { server } from "./utils/server"
 import Router from './routes'
 import { SnackbarProvider } from 'notistack'
 import { authHeader } from './helpers/authHeader'
+import { Provider } from 'react-redux'
+import persistStore from 'redux-persist/es/persistStore'
+import { PersistGate } from 'redux-persist/integration/react'
+import { store } from './redux/store'
+let persistor = persistStore(store)
 
 // console.log = function () { }
 
@@ -18,9 +23,13 @@ const App = () => {
   interCeptor()
   return (
     <ThemeProvider>
-      <SnackbarProvider maxSnack={3}>
-        <Router />
-      </SnackbarProvider>
+      <Provider store={store} >
+        <PersistGate persistor={persistor}>
+          <SnackbarProvider maxSnack={3}>
+            <Router />
+          </SnackbarProvider>
+        </PersistGate>
+      </Provider>
     </ThemeProvider>
   )
 }
