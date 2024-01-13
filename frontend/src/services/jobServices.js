@@ -22,7 +22,17 @@ const savedJob = (data) => {
         })
 }
 
+const deleteJob = (data) => {
+    return server.post(`api/job/delete/saved/candidate`, data)
+        .then(res => {
+            return res.data
+        })
+        .catch(err => {
+            return null
+        })
+}
+
 const jobServices = {
-    getAllJobs, savedJob
+    getAllJobs, savedJob, deleteJob
 }
 export default jobServices

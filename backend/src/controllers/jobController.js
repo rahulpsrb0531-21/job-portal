@@ -224,7 +224,39 @@ const candidateSaveJob = async (req, res) => {
     }
 }
 
+// @desc    Get Candidate saved job in jobSaved array
+// @route   DELETE /api/Job/saved/:candidate
+// @access  private
+const deleteCandidateSaveJob = async (req, res) => {
+    try {
+        const { candidateId, job } = req.body
+        console.log(job)
+
+        Candidate.findByIdAndUpdate(
+            { _id: candidateId },
+            { $pull: { jobsSaved: job } },
+            { new: true }
+        )
+            .exec()
+            .then(updatedCandidate => {
+                if (!updatedCandidate) {
+                    throw new Error('Candidate not found');
+                }
+            })
+
+        res.status(200).json({
+            success: true,
+            message: 'Job Delete successfully',
+        })
+    } catch (error) {
+        console.log(`***** ERROR: ${req.originalUrl, error} error`)
+        res.status({
+            success: false,
+            data: error
+        })
+    }
+}
 
 
 
-export { createJob, updateJob, deleteJob, getJob, getJobAll, candidateSaveJob }
+export { createJob, updateJob, deleteJob, getJob, getJobAll, candidateSaveJob, deleteCandidateSaveJob }

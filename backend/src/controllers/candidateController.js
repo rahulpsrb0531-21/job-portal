@@ -307,4 +307,9 @@ const getCandidateSaveJob = async (req, res) => {
 }
 
 
-export { registerCandidate, loginCandidate, getCandidateByid, updateCandidate }
+
+
+
+export {
+    registerCandidate, loginCandidate, getCandidateByid, updateCandidate
+}

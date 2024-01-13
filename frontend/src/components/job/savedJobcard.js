@@ -4,6 +4,7 @@ import { useSnackbar } from 'notistack'
 import Iconify from '../Iconify';
 import candidateServices from '../../services/candidateServices';
 import { useSelector } from 'react-redux';
+import jobServices from '../../services/jobServices';
 // import TabContext from '@mui/lab/TabContext'
 // import TabList from '@mui/lab/TabList'
 // import TabPanel from '@mui/lab/TabPanel'
@@ -44,7 +45,31 @@ export default function SavedJobPage() {
     useEffect(() => {
         getCandidateById()
     }, [candidate])
-    console.log(candidate)
+    // console.log(candidate)
+
+    async function deleteSavedJob(job) {
+        const data = {
+            candidateId: candidate?._id,
+            job
+        }
+        const res = await jobServices.deleteJob(data)
+        console.log(res)
+        if (res && res.success) {
+            getCandidateById()
+            enqueueSnackbar(res?.message, {
+                variant: "success",
+                anchorOrigin: { horizontal: "right", vertical: "top" },
+                autoHideDuration: 1300
+            })
+            // navigate()
+            // setValue('2')
+        } else {
+            enqueueSnackbar("error", {
+                variant: "error",
+                anchorOrigin: { horizontal: "right", vertical: "top" }, autoHideDuration: 1300
+            })
+        }
+    }
 
     return (
         <Box sx={{ width: '100%', pt: 2 }}>
@@ -97,12 +122,12 @@ export default function SavedJobPage() {
                                         >{data?.salaryCurrency?.symbol}{data?.salaryRange?.minimum} - {data?.salaryCurrency?.symbol}{data?.salaryRange?.maximum}</Typography>
                                     </Box>
                                     <Stack direction={'row'} spacing={1} >
-                                        {/* <Button size="small" variant="outlined"
-                                                            sx={{ fontSize: 14, width: "58px", height: "30px", fontWeight: 500 }}
-                                                            onClick={() => savedJob(job)}
-                                                        >
-                                                            Save
-                                                        </Button> */}
+                                        <Button size="small" variant="outlined"
+                                            sx={{ fontSize: 14, width: "58px", height: "30px", fontWeight: 500 }}
+                                            onClick={() => deleteSavedJob(data)}
+                                        >
+                                            Delete
+                                        </Button>
                                         <Button variant="blackButton"
                                             sx={{ fontSize: 12, width: "110px", height: "30px", bgcolor: 'black', fontWeight: 500, }}
                                         >
