@@ -35,7 +35,32 @@ const updateCandidate = ({ data, id }) => {
         })
 }
 
+const deleteWokrExp = (deleteWorkData) => {
+    return server.post(`api/candidate/work/experience`, deleteWorkData)
+        .then(res => {
+            // console.log(res.data);
+            return res.data
+        })
+        .catch(err => {
+            // console.log(err.response.data.details.message);
+            return null
+        })
+}
+
+const deleteEducation = (deleteEducationData) => {
+    return server.post(`api/candidate/education/graduation`, deleteEducationData)
+        .then(res => {
+            // console.log(res.data);
+            return res.data
+        })
+        .catch(err => {
+            // console.log(err.response.data.details.message);
+            return null
+        })
+}
+
 const candidateServices = {
-    createCandidate, updateCandidate, getCandidateById
+    createCandidate, updateCandidate, getCandidateById, deleteWokrExp,
+    deleteEducation
 }
 export default candidateServices

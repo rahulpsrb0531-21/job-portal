@@ -126,7 +126,7 @@ export default function SavedJobPage() {
                                             sx={{ fontSize: 14, width: "58px", height: "30px", fontWeight: 500 }}
                                             onClick={() => deleteSavedJob(data)}
                                         >
-                                            Delete
+                                            Remove
                                         </Button>
                                         <Button variant="blackButton"
                                             sx={{ fontSize: 12, width: "110px", height: "30px", bgcolor: 'black', fontWeight: 500, }}

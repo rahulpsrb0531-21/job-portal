@@ -13,8 +13,8 @@ export default function Login() {
     const navigate = useNavigate()
     const { enqueueSnackbar } = useSnackbar()
     const dispatch = useDispatch()
-    const token = sessionStorage.getItem('access')
-    const user = JSON.parse(sessionStorage.getItem('user'))
+    // const token = sessionStorage.getItem('access')
+    // const user = JSON.parse(sessionStorage.getItem('user'))
 
     const LoginSchema = Yup.object().shape({
         email: Yup.string().required("Email is required"),
@@ -63,6 +63,7 @@ export default function Login() {
             localStorage.setItem("access", res.accessToken)
             // sessionStorage.setItem("user", JSON.stringify(res.candidate))
             navigate("/jobs/profile", { replace: true })
+            // navigate("/recruiter", { replace: true })
         } else {
             enqueueSnackbar(res?.data, {
                 variant: "error",

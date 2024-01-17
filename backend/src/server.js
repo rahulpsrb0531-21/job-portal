@@ -13,6 +13,7 @@ import jobRoute from './routes/jobRoute.js'
 import candidateRoute from './routes/candidateRoute.js'
 import applicationRoute from './routes/applicationRoute.js'
 import { handleResumeUpload } from './custom/uploadFile.js'
+import { uploadImage } from './custom/uploadImage.js'
 
 const router = express()
 
@@ -71,6 +72,10 @@ const StartServer = () => {
     router.post('/upload', handleResumeUpload, (req, res) => {
         const filePath = req.file.path;
         res.json({ message: 'File uploaded successfully', filePath })
+    })
+    router.post('/upload-image', uploadImage.single('image'), (req, res) => {
+        const filePath = req.file.path;
+        res.json({ message: 'Uploaded successfully', filePath })
     })
 
     router.listen(config.server.port, () => Logging.info(`Server is running on port ${config.server.port}`));

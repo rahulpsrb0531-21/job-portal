@@ -17,7 +17,7 @@ const loginRecruiter = async (req, res) => {
             let recruiter = await Recruiter.findOne({ email }).select('-password')
             res.status(200).json({
                 success: true,
-                recruiter,
+                user: recruiter,
                 accessToken: generateToken(recruiter.role),
                 message: `Logged In Successfully`
             })
@@ -42,38 +42,24 @@ const loginRecruiter = async (req, res) => {
 // @access  public
 const registerRecruiter = async (req, res) => {
     try {
-        const { companyLogo, companyName, title, companyDescription, companySize,
-            companyType, markets, phoneNumber, email, password, website, role,
-            location } = req.body
-        if (!companyLogo || !companyName || !title || !companyDescription ||
-            !companySize || !companyType || !markets || !phoneNumber ||
-            !email || !password || !website || !role || !location
-        ) throw customError.dataInvalid
+        const { recruiterName, email, password, role } = req.body
+        if (!recruiterName || !email || !password || !role) throw customError.dataInvalid
 
-        const recruiterExists = await Recruiter.findOne({ phoneNumber })
+        const recruiterExists = await Recruiter.findOne({ email })
         if (recruiterExists) {
             res.status(400)
             throw new Error("Recruiter already exists")
         }
         const newRecruiter = await Recruiter.create({
-            companyLogo,
-            companyName,
-            title,
-            companyDescription,
-            companySize,
-            companyType,
-            markets,
-            phoneNumber,
+            recruiterName,
             email,
             password,
-            website,
             role,
-            location
         })
         res.status(200).json({
             success: true,
             accessToken: generateToken(newRecruiter.role),
-            recruiter: newRecruiter,
+            user: newRecruiter,
             message: `Register in Successfully`,
         })
 
@@ -91,30 +77,39 @@ const registerRecruiter = async (req, res) => {
 // @access  private
 const updateRecruiter = async (req, res) => {
     try {
-        const { companyLogo, companyName, title, companyDescription, companySize,
-            companyType, markets, phoneNumber, email, password, website, role,
-            location } = req.body
-        if (!companyLogo || !companyName || !title || !companyDescription ||
-            !companySize || !companyType || !markets || !phoneNumber ||
-            !email || !password || !website || !location
-        ) throw customError.dataInvalid
+        const { companyLogo, companyName, companyDescription, oneLinePitch,
+            companySize, companyType, markets, location, phone, workEmail,
+            website, twitter, linkedIn, facebook, blogUrl, recruiterName, email } = req.body
 
-        const recruiterExists = await Recruiter.findOne({ phoneNumber })
+        // console.log('0')
+        // if (!companyLogo || !companyName || !companyDescription || !oneLinePitch
+        //     || !companySize || !companyType || !markets || !location || !phone || !workEmail
+        //     || !website || !twitter || !linkedIn || !facebook || !blogUrl
+        //     || !recruiterName || !email
+        // ) throw customError.dataInvalid
+        console.log('1')
+        const recruiterExists = await Recruiter.findOne({ email })
+        console.log('2')
         if (recruiterExists) {
             recruiterExists.companyLogo = companyLogo
             recruiterExists.companyName = companyName
-            recruiterExists.title = title
             recruiterExists.companyDescription = companyDescription
+            recruiterExists.oneLinePitch = oneLinePitch
             recruiterExists.companySize = companySize
             recruiterExists.companyType = companyType
             recruiterExists.markets = markets
-            recruiterExists.phoneNumber = phoneNumber
-            recruiterExists.email = email
-            recruiterExists.password = password
-            recruiterExists.website = website
             recruiterExists.location = location
+            recruiterExists.phone = phone
+            recruiterExists.workEmail = workEmail
+            recruiterExists.website = website
+            recruiterExists.twitter = twitter
+            recruiterExists.linkedIn = linkedIn
+            recruiterExists.facebook = facebook
+            recruiterExists.blogUrl = blogUrl
         }
+        console.log('3')
         let recruiterUpdate = await recruiterExists.save()
+        console.log('4')
         res.status(200).json({
             success: true,
             recruiter: recruiterUpdate,

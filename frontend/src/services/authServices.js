@@ -23,7 +23,17 @@ const register = (data) => {
             return null
         })
 }
+
+const recruiterRegister = (data) => {
+    return server.post(`api/recruiter/register`, data)
+        .then(res => {
+            return res.data
+        })
+        .catch(err => {
+            return null
+        })
+}
 const authServices = {
-    login, register
+    login, register, recruiterRegister
 }
 export default authServices

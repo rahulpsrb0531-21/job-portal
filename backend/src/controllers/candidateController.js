@@ -27,7 +27,7 @@ const registerCandidate = async (req, res) => {
         })
         res.status(200).json({
             success: true,
-            candidate: newCandidate,
+            user: newCandidate,
             accessToken: generateToken(newCandidate.role),
             message: `Register in Successfully`,
         })
@@ -55,7 +55,7 @@ const loginCandidate = async (req, res) => {
             let candidate = await Candidate.findOne({ email }).select('-password')
             res.status(200).json({
                 success: true,
-                candidate: candidate,
+                user: candidate,
                 accessToken: generateToken(candidate.role),
                 message: `Logged In Successfully`
             })
@@ -307,9 +307,77 @@ const getCandidateSaveJob = async (req, res) => {
 }
 
 
+// @desc    Delete Candidate saved experience in workExperience  array
+// @route   FindAndUpdate /api/candidate/work/experience
+// @access  private
+const candidateDeleteWorkExpr = async (req, res) => {
+    try {
+        const { candidateId, workId } = req.body
+        // const { candidateId, workId } = req.body
+        // console.log(req.body)
+        // console.log(candidateId, workId)
+
+        Candidate.findByIdAndUpdate(
+            { _id: candidateId },
+            { $pull: { workExperience: { "_id": workId } } }
+            ,
+            { new: true }
+        )
+            .exec()
+            .then(updatedCandidate => {
+                if (!updatedCandidate) {
+                    throw new Error('Candidate not found');
+                }
+            })
+
+        res.status(200).json({
+            success: true,
+            message: 'Delete Work Expericence successfully',
+        })
+    } catch (error) {
+        console.log(`***** ERROR: ${req.originalUrl, error} error`)
+        res.status({
+            success: false,
+            data: error?.message
+        })
+    }
+}
+
+// @desc    Delete Candidate saved Graduation in education array
+// @route   FindAndUpdate /api/candidate/education/graduation
+// @access  private
+const candidateDeleteEducation = async (req, res) => {
+    try {
+        const { candidateId, educationId } = req.body
+
+        Candidate.findByIdAndUpdate(
+            { _id: candidateId },
+            { $pull: { eduction: { "_id": educationId } } },
+            { new: true }
+        )
+            .exec()
+            .then(updatedCandidate => {
+                if (!updatedCandidate) {
+                    throw new Error('Candidate not found');
+                }
+            })
+
+        res.status(200).json({
+            success: true,
+            message: 'Delete Work Expericence successfully',
+        })
+    } catch (error) {
+        console.log(`***** ERROR: ${req.originalUrl, error} error`)
+        res.status({
+            success: false,
+            data: error?.message
+        })
+    }
+}
 
 
 
 export {
-    registerCandidate, loginCandidate, getCandidateByid, updateCandidate
+    registerCandidate, loginCandidate, getCandidateByid, updateCandidate, candidateDeleteWorkExpr,
+    candidateDeleteEducation
 }

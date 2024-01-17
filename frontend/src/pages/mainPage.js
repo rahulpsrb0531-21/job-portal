@@ -1,4 +1,5 @@
-import { Stack, Typography, Button, Box } from "@mui/material"
+import React, { useState } from 'react'
+import { Stack, Typography, Button, Box, Popover } from "@mui/material"
 import { useNavigate } from "react-router-dom"
 import Header from "../components/header"
 
@@ -28,6 +29,18 @@ export function MainPage() {
 
 const MainHeader = () => {
     const navigate = useNavigate()
+    const [anchorEl, setAnchorEl] = useState(null);
+
+    const handleClick = (event) => {
+        setAnchorEl(event.currentTarget);
+    };
+
+    const handleClose = () => {
+        setAnchorEl(null);
+    };
+
+    const open = Boolean(anchorEl);
+    const id = open ? 'simple-popover' : undefined;
     return (
         <Stack direction={'row'} alignItems={'center'}
             justifyContent={'space-between'}
@@ -60,7 +73,28 @@ const MainHeader = () => {
                 <Button variant="outlined"
                     onClick={() => navigate('/login')}
                 >Log In</Button>
-                <Button variant="blackButton" >Sign Up</Button>
+                <Button variant="blackButton"
+                    onClick={handleClick}
+                >Sign Up</Button>
+                <Popover
+                    id={id}
+                    open={open}
+                    anchorEl={anchorEl}
+                    onClose={handleClose}
+                    anchorOrigin={{
+                        vertical: 'bottom',
+                        horizontal: 'left',
+                    }}
+                >
+                    <Box sx={{ p: 1.4 }} >
+                        <Typography sx={{ fontSize: 12 }}
+                            onClick={() => navigate('/login')}
+                        >I'm looking for a job</Typography>
+                        <Typography sx={{ fontSize: 12 }}
+                            onClick={() => navigate('/onboarding/recruiter/sign-up')}
+                        >I'm looking for candidates</Typography>
+                    </Box>
+                </Popover>
             </Stack>
         </Stack>
     )

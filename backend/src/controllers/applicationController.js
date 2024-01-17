@@ -7,7 +7,7 @@ import Job from "../model/jobModel.js";
 // @desc    Create Application For Applying Job
 // @route   POST /api/application/create
 // @access  public 
-const createApplication = async (req, res) => {
+const applyApplication = async (req, res) => {
     try {
         const { candidateId, jobId, about } = req.body
         if (!candidateId || !jobId || !about) throw customError.dataInvalid
@@ -70,4 +70,4 @@ const createApplication = async (req, res) => {
     }
 }
 
-export { createApplication }
+export { applyApplication }

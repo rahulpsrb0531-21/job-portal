@@ -3,33 +3,37 @@ import bcrypt from 'bcryptjs'
 
 const recruiterSchema = mongoose.Schema(
     {
-        companyLogo: { type: String, required: true },
-        companyName: { type: String, required: true },
-        companyDescription: { type: String, required: true },
-        title: { type: String, required: true },
-        companySize: {
-            type: {
-                minimum: {
-                    type: String,
-                    required: true,
-                },
-                maximum: {
-                    type: String,
-                    required: true,
-                },
-            },
-            required: true,
-        },
+        companyLogo: { type: String },
+        companyName: { type: String },
+        companyDescription: { type: String },
+        oneLinePitch: { type: String },
+        companySize: { type: String },
+        // companySize: {
+        //     type: {
+        //         minimum: {
+        //             type: String,
+        //         },
+        //         maximum: {
+        //             type: String,
+        //         },
+        //     }
+        // },
         companyType: {
             type: String,
             enum: ["Startup", "mnc"]
         },
         markets: [{ type: String }],
-        phoneNumber: { type: Number, required: true, unique: true },
-        email: { type: String, unique: true },
-        password: { type: String },
+        location: [{ type: String }],
+        phone: { type: Number, unique: true },
+        recruiterName: { type: String, required: true },
+        email: { type: String, required: true, unique: true },
+        workEmail: { type: String, unique: true },
+        password: { type: String, required: true },
         website: { type: String },
-        location: { type: String },
+        twitter: { type: String },
+        linkedIn: { type: String },
+        facebook: { type: String },
+        blogUrl: { type: String },
         role: { type: String, default: "RECRUITER" },
         // bio: { type: String }
     },
