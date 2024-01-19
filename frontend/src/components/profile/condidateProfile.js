@@ -139,23 +139,6 @@ export function CandidateProfile() {
             setFieldValue("twitterLink", res?.candidate?.twitter)
             setFieldValue("linkedinLink", res?.candidate?.linkedin)
             setFieldValue("gitHubLink", res?.candidate?.gitHub)
-            // const educationData = await res?.candidate?.eduction?.map((data, idx) => (
-            //     {
-            //         ...data,
-            //         graduation: (moment.unix(data?.graduation))
-            //     }
-            // ))
-            // setFieldValue("education", educationData)
-            // const workData = await res?.candidate?.workExperience?.map((data, idx) => (
-            //     {
-            //         ...data,
-            //         startDate: (moment.unix(data?.startDate)),
-            //         endDate: (moment.unix(data?.endDate))
-            //     }
-            // ))
-            // setWorkExperienceData(res?.candidate?.workExperience)
-            // setWorkExperienceData(res?.candidate?.workExperience)
-            // setFieldValue("work", workData)
             setFieldValue("work", res?.candidate?.workExperience || [])
             setFieldValue("education", res?.candidate?.eduction || [])
             // skills

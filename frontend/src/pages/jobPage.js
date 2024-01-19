@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from 'react'
+import { NavLink as RouterLink, useNavigate } from 'react-router-dom'
 import { Box, Button, Tab, Stack, Typography } from "@mui/material"
 import TabContext from '@mui/lab/TabContext'
 import TabList from '@mui/lab/TabList'
@@ -9,7 +10,6 @@ import jobServices from '../services/jobServices'
 import { useSnackbar } from 'notistack'
 import Iconify from '../components/Iconify'
 import { useSelector } from 'react-redux'
-import { useNavigate } from 'react-router-dom'
 import SavedJobPage from '../components/job/savedJobcard'
 
 export default function JobPage() {
@@ -17,7 +17,7 @@ export default function JobPage() {
     const { enqueueSnackbar } = useSnackbar()
     const [value, setValue] = useState('1')
     const [jobsData, setJobsData] = useState([])
-    const { candidate } = useSelector((state) => state.auth)
+    const { user } = useSelector((state) => state.auth)
 
     const handleChange = (event, newValue) => {
         setValue(newValue);
@@ -29,7 +29,7 @@ export default function JobPage() {
     async function getJobs() {
         const res = await jobServices.getAllJobs()
         if (res && res.success) {
-            // console.log(res)
+            // console.log("res>>>>>>>>>>", res)
             setJobsData(res?.job)
         } else {
             enqueueSnackbar(res?.data, {
@@ -41,11 +41,11 @@ export default function JobPage() {
 
     async function savedJob(job) {
         const data = {
-            candidateId: candidate?._id,
+            candidateId: user?._id,
             job
         }
         const res = await jobServices.savedJob(data)
-        console.log(res)
+        // console.log(res)
         if (res && res.success) {
             enqueueSnackbar(res?.message, {
                 variant: "success",
@@ -85,7 +85,11 @@ export default function JobPage() {
                                             <Iconify icon={"mingcute:user-4-fill"} sx={{ width: 42, height: 42 }} />
                                             <Box>
                                                 <Typography
-                                                    sx={{ color: 'rgb(14, 17, 17)', fontSize: 18, fontWeight: 500 }}
+                                                    // component={RouterLink}
+                                                    // to={`/company/${data?.companyName}`, }
+                                                    onClick={() => navigate(`/company/${data?.companyName}`,
+                                                        { state: data })}
+                                                    sx={{ color: 'rgb(14, 17, 17)', fontSize: 18, fontWeight: 500, cursor: "pointer" }}
                                                 >{data?.companyName}</Typography>
                                                 <Typography
                                                     sx={{ fontSize: 14 }}
@@ -130,6 +134,7 @@ export default function JobPage() {
                                                             Save
                                                         </Button>
                                                         <Button variant="blackButton"
+                                                            onClick={() => navigate(`/jobs/${job?.title}`, { state: job })}
                                                             sx={{ fontSize: 12, width: "110px", height: "30px", bgcolor: 'black', fontWeight: 500, }}
                                                         >
                                                             Learn more

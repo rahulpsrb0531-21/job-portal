@@ -3,6 +3,7 @@ import { styled, alpha } from '@mui/material/styles'
 import { Box, Typography, Stack, InputBase } from "@mui/material"
 import SearchIcon from '@mui/icons-material/Search';
 import Iconify from "./Iconify";
+import CandidatePopover from "../layouts/dashboard/candidatePopover";
 
 const Search = styled('div')(({ theme }) => ({
     position: 'relative',
@@ -80,8 +81,9 @@ const Header = () => {
                 </Search>
                 <Iconify icon={"iconamoon:notification-fill"} sx={{ width: 24, height: 24 }} />
                 <Stack direction={'row'} alignItems={'center'}>
-                    <Iconify icon={"mingcute:user-4-fill"} sx={{ width: 32, height: 32 }} />
-                    <Iconify icon={"fluent:ios-arrow-24-regular"} sx={{ width: 18, height: 18, transform: "rotate(270deg)" }} />
+                    {/* <Iconify icon={"mingcute:user-4-fill"} sx={{ width: 32, height: 32 }} />
+                    <Iconify icon={"fluent:ios-arrow-24-regular"} sx={{ width: 18, height: 18, transform: "rotate(270deg)" }} /> */}
+                    <CandidatePopover />
                 </Stack>
             </Stack>
         </Stack>

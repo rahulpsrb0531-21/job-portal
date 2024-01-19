@@ -15,12 +15,12 @@ import jobServices from '../../services/jobServices';
 // import { useNavigate } from 'react-router-dom'
 
 export default function SavedJobPage() {
-    console.log('Here>>>>>>>>>>>')
+    // console.log('Here>>>>>>>>>>>')
     // const navigate = useNavigate()
     const { enqueueSnackbar } = useSnackbar()
     // const [value, setValue] = useState('1')
     const [candidateData, setCandidateData] = useState([])
-    const { candidate } = useSelector((state) => state.auth)
+    const { user } = useSelector((state) => state.auth)
 
     // const handleChange = (event, newValue) => {
     //     setValue(newValue);
@@ -30,7 +30,7 @@ export default function SavedJobPage() {
     // }, [])
 
     async function getCandidateById() {
-        const id = candidate?._id
+        const id = user?._id
         const res = await candidateServices.getCandidateById(id)
         if (res && res.success) {
             // console.log('candidate', res?.candidate)
@@ -44,12 +44,12 @@ export default function SavedJobPage() {
     }
     useEffect(() => {
         getCandidateById()
-    }, [candidate])
+    }, [user])
     // console.log(candidate)
 
     async function deleteSavedJob(job) {
         const data = {
-            candidateId: candidate?._id,
+            candidateId: user?._id,
             job
         }
         const res = await jobServices.deleteJob(data)

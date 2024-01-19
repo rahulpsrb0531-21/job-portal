@@ -24,8 +24,8 @@ const MainStyle = styled('div')(({ theme }) => ({
     paddingBottom: theme.spacing(10),
     [theme.breakpoints.up('lg')]: {
         // paddingTop: APP_BAR_DESKTOP + 24,
-        paddingLeft: theme.spacing(2),
-        paddingRight: theme.spacing(2)
+        // paddingLeft: theme.spacing(2),
+        // paddingRight: theme.spacing(2)
     },
     // backgroundColor: 'red'
 }));
@@ -45,7 +45,8 @@ export default function RecruiterLayout() {
             <RecruiterHeader />
             <RootStyle
                 sx={{
-                    marginRight: { lg: 10 }, paddingY: { lg: 6 },
+                    // marginRight: { lg: 10 },
+                    paddingY: { lg: 6 },
                     // bgcolor: 'rgb(250, 250, 251)'
                     // bgcolor: 'white'
                 }}
@@ -53,9 +54,9 @@ export default function RecruiterLayout() {
                 {/* <DashboardSidebar
                     isOpenSidebar={open} onCloseSidebar={() => setOpen(false)}
                 /> */}
-                <RecruiterSidebar
+                {/* <RecruiterSidebar
                     isOpenSidebar={open} onCloseSidebar={() => setOpen(false)}
-                />
+                /> */}
                 <MainStyle>
                     <Outlet />
                 </MainStyle>

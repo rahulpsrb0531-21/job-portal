@@ -8,36 +8,32 @@ import Recruiter from '../model/recruiterModel.js'
 // @access  private
 const createJob = async (req, res) => {
     try {
-        const { title, companyName,
-            companyDescription, experience, website,
-            aboutCompany, jobOverview, qualifications, jobResponsibilities, jobRequirements, culture, location, reLocation, visaSponsorship, companyType, salaryRange, salaryCurrency, skills, jobDescription,
-            employmentType, recruiterId, } = req.body
+        const { company, recruiterId, title, experience, jobOverview,
+            qualifications, jobRequirements, jobResponsibilities, salaryRange, salaryCurrency,
+            location,
+            skills,
+            employmentType,
+            visaSponsorship,
+            reLocation } = req.body
 
         let recruiterExists = await Recruiter.findOne({ _id: recruiterId })
 
         if (recruiterExists) {
             const newJob = Job({
+                company,
+                recruiterId,
                 title,
-                companyName,
-                companyDescription,
                 experience,
-                website,
-                aboutCompany,
                 jobOverview,
                 qualifications,
-                jobResponsibilities,
                 jobRequirements,
-                culture,
-                location,
-                reLocation,
-                visaSponsorship,
-                companyType,
+                jobResponsibilities,
                 salaryRange,
                 salaryCurrency,
-                skills,
-                jobDescription,
+                location, skills,
                 employmentType,
-                recruiterId
+                visaSponsorship,
+                reLocation
             })
 
             const createJob = await newJob.save()
@@ -164,15 +160,28 @@ const getJobAll = async (req, res) => {
         const job = await Job.aggregate([
             {
                 $group: {
-                    _id: "$companyName",
+                    _id: "$company.companyName",
                     jobs: { $push: "$$ROOT" }
                 }
             },
+            // {
+            //     $unwind: "$jobs"
+            // },
+            // {
+            //     $lookup: {
+            //         from: "Recruiter",
+            //         localField: "_id",
+            //         foreignField: "jobs.recruiterId",
+            //         as: "recruiterDetails"
+            //     }
+            // },
             {
                 $project: {
                     _id: 0,
                     companyName: "$_id",
-                    companyDescription: { $first: "$jobs.companyDescription" },
+                    recruiterId: { $first: "$jobs.recruiterId" },
+                    companyDescription: { $first: "$jobs.company.oneLinePitch" },
+                    // recruiterDetails: { $first: "recruiterDetails" },
                     jobs: 1
                 }
             }

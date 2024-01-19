@@ -8,22 +8,13 @@ const recruiterSchema = mongoose.Schema(
         companyDescription: { type: String },
         oneLinePitch: { type: String },
         companySize: { type: String },
-        // companySize: {
-        //     type: {
-        //         minimum: {
-        //             type: String,
-        //         },
-        //         maximum: {
-        //             type: String,
-        //         },
-        //     }
-        // },
         companyType: {
             type: String,
             enum: ["Startup", "mnc"]
         },
         markets: [{ type: String }],
         location: [{ type: String }],
+        culture: [{ type: String }],
         phone: { type: Number, unique: true },
         recruiterName: { type: String, required: true },
         email: { type: String, required: true, unique: true },

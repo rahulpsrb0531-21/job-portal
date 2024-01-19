@@ -33,7 +33,19 @@ const recruiterRegister = (data) => {
             return null
         })
 }
+
+const recruiterLogin = (data) => {
+    return server.post(`api/recruiter/login`, data)
+        .then(res => {
+            return res.data
+        })
+        .catch(err => {
+            return null
+        })
+}
+
+
 const authServices = {
-    login, register, recruiterRegister
+    login, register, recruiterRegister, recruiterLogin
 }
 export default authServices

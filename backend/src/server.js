@@ -14,6 +14,7 @@ import candidateRoute from './routes/candidateRoute.js'
 import applicationRoute from './routes/applicationRoute.js'
 import { handleResumeUpload } from './custom/uploadFile.js'
 import { uploadImage } from './custom/uploadImage.js'
+import Candidate from './model/candidateModal.js'
 
 const router = express()
 
@@ -69,9 +70,27 @@ const StartServer = () => {
     router.use('/api/application', applicationRoute)
     router.use('/api/recruiter', recruiterRoute)
     router.use('/api/job', jobRoute)
-    router.post('/upload', handleResumeUpload, (req, res) => {
-        const filePath = req.file.path;
-        res.json({ message: 'File uploaded successfully', filePath })
+
+    router.post('/upload/resume/candidate/:id', handleResumeUpload, async (req, res) => {
+
+        const _id = req.params.id
+        const filePath = req.file.path
+        try {
+            const candidate = await Candidate.findOneAndUpdate(
+                { _id: _id },
+                { $set: { resume: filePath } },
+                { new: true }
+            );
+
+            if (!candidate) {
+                return res.status(404).json({ error: 'Candidate not found' });
+            }
+
+            res.json({ success: true, updatedCandidate: candidate });
+        } catch (error) {
+            console.error('Error updating resume:', error);
+            res.status(500).json({ error: 'Internal Server Error' });
+        }
     })
     router.post('/upload-image', uploadImage.single('image'), (req, res) => {
         const filePath = req.file.path;

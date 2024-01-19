@@ -10,7 +10,17 @@ const update = (data) => {
         })
 }
 
+const getJobRecruiterById = (id) => {
+    return server.get(`api/recruiter/get/jobs/${id}`)
+        .then(res => {
+            return res.data
+        })
+        .catch(err => {
+            return null
+        })
+}
+
 const recruiterServices = {
-    update
+    update, getJobRecruiterById
 }
 export default recruiterServices

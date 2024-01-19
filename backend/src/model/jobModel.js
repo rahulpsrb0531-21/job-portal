@@ -2,22 +2,18 @@ import mongoose, { Schema } from "mongoose"
 
 const jobSchema = mongoose.Schema(
     {
-        title: { type: String, required: true },
         // companyLogo: { type: String },
-        companyName: { type: String, required: true },
-        companyDescription: { type: String, required: true },
-        website: { type: String, required: true },
+        // companyName: { type: String, required: true },
+        // companyDescription: { type: String, required: true },
+        // website: { type: String, required: true },
+        // aboutCompany: [{ type: String, required: true }],
+        title: { type: String, required: true },
+        company: { type: Object, required: true },
         experience: { type: String, required: true },
-        aboutCompany: [{ type: String, required: true }],
         jobOverview: [{ type: String }],
         qualifications: [{ type: String }],
         jobRequirements: [{ type: String, required: true }],
         jobResponsibilities: [{ type: String }],
-        culture: [{ type: String, required: true }],
-        companyType: {
-            type: String,
-            enum: ["Startup", "mnc"]
-        },
         salaryRange: {
             type: {
                 minimum: {
@@ -31,6 +27,7 @@ const jobSchema = mongoose.Schema(
             },
             required: true,
         },
+        // salaryCurrency: { type: String, required: true },
         salaryCurrency: {
             type: {
                 name: {
@@ -44,8 +41,12 @@ const jobSchema = mongoose.Schema(
             },
             required: true,
         },
-        location: { type: String, required: true },
+        location: [{ type: String, required: true }],
         skills: [{ type: String, required: true }],
+        employmentType: {
+            type: String,
+            enum: ["Full-Time", "Part-Time", "Contract"]
+        },
         visaSponsorship: {
             type: Boolean,
             default: false
@@ -53,10 +54,6 @@ const jobSchema = mongoose.Schema(
         reLocation: {
             type: Boolean,
             default: false
-        },
-        employmentType: {
-            type: String,
-            enum: ["Full-Time", "Part-Time", "Contract"]
         },
         recruiterId: {
             type: Schema.Types.ObjectId,

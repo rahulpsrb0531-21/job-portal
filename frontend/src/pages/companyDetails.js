@@ -1,14 +1,16 @@
 import React, { useState } from "react"
 import { TabContext, TabList, TabPanel } from "@mui/lab";
-import { Box, Button, Stack, Tab, Typography } from "@mui/material";
+import { Box, Button, Divider, Stack, Tab, Typography } from "@mui/material";
 import OverView from "../components/company/overview";
+import { useLocation } from "react-router-dom";
 
 export default function CompanyDetails() {
-    const [value, setValue] = useState('1')
-
-    const handleChange = (event, newValue) => {
-        setValue(newValue);
-    }
+    const { state } = useLocation()
+    console.log(state)
+    // const [value, setValue] = useState('1')
+    // const handleChange = (event, newValue) => {
+    //     setValue(newValue);
+    // }
 
     return (
         <Stack mt={6} spacing={2} >
@@ -29,19 +31,33 @@ export default function CompanyDetails() {
                     sx={{ fontSize: 14, width: "58px", height: "30px", fontWeight: 500 }}
                 >Save</Button>
             </Stack>
-
-            <TabContext value={value}>
+            <Divider />
+            {/* <TabContext value={value}>
                 <Box sx={{ borderBottom: 1, borderColor: 'divider' }}>
                     <TabList onChange={handleChange} aria-label="lab API tabs example">
                         <Tab label="Overview" value="1" />
                         <Tab label="People" value="2" />
                         <Tab label="Culture and benefits" value="3" />
                         <Tab label="Jobs" value="4" />
-                        {/* <Tab label="Funding" value="5" /> */}
+                        <Tab label="Funding" value="5" />
                     </TabList>
                 </Box>
                 <TabPanel value="1"><OverView /></TabPanel>
-            </TabContext>
+            </TabContext> */}
+
+            <Stack>
+                <Stack>
+                    <Typography variant="companyTitle" >{state?.companyName} careers </Typography>
+                    <Typography variant="companyTitle" >Reinventing the company-customer relationship</Typography>
+                    <Typography variant="companySubText" >We are Sales & Marketing tech SaaS startup and our mission is "Reinventing the company-customer relationship".We are building new products which solves issues of B2B marketing by utilizing video contents and have released alpha version of product on Jan 2022. As of now we are focusing on Japanese market but going to expand our business in Asia in next few years.</Typography>
+                </Stack>
+                <Stack>
+                    <Typography>Jobs</Typography>
+                    {/* {
+                        s
+                    } */}
+                </Stack>
+            </Stack>
         </Stack>
     )
 }

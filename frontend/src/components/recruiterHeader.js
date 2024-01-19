@@ -1,8 +1,10 @@
 import { useState } from "react"
+import { NavLink as RouterLink } from 'react-router-dom'
 import { styled, alpha } from '@mui/material/styles'
 import { Box, Typography, Stack, InputBase } from "@mui/material"
 import SearchIcon from '@mui/icons-material/Search';
 import Iconify from "./Iconify";
+import RecruiterPopover from "../layouts/recruiter/recruiterPopover";
 
 const Search = styled('div')(({ theme }) => ({
     position: 'relative',
@@ -47,6 +49,20 @@ const StyledInputBase = styled(InputBase)(({ theme }) => ({
 }));
 
 const RecruiterHeader = () => {
+    const linkData = [
+        {
+            linkName: "Dashboard",
+            path: '/recruiter/dashboard'
+        },
+        {
+            linkName: "Jobs",
+            path: '/recruiter/jobs'
+        },
+        {
+            linkName: "Applicants",
+            path: '/recruiter/applicants'
+        }
+    ]
 
     return (
         <Stack direction={'row'} alignItems={'center'}
@@ -65,9 +81,21 @@ const RecruiterHeader = () => {
             justifyContent={'space-between'}
         >
             <Typography variant="logo" sx={{ color: "white" }} >W:</Typography>
+            <Stack direction={'row'} justifyContent={'space-between'} alignItems={'center'}
+                sx={{ width: '20%' }}
+            >
+                {
+                    linkData?.map((data, idx) => (
+                        <Typography
+                            component={RouterLink}
+                            to={data?.path}
+                            sx={{ fontSize: 12, fontWeight: 500, color: "white", textDecoration: "none" }} >{data?.linkName}</Typography>
+                    ))
+                }
+            </Stack>
             <Stack direction={'row'} alignItems={'center'}
                 justifyContent={'space-around'}
-                sx={{ width: "28%" }}
+                sx={{ width: "18%" }}
             >
                 {/* <Search>
                     <SearchIconWrapper>
@@ -80,12 +108,13 @@ const RecruiterHeader = () => {
                 </Search> */}
                 <Iconify icon={"iconamoon:notification-fill"} sx={{ width: 24, height: 24, color: "white" }} />
                 <Stack direction={'row'} alignItems={'center'}>
-                    <Iconify icon={"mingcute:user-4-fill"} sx={{ width: 32, height: 32, color: "white" }} />
+                    {/* <Iconify icon={"mingcute:user-4-fill"} sx={{ width: 32, height: 32, color: "white" }} />
                     <Stack sx={{ color: "white" }} >
                         <Typography sx={{ fontSize: 14 }} >Rakesh</Typography>
                         <Typography sx={{ fontSize: 14 }} >thea trands</Typography>
-                    </Stack>
+                    </Stack> */}
                     {/* <Iconify icon={"fluent:ios-arrow-24-regular"} sx={{ width: 18, height: 18, transform: "rotate(270deg)", color: "white" }} /> */}
+                    <RecruiterPopover />
                 </Stack>
             </Stack>
         </Stack>

@@ -151,12 +151,12 @@ const deleteRecruiter = async (req, res) => {
 
 
 // @desc    Get All Jobs By Recruiter Id
-// @route   Get /api/get all/job/recruiter/id
+// @route   GET /api/get/jobs/:id
 // @access  Public
 const getAllJobByRecruiterId = async (req, res) => {
     try {
         const _id = req.params.id
-        // console.log(_id)
+        console.log(_id)
         const jobs = await Job.find({ recruiterId: _id })
         res.status(200).json({
             success: true,

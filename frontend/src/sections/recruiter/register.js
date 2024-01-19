@@ -132,7 +132,7 @@ export default function RecruiterRegister() {
                                         textDecoration: 'underline'
                                     }
                                 }}
-                                onClick={() => navigate("/login")}
+                                onClick={() => navigate("/onboarding/recruiter/login")}
                             > Log in
                             </Typography>
                         </Stack>
