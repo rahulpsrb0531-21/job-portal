@@ -1,0 +1,17 @@
+/* ParallaxMousemove.css */
+.parallax-container {
+    position: relative;
+    width: 100%;
+    height: 100vh;
+    overflow: hidden;
+}
+
+.parallax-text {
+    position: absolute;
+    font-size: 1.2rem;
+    color: black;
+    /* font-weight: bold; */
+    transition: transform 0.1s ease-out;
+    border: '1px solid black';
+    background-color: 'red';
+}

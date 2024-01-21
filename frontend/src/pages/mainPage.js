@@ -2,6 +2,7 @@ import React, { useState } from 'react'
 import { Stack, Typography, Button, Box, Popover } from "@mui/material"
 import { useNavigate } from "react-router-dom"
 import Header from "../components/header"
+// import ParallaxMousemove from '../components/parallerX/ParallaxMousemove'
 
 
 export function MainPage() {
@@ -21,7 +22,8 @@ export function MainPage() {
                         width: '34%'
                     }}
                 >Find what's next</Typography>
-                {/* </Stack> */}
+                {/* </Stack>
+                {/* <ParallaxMousemove /> */}
             </Stack>
         </Box>
     )

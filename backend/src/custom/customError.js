@@ -7,6 +7,19 @@ const dataInvalid = new CustomError(
     417
 )
 
+const userExists = new CustomError(
+    'Em Exists!',
+    `The email entered is already registered`,
+    // `Uh oh! the phone number entered is already registered`,
+    409
+)
+
+const applicationExists = new CustomError(
+    'Em Exists!',
+    `The application is already applied`,
+    409
+)
+
 export default {
-    dataInvalid,
+    dataInvalid, userExists, applicationExists
 }

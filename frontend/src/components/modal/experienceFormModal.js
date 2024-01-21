@@ -14,7 +14,7 @@ import moment from 'moment';
 
 export default function ExperienceFormModal({ open, setOpen, candidateData, getCandidateById }) {
 
-    const { candidate } = useSelector((state) => state.auth)
+    const { user } = useSelector((state) => state.auth)
     const { enqueueSnackbar } = useSnackbar();
     const experienceSchema = Yup.object().shape({
         company: Yup.string().required("Company is required"),
@@ -88,7 +88,7 @@ export default function ExperienceFormModal({ open, setOpen, candidateData, getC
     }
 
     async function addExperience(data) {
-        const id = candidate?._id
+        const id = user?._id
         const res = await candidateServices.updateCandidate({ data, id })
         // setSubmitting(false)
         if (res && res.success) {

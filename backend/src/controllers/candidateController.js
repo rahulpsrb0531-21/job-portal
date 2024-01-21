@@ -3,6 +3,7 @@ import customError from "../custom/customError.js"
 import generateToken from "../custom/generateToken.js"
 import Candidate from "../model/candidateModal.js"
 import Job from "../model/jobModel.js"
+import Application from "../model/applicationSchema.js"
 
 
 // @desc    Register Candidate
@@ -15,10 +16,7 @@ const registerCandidate = async (req, res) => {
         if (!candidateName || !email || !password || !role) throw customError.dataInvalid
 
         const candidateExists = await Candidate.findOne({ email })
-        if (candidateExists) {
-            res.status(400)
-            throw new Error("Candidate already exists")
-        }
+        if (candidateExists) throw customError.userExists
         const newCandidate = await Candidate.create({
             candidateName,
             email,
@@ -99,6 +97,27 @@ const getCandidateByid = async (req, res) => {
     }
 }
 
+// @desc    Get Resume Candidate By Id
+// @route   GET /api/candidate/upload/resume/:id
+// @access  private
+const getResumeCandidateById = async (req, res) => {
+    try {
+        const _id = req.params.id
+        // Find the candidate by their ID
+        let candidate = await Candidate.findOne({ _id })
+
+        // Send the resume file as a download
+        res.download(candidate.resume, 'resume.pdf')
+
+    } catch (error) {
+        console.log(`***** ERROR : ${req.originalUrl, error} error`);
+        res.status(200).json({
+            success: false,
+            data: error,
+        });
+    }
+}
+
 // @desc    Update Candidate
 // @route   PUT /api/candidate/update/:id
 // @access  private
@@ -149,52 +168,7 @@ const updateCandidate = async (req, res) => {
         });
     }
 }
-// @desc    Update Candidate
-// @route   PUT /api/candidate/update/:id
-// @access  private
-// const updateCandidate = async (req, res) => {
-//     try {
-//         const _id = req.params.id
-//         const { candidateName, email, password, location, primaryRole, yearsOfExperience,
-//             website,
-// linkedin,
-// twitter,
-// gitHub, workExperience, eduction, skills, achivements,
-//             jobsApplied, jobsSaved, role } = req.body
 
-//         // Find the candidate by their ID
-//         const candidate = Candidate.findById({ _id })
-//             .exec()
-//             .then(candidate => {
-//                 if (!candidate) {
-//                     throw new Error('Candidate not found');
-//                 }
-//                 // Retrieve job details based on applied job IDs from the candidate
-//                 return Job.find({ _id: { $in: candidate.jobsSaved } })
-//             })
-//             .then(appliedJobs => {
-//                 const response = appliedJobs
-//                 res.status(200).json({
-//                     success: true,
-//                     response,
-//                     message: `Update Candidate Successfully`,
-//                 })
-
-//                 console.log('Response:', response)
-//             })
-
-//     } catch (error) {
-//         console.log(`***** ERROR : ${req.originalUrl, error} error`);
-//         res.status(200).json({
-//             success: false,
-//             data: error,
-//         });
-//     }
-// }
-
-// @desc    Get Candidate saved job in jobSaved array
-// @route   GET /api/Job/saved/:candidate
-// @access  private
 const getCandidateSaveJob = async (req, res) => {
     try {
         const ObjectId = mongoose.Types.ObjectId
@@ -226,77 +200,6 @@ const getCandidateSaveJob = async (req, res) => {
             job,
             message: 'Get All Job  successfully',
         })
-
-        // {
-        //     $match: {
-        //       candidateId: candidateId,
-        //     },
-        //   },
-        //   {
-        //     $lookup: {
-        //       from: 'jobs', // Assuming 'jobs' is the name of your jobs collection
-        //       localField: 'savedJobs.jobId',
-        //       foreignField: 'jobId',
-        //       as: 'jobDetails',
-        //     },
-        //   },
-        // const d = await Candidate.findById({ _id: candidateId })
-        // const d = await Candidate.aggregate([
-        //     {
-        //         $match: {
-        //             _id: candidateId,
-        //         },
-        //     },
-        //     {
-        //         $unwind: '$jobsSaved',
-        //     },
-        //     // {
-        //     //     $lookup: {
-        //     //         from: "Job",
-        //     //         let: {
-        //     //             itemId: { $toObjectId: "$jobsSaved.jobsSaved" },
-        //     //             items: "$jobsSaved"
-        //     //         },
-        //     //         pipeline: [
-        //     //             { $match: { $expr: { $eq: ["$_id", "$$itemId"] } } },
-        //     //             // { $replaceRoot: { newRoot: { $mergeObjects: ["$$items", "$$ROOT"] } } }
-        //     //         ],
-        //     //         as: "items"
-        //     //     }
-        //     // }
-        //     {
-        //         $lookup: {
-        //             from: 'Job',
-        //             localField: 'jobsSaved.jobsSaved',
-        //             foreignField: '_id',
-        //             as: 'jobDetails',
-        //         },
-        //     },
-        //     // {
-        //     //     $unwind: '$jobDetails', // Unwind the jobDetails array
-        //     // },
-        //     // {
-        //     //     $group: {
-        //     //         _id: '$_id',
-        //     //         candidate: { $first: '$$ROOT' },
-        //     //         jobs: { $push: '$jobDetails' },
-        //     //     },
-        //     // },
-        //     // {
-        //     //     $project: {
-        //     //         _id: 0,
-        //     //         candidate: 1,
-        //     //         jobs: 1,
-        //     //     },
-        //     // },
-        // ])
-        // // console.log('saved ', d)
-
-        // res.status(200).json({
-        //     success: true,
-        //     data: d,
-        //     message: 'Job saved successfully',
-        // })
     } catch (error) {
         console.log(`***** ERROR: ${req.originalUrl, error} error`)
         res.status({
@@ -306,6 +209,30 @@ const getCandidateSaveJob = async (req, res) => {
     }
 }
 
+// @desc    Get Candidate Applied job 
+// @route   GET /api/candidate/applied/job/:candidateId
+// @access  private
+const getCandidateAppliedJob = async (req, res) => {
+    try {
+        const ObjectId = mongoose.Types.ObjectId
+        const candidateId = new ObjectId(req.params.candidateId)
+        // const candidateId = req.params.candidateId
+        // console.log(candidateId)
+        const appliedJobs = await Application.find({ "candidate._id": candidateId })
+
+        res.status(200).json({
+            success: true,
+            appliedJobs
+        })
+
+    } catch (error) {
+        console.log(`***** ERROR: ${req.originalUrl, error} error`)
+        res.status({
+            success: false,
+            data: error
+        })
+    }
+}
 
 // @desc    Delete Candidate saved experience in workExperience  array
 // @route   FindAndUpdate /api/candidate/work/experience
@@ -379,5 +306,5 @@ const candidateDeleteEducation = async (req, res) => {
 
 export {
     registerCandidate, loginCandidate, getCandidateByid, updateCandidate, candidateDeleteWorkExpr,
-    candidateDeleteEducation
+    candidateDeleteEducation, getCandidateAppliedJob, getResumeCandidateById
 }

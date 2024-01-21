@@ -16,6 +16,7 @@ import CreateJob from './pages/recruiter/createJob'
 import RecruiterLogin from './sections/recruiter/login'
 import RecruiterJobs from './pages/recruiter/recruiterJobs'
 import JobDetails from './pages/jobDetails'
+import ApplicantPage from './pages/recruiter/applicantPage'
 
 export default function Router() {
     const { user } = useSelector((state) => state.auth)
@@ -28,6 +29,7 @@ export default function Router() {
                     { path: "dashboard", element: <CompanyDetails /> },
                     { path: "jobs", element: <RecruiterJobs /> },
                     { path: "create/job", element: <CreateJob /> },
+                    { path: "applicant", element: <ApplicantPage /> },
                 ]
             },
 

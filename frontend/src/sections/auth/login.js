@@ -5,7 +5,7 @@ import { useSnackbar } from "notistack"
 import { Link as RouterLink, json, useNavigate } from "react-router-dom"
 import { Box, Button, FormControl, Stack, TextField, Typography } from "@mui/material"
 import authServices from "../../services/authServices"
-import { useDispatch } from "react-redux"
+import { useDispatch, useSelector } from "react-redux"
 import { setCredentials } from "../../redux/reducers/authSlice"
 
 
@@ -13,8 +13,9 @@ export default function Login() {
     const navigate = useNavigate()
     const { enqueueSnackbar } = useSnackbar()
     const dispatch = useDispatch()
-    // const token = sessionStorage.getItem('access')
-    // const user = JSON.parse(sessionStorage.getItem('user'))
+    const { user } = useSelector((state) => state.auth)
+    const token = localStorage.getItem('access')
+    // const user = JSON.parse(localStorage.getItem('user'))
 
     const LoginSchema = Yup.object().shape({
         email: Yup.string().required("Email is required"),
@@ -44,11 +45,11 @@ export default function Login() {
         setFieldValue
     } = formik
 
-    // useEffect(() => {
-    //     if (token && user?.role === 'CANDIDATE') {
-    //         navigate("/jobs/profile", { replace: true })
-    //     }
-    // }, [token])
+    useEffect(() => {
+        if (token && user?.role === 'CANDIDATE') {
+            navigate("/jobs/profile", { replace: true })
+        }
+    }, [token])
 
     async function loginCandidate(data) {
         const res = await authServices.login(data)
@@ -61,9 +62,7 @@ export default function Login() {
             })
             dispatch(setCredentials({ ...res }))
             localStorage.setItem("access", res.accessToken)
-            // sessionStorage.setItem("user", JSON.stringify(res.candidate))
             navigate("/jobs/profile", { replace: true })
-            // navigate("/recruiter", { replace: true })
         } else {
             enqueueSnackbar(res?.data, {
                 variant: "error",

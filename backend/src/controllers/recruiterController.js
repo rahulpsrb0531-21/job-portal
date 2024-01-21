@@ -1,7 +1,9 @@
+import mongoose from 'mongoose'
 import customError from '../custom/customError.js'
 import generateToken from '../custom/generateToken.js'
 import Job from '../model/jobModel.js'
 import Recruiter from '../model/recruiterModel.js'
+import Application from '../model/applicationSchema.js'
 
 // @desc    login Recruiter
 // @route   POST /api/recruiter/login
@@ -44,12 +46,9 @@ const registerRecruiter = async (req, res) => {
     try {
         const { recruiterName, email, password, role } = req.body
         if (!recruiterName || !email || !password || !role) throw customError.dataInvalid
-
-        const recruiterExists = await Recruiter.findOne({ email })
-        if (recruiterExists) {
-            res.status(400)
-            throw new Error("Recruiter already exists")
-        }
+        console.log(recruiterName, email, password, role)
+        const recruiterExists = await Recruiter.findOne({ email: email })
+        if (recruiterExists) throw customError.userExists
         const newRecruiter = await Recruiter.create({
             recruiterName,
             email,
@@ -66,8 +65,8 @@ const registerRecruiter = async (req, res) => {
     } catch (error) {
         console.log(`***** ERROR : ${req.originalUrl, error} error`);
         res.status(200).json({
+            message: 'Recruiter already exists',
             success: false,
-            data: error,
         });
     }
 }
@@ -172,4 +171,29 @@ const getAllJobByRecruiterId = async (req, res) => {
     }
 }
 
-export { registerRecruiter, loginRecruiter, updateRecruiter, deleteRecruiter, getAllJobByRecruiterId }
+// @desc    Get Candidate Applied job 
+// @route   GET /api/recruiter/applicant/recruiter/:id
+// @access  private
+const getRecruiterApplicants = async (req, res) => {
+    try {
+        const ObjectId = mongoose.Types.ObjectId
+        const recruiterId = new ObjectId(req.params.id)
+        // const candidateId = req.params.candidateId
+        // console.log(candidateId)
+        const applicants = await Application.find({ "job.recruiterId": recruiterId })
+
+        res.status(200).json({
+            success: true,
+            applicants
+        })
+
+    } catch (error) {
+        console.log(`***** ERROR: ${req.originalUrl, error} error`)
+        res.status({
+            success: false,
+            data: error
+        })
+    }
+}
+
+export { registerRecruiter, loginRecruiter, updateRecruiter, deleteRecruiter, getAllJobByRecruiterId, getRecruiterApplicants }

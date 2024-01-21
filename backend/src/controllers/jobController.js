@@ -20,7 +20,7 @@ const createJob = async (req, res) => {
 
         if (recruiterExists) {
             const newJob = Job({
-                company,
+                company: recruiterExists,
                 recruiterId,
                 title,
                 experience,

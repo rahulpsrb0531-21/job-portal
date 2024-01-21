@@ -8,15 +8,22 @@ const uploadsPath = path.join(__dirname, 'uploads');
 
 // Set up Multer to handle file uploads
 const storage = multer.diskStorage({
-    destination: function (req, file, cb) {
-        const folderName = Date.now().toString();
-        const folderPath = path.join(uploadsPath, folderName);
-        fs.mkdirSync(folderPath, { recursive: true });
-        cb(null, folderPath)
+    // destination: function (req, file, cb) {
+    //     const folderName = Date.now().toString();
+    //     const folderPath = path.join(uploadsPath, folderName);
+    //     fs.mkdirSync(folderPath, { recursive: true });
+    //     cb(null, folderPath)
+    // },
+    // filename: function (req, file, cb) {
+    //     const fileExtension = path.extname(file.originalname);
+    //     const fileName = `file_${Date.now()}${fileExtension}`;
+    //     cb(null, fileName);
+    // },
+    destination: (req, file, cb) => {
+        cb(null, 'uploads/'); // Folder where the files will be saved
     },
-    filename: function (req, file, cb) {
-        const fileExtension = path.extname(file.originalname);
-        const fileName = `file_${Date.now()}${fileExtension}`;
+    filename: (req, file, cb) => {
+        const fileName = `${Date.now()}-${file.originalname}`;
         cb(null, fileName);
     },
 })

@@ -5,13 +5,16 @@ import { Box, Button, FormControl, Stack, TextField, Typography } from "@mui/mat
 import { useSnackbar } from "notistack"
 import { useNavigate } from "react-router-dom"
 import authServices from "../../services/authServices"
+import { useDispatch, useSelector } from "react-redux"
+import { setCredentials } from "../../redux/reducers/authSlice"
 
 
 export default function Register() {
     const navigate = useNavigate()
+    const dispatch = useDispatch()
     const { enqueueSnackbar } = useSnackbar()
-    const token = sessionStorage.getItem('access')
-    const user = JSON.parse(sessionStorage.getItem('user'))
+    const token = localStorage.getItem('access')
+    const { user } = useSelector((state) => state.auth)
 
     const LoginSchema = Yup.object().shape({
         candidateName: Yup.string().required("Full Name is required"),
@@ -40,8 +43,8 @@ export default function Register() {
                 anchorOrigin: { horizontal: "right", vertical: "top" },
                 autoHideDuration: 1000
             })
-            sessionStorage.setItem("access", res.accessToken)
-            sessionStorage.setItem("user", JSON.stringify(res.candidate))
+            dispatch(setCredentials({ ...res }))
+            localStorage.setItem("access", res.accessToken)
             navigate("/jobs/profile", { replace: true })
         } else {
             enqueueSnackbar(res?.data, {

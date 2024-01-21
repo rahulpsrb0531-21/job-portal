@@ -14,7 +14,8 @@ import moment from 'moment';
 
 export default function GraduationExperienceFormModal({ open, setOpen, candidateData, id, getCandidateById }) {
     // console.log("candidate", candidateData)
-    const { candidate } = useSelector((state) => state.auth)
+    const { user } = useSelector((state) => state.auth)
+    // console.log(user)
     const { enqueueSnackbar } = useSnackbar();
     const experienceSchema = Yup.object().shape({
         education: Yup.string().required("Education is required"),
@@ -62,7 +63,7 @@ export default function GraduationExperienceFormModal({ open, setOpen, candidate
                 achivements: candidateData?.achivements,
                 role: "CONDIDATE"
             }
-            // console.log('data>>>>>', data)
+            console.log('data>>>>>', data)
             addExperience(data)
             // addReferral(data)
         },
@@ -80,7 +81,7 @@ export default function GraduationExperienceFormModal({ open, setOpen, candidate
     }
 
     async function addExperience(data) {
-        const id = candidate?._id
+        const id = user?._id
         console.log('final data', data, id)
         const res = await candidateServices.updateCandidate({ data, id })
         // setSubmitting(false)
@@ -188,7 +189,7 @@ export default function GraduationExperienceFormModal({ open, setOpen, candidate
                                 onClick={() => onClose()}
                             >Cancel</Button>
                             <Button variant="blackButton" sx={{ letterSpacing: 2 }} type="submit"
-                                onClick={() => console.log(values)}
+                                onClick={() => console.log('>>>>', errors)}
                             >Save</Button>
                         </Stack>
                     </Stack>

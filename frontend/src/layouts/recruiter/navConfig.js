@@ -18,8 +18,8 @@ const navConfig = [
         icon: 'system-uicons:user-male'
     },
     {
-        title: 'Application',
-        path: '/recruiter/application',
+        title: 'Applicant',
+        path: '/recruiter/applicant',
         icon: 'streamline:bag-suitcase-2'
     },
     // {

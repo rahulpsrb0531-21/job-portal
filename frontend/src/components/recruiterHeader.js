@@ -59,8 +59,8 @@ const RecruiterHeader = () => {
             path: '/recruiter/jobs'
         },
         {
-            linkName: "Applicants",
-            path: '/recruiter/applicants'
+            linkName: "Applicant",
+            path: '/recruiter/applicant'
         }
     ]
 

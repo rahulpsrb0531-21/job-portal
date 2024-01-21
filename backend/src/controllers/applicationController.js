@@ -17,11 +17,19 @@ const applyApplication = async (req, res) => {
 
         // if candidate not exits throw error 
         let candidateExists = await Candidate.findOne({ _id: candidateId })
-        console.log(candidateExists)
+        // console.log(candidateExists)
+
+        const newApp = await Application.findOne({
+            $and: [
+                { "candidate._id": candidateExists._id },
+                { "job._id": jobExists._id }
+            ]
+        })
+        if (newApp) throw customError.applicationExists
 
         const newApplication = await Application.create({
-            candidate: candidateExists._id,
-            job: jobExists._id,
+            candidate: candidateExists,
+            job: jobExists,
             name: candidateExists.candidateName,
             email: candidateExists.email,
             about: about,
@@ -32,7 +40,7 @@ const applyApplication = async (req, res) => {
         // Update the candidate document to include the application ID in the appliedJobs array
         Candidate.findByIdAndUpdate(
             { _id: candidateId },
-            { $push: { jobsApplied: newApplication._id } },
+            { $push: { jobsApplied: jobExists._id } },
             { new: true }
         )
             .exec()
@@ -65,6 +73,7 @@ const applyApplication = async (req, res) => {
         console.log(`***** ERROR : ${req.originalUrl, error} error`);
         res.status(200).json({
             success: false,
+            // data: error,
             data: error,
         });
     }

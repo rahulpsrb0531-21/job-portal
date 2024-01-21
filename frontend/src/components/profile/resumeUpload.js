@@ -9,14 +9,22 @@ import Iconify from "../Iconify"
 import { useSelector } from "react-redux";
 import candidateServices from "../../services/candidateServices";
 import { server } from "../../utils/server";
-
+import DownloadResumeButton from "../DownloadResumeButton";
+import fileDownload from 'js-file-download'
+import Axios from "axios";
 
 export function ResumeUpload() {
     const [uploadedResume, setUploadedResume] = useState(null)
     const SUPPORTED_FORMATS_PDF = ['application/pdf', 'application/octet-stream', "image/jpeg", "image/jpg"]
     const { user } = useSelector((state) => state.auth)
 
-    // console.log('candidate', candidate)
+    function download(url, filename) {
+        Axios.get(url, {
+            responseType: 'blob',
+        }).then(res => {
+            fileDownload(res.data, filename);
+        });
+    }
 
     const onDrop = useCallback((acceptedFiles) => {
         const resumeFile = acceptedFiles[0];
@@ -90,6 +98,15 @@ export function ResumeUpload() {
                     }} onClick={() => removeFile()} >Remove your resume</Typography>
                 </Stack>
             </Stack>
+            {/* {
+                // user?.resume ?
+                <Button variant="contained"
+                    onClick={() => download(user?.resume, user?.candidateName)}
+                // onClick={()=> window.open(url)}
+                >Download</Button>
+                // : "df"
+            } */}
+            <DownloadResumeButton id={user?._id} />
         </Box>
     )
 }

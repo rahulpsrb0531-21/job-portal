@@ -6,15 +6,15 @@ import { useSnackbar } from "notistack"
 import { useNavigate } from "react-router-dom"
 import authServices from "../../services/authServices"
 import { setCredentials } from "../../redux/reducers/authSlice"
-import { useDispatch } from "react-redux"
+import { useDispatch, useSelector } from "react-redux"
 
 
 export default function RecruiterRegister() {
     const navigate = useNavigate()
     const dispatch = useDispatch()
     const { enqueueSnackbar } = useSnackbar()
-    // const token = sessionStorage.getItem('access')
-    // const user = JSON.parse(sessionStorage.getItem('user'))
+    // const token = localStorage.getItem('access')
+    // const { user } = useSelector((state) => state.auth)
 
     const registerSchema = Yup.object().shape({
         recruiterName: Yup.string().required("Full Name is required"),
@@ -37,6 +37,7 @@ export default function RecruiterRegister() {
     async function register(data) {
         const res = await authServices.recruiterRegister(data)
         setSubmitting(false)
+        console.log(res)
         if (res && res.success) {
             enqueueSnackbar(res?.message, {
                 variant: "success",
@@ -47,18 +48,12 @@ export default function RecruiterRegister() {
             localStorage.setItem("access", res.accessToken)
             navigate("/onboarding/recruiter", { replace: true })
         } else {
-            enqueueSnackbar(res?.data, {
+            enqueueSnackbar(res?.message, {
                 variant: "error",
                 anchorOrigin: { horizontal: "right", vertical: "top" }, autoHideDuration: 1000
             })
         }
     }
-
-    // useEffect(() => {
-    //     if (token && user?.role === 'CANDIDATE') {
-    //         navigate("/jobs/profile", { replace: true })
-    //     }
-    // }, [token])
 
     const {
         errors,

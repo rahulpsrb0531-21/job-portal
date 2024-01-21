@@ -23,6 +23,17 @@ const getCandidateById = (id) => {
         })
 }
 
+const getAppliedJobCandidateById = (id) => {
+    return server.get(`api/candidate/applied/job/${id}`)
+        .then(res => {
+            return res.data
+        })
+        .catch(err => {
+            // console.log(err.response.data.details.message);
+            return null
+        })
+}
+
 const updateCandidate = ({ data, id }) => {
     return server.put(`api/candidate/update/${id}`, data)
         .then(res => {
@@ -61,6 +72,6 @@ const deleteEducation = (deleteEducationData) => {
 
 const candidateServices = {
     createCandidate, updateCandidate, getCandidateById, deleteWokrExp,
-    deleteEducation
+    deleteEducation, getAppliedJobCandidateById
 }
 export default candidateServices

@@ -318,7 +318,7 @@ export function CandidateProfile() {
                                 />
                             </FormControl>
                             <Button size="small" variant="blackButton" type="submit"
-                                onClick={() => console.log(values)}
+                                // onClick={() => console.log(values)}
                                 sx={{ fontSize: 14, width: "58px", height: "30px", fontWeight: 500 }}
                             >
                                 Save
@@ -348,7 +348,7 @@ export function CandidateProfile() {
                                 errors={errors} touched={touched} values={values} setFieldValue={setFieldValue} getFieldProps={getFieldProps}
                                 title="gitHubLink" />
                             <Button size="small" variant="blackButton" type="submit"
-                                onClick={() => console.log(values)}
+                                // onClick={() => console.log(values)}
                                 sx={{ fontSize: 14, width: "58px", height: "30px", fontWeight: 500 }}
                             >Save</Button>
                         </Stack>
@@ -474,7 +474,7 @@ export function CandidateProfile() {
                                                 if (e.key === 'Enter') {
                                                     e.preventDefault();
                                                     setFieldValue("skills", [...values.skills, e.target.value]);
-                                                    // setFieldValue('newSkill', ''); // Clear the TextField after adding the skill
+                                                    setFieldValue('newSkill', ''); // Clear the TextField after adding the skill
                                                     // getCandidateById()
                                                     // updateCandidate()
                                                 }
@@ -483,7 +483,7 @@ export function CandidateProfile() {
                                         />
                                     )}
                                 </Field>
-                                <Button variant="blackButton" type="submit" sx={{ letterSpacing: 2, textAlign: "right", width: 100, mt: 0.6 }}  >Save</Button>
+                                {/* <Button variant="blackButton" type="submit" sx={{ letterSpacing: 2, textAlign: "right", width: 100, mt: 0.6 }}  >Save</Button> */}
                             </FormControl>
                         </Stack>
                     </Stack>
