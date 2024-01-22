@@ -7,7 +7,6 @@ import recruiterServices from '../../services/recruiterServices'
 export default function ApplicantPage() {
     const [value, setValue] = useState('1')
     const [applicantJob, setApplicantJob] = useState([])
-    console.log(applicantJob)
     const { user } = useSelector((state) => state.auth)
 
     const handleChange = (event, newValue) => {
@@ -18,7 +17,6 @@ export default function ApplicantPage() {
     async function getapplicantJob() {
         const id = user?._id
         const res = await recruiterServices.getApplicants(id)
-        // console.log(res)
         if (res && res.success) {
             setApplicantJob(res?.applicants)
         } else {

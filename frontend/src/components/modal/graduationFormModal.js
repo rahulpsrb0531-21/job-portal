@@ -126,7 +126,7 @@ export default function GraduationExperienceFormModal({ open, setOpen, candidate
                         </Stack>
                         <Stack spacing={1} >
                             <Stack >
-                                <Typography variant="profilePageTitle">Company*</Typography>
+                                <Typography variant="profilePageTitle">Education*</Typography>
                                 <TextField sx={{ ".css-3ux5v-MuiInputBase-root-MuiOutlinedInput-root": { height: "40px" } }}
                                     {...getFieldProps("education")}
                                     error={Boolean(touched.education && errors.education)}

@@ -66,12 +66,7 @@ const jobSchema = mongoose.Schema(
                 ref: 'Candidate'
             }
         ],
-        jobApplied: [
-            {
-                type: mongoose.Schema.Types.ObjectId,
-                ref: 'Candidate'
-            }
-        ]
+        jobApplied: [{ type: Object }]
         // recruiterName: { type: String, required: true },
         // recruiterEmail: { type: String, required: true },
         // deadline: {

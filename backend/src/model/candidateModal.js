@@ -88,12 +88,7 @@ const conditateSchema = mongoose.Schema(
         eduction: [eductionSchema],
         skills: [],
         achivements: { type: String },
-        jobsApplied: [
-            {
-                type: mongoose.Schema.Types.ObjectId,
-                ref: 'Job'
-            }
-        ],
+        jobsApplied: [{ type: Object }],
         jobsSaved: [{}],
         role: { type: String, default: "CANDIDATE" },
     },

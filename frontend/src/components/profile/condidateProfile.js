@@ -425,7 +425,7 @@ export function CandidateProfile() {
                                             <Stack>
                                                 <Typography variant="profilePageTitle">
                                                     {data?.education}</Typography>
-                                                <Typography variant="profilePageSubText">{data?.title}s</Typography>
+                                                {/* <Typography variant="profilePageSubText">{data?.title}s</Typography> */}
                                             </Stack>
                                         </Stack>
                                         <Typography variant="profilePageSubText"

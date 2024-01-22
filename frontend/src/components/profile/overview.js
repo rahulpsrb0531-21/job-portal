@@ -1,12 +1,30 @@
+import { useEffect, useState } from "react";
+import { useSelector } from "react-redux"
+import candidateServices from "../../services/candidateServices";
 import { Box, Stack, Typography } from "@mui/material"
 import Iconify from "../Iconify";
-import { useSelector } from "react-redux"
-import { useState } from "react";
 
 export default function Overview() {
-    const { candidate } = useSelector((state) => state.auth)
-    // console.log(candidate?._id)
-    // const [candidateData,setCandidateData] = useState(null)
+    const { user } = useSelector((state) => state.auth)
+    const [candidateData, setCandidateData] = useState(null)
+    console.log(candidateData)
+
+    async function getCandidateById(data) {
+        const id = user?._id
+        const res = await candidateServices.getCandidateById(id)
+        if (res && res.success) {
+            setCandidateData(res?.candidate)
+        } else {
+            console.log('error')
+        }
+    }
+
+    useEffect(() => {
+        if (user) {
+            getCandidateById()
+        }
+    }, [user])
+
     return (
         <Box sx={{
             bgcolor: 'rgb(255, 255, 255)', width: '100%',
@@ -23,37 +41,45 @@ export default function Overview() {
                         <Box>
                             <Typography
                                 sx={{ fontSize: 24, color: 'rgb(5, 12, 38)', fontWeight: 500 }}
-                            >Rakesh Tamboli</Typography>
+                            >{candidateData?.candidateName}</Typography>
                             <Typography
                                 sx={{ fontSize: 14, color: 'rgb(5, 12, 38)', fontWeight: 700 }}
-                            >Full Stack Developer @ creativeWebo</Typography>
+                            >{candidateData?.primaryRole}</Typography>
                         </Box>
                     </Stack>
                     <Box sx={{ pl: 1 }}>
                         <Typography sx={{ fontSize: 14, color: 'rgb(145, 148, 160)' }}>Experience</Typography>
-                        <Stack direction={'row'}  >
-                            <Iconify icon={"mingcute:user-4-fill"} sx={{ width: 22, height: 22 }} />
-                            <Box>
-                                <Typography
-                                    sx={{ fontSize: 14, color: 'rgb(5, 12, 38)', fontWeight: 700 }}
-                                >Full Stack Developer</Typography>
-                                <Typography
-                                    sx={{ fontSize: 14, color: 'rgb(145, 148, 160)' }}
-                                >creativeWebo</Typography>
-                            </Box>
-                        </Stack>
+                        {
+                            candidateData?.workExperience?.map((data, idx) => (
+                                <Stack direction={'row'}  >
+                                    <Iconify icon={"mingcute:user-4-fill"} sx={{ width: 22, height: 22 }} />
+                                    <Box>
+                                        <Typography
+                                            sx={{ fontSize: 14, color: 'rgb(5, 12, 38)', fontWeight: 700 }}
+                                        >{data?.title}</Typography>
+                                        <Typography
+                                            sx={{ fontSize: 14, color: 'rgb(145, 148, 160)' }}
+                                        >{data?.company}</Typography>
+                                    </Box>
+                                </Stack>
+                            ))
+                        }
                     </Box>
                     <Box sx={{ pl: 1 }}>
                         <Typography
                             sx={{ fontSize: 14, color: 'rgb(145, 148, 160)' }}
                         >Skill</Typography>
                         <Stack direction={'row'} flexWrap={'wrap'} spacing={1} sx={{ pt: 1 }} >
-                            <Typography
-                                sx={{ bgcolor: "rgb(245, 245, 245)", p: 0.6, fontSize: 12, borderRadius: '4px', color: 'rgb(82, 87, 105)' }}
-                            >Javascript</Typography>
-                            <Typography sx={{ bgcolor: "rgb(245, 245, 245)", p: 0.6, fontSize: 12, borderRadius: '4px', color: 'rgb(82, 87, 105)' }} >React</Typography>
+                            {
+                                candidateData?.skills.map((data, idx) => (
+                                    <Typography
+                                        sx={{ bgcolor: "rgb(245, 245, 245)", p: 0.6, fontSize: 12, borderRadius: '4px', color: 'rgb(82, 87, 105)' }}
+                                    >{data}</Typography>
+                                ))
+                            }
+                            {/* <Typography sx={{ bgcolor: "rgb(245, 245, 245)", p: 0.6, fontSize: 12, borderRadius: '4px', color: 'rgb(82, 87, 105)' }} >React</Typography>
                             <Typography sx={{ bgcolor: "rgb(245, 245, 245)", p: 0.6, fontSize: 12, borderRadius: '4px', color: 'rgb(82, 87, 105)' }} >Node</Typography>
-                            <Typography sx={{ bgcolor: "rgb(245, 245, 245)", p: 0.6, fontSize: 12, borderRadius: '4px', color: 'rgb(82, 87, 105)' }} >Redux</Typography>
+                            <Typography sx={{ bgcolor: "rgb(245, 245, 245)", p: 0.6, fontSize: 12, borderRadius: '4px', color: 'rgb(82, 87, 105)' }} >Redux</Typography> */}
                         </Stack>
                     </Box>
                 </Stack>
