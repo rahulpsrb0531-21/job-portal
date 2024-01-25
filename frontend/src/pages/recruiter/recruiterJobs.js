@@ -29,7 +29,6 @@ export default function RecruiterJobs() {
             getRecruiterJobs(user?._id)
         }
     }, [])
-    console.log(jobs)
 
     return (
         <Container>

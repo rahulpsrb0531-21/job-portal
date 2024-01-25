@@ -18,7 +18,6 @@ export default function CreateJob() {
     const { enqueueSnackbar } = useSnackbar()
     const [uploadedImage, setUploadedImage] = useState(null)
     const { user } = useSelector((state) => state.auth)
-    console.log("user ", user)
     const onDrop = useCallback((acceptedFiles) => {
         const imageFile = acceptedFiles[0]
         setUploadedImage(URL.createObjectURL(imageFile))

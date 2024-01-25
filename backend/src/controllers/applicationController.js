@@ -9,8 +9,14 @@ import Job from "../model/jobModel.js";
 // @access  public 
 const applyApplication = async (req, res) => {
     try {
-        const { candidateId, jobId, about } = req.body
-        if (!candidateId || !jobId || !about) throw customError.dataInvalid
+        const { candidateId, jobId, coverLetter,
+            academicCertificates, professionalCertificates, proofOfIdentity,
+            proofOfAddress, workPermits, righttoWorkDocumentation, drivingLicense,
+            dbs, healthDeclaration, offerLetter } = req.body
+        if (!candidateId || !jobId ||
+            !coverLetter || !academicCertificates || !professionalCertificates ||
+            !proofOfIdentity || !proofOfAddress || !workPermits || !righttoWorkDocumentation
+            || !drivingLicense || !dbs || !healthDeclaration || !offerLetter) throw customError.dataInvalid
 
         // if job not exits throw error 
         let jobExists = await Job.findById({ _id: jobId })
@@ -32,9 +38,19 @@ const applyApplication = async (req, res) => {
             job: jobExists,
             name: candidateExists.candidateName,
             email: candidateExists.email,
-            about: about,
             resume: candidateExists.resume,
-            status: 'pending'
+            status: 'pending',
+            coverLetter,
+            academicCertificates,
+            professionalCertificates,
+            proofOfIdentity,
+            proofOfAddress,
+            workPermits,
+            righttoWorkDocumentation,
+            drivingLicense,
+            dbs,
+            healthDeclaration,
+            offerLetter,
         })
 
         // Update the candidate document to include the application ID in the appliedJobs array

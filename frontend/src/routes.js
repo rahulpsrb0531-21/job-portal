@@ -17,6 +17,7 @@ import RecruiterLogin from './sections/recruiter/login'
 import RecruiterJobs from './pages/recruiter/recruiterJobs'
 import JobDetails from './pages/jobDetails'
 import ApplicantPage from './pages/recruiter/applicantPage'
+import CreateApplication from './pages/createApplication'
 
 export default function Router() {
     const { user } = useSelector((state) => state.auth)
@@ -42,6 +43,7 @@ export default function Router() {
                 { path: "lists", element: <JobPage /> },
                 { path: ":jobName", element: <JobDetails /> },
                 { path: "applications", element: <AppliedPage /> },
+                { path: "create/application", element: <CreateApplication /> },
             ]
         },
         {

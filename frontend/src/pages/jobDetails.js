@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react"
 import { TabContext, TabList, TabPanel } from "@mui/lab";
 import { Box, Button, Divider, Stack, Tab, Typography } from "@mui/material";
 import OverView from "../components/company/overview";
-import { useLocation } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import { useSelector } from "react-redux";
 import candidateServices from "../services/candidateServices";
 import applicationServices from "../services/applicationServices";
@@ -10,8 +10,10 @@ import { useSnackbar } from "notistack";
 
 export default function JobDetails() {
     const { state } = useLocation()
+    const navigate = useNavigate()
     const { enqueueSnackbar } = useSnackbar()
     const { user } = useSelector((state) => state.auth)
+    const [open, setOpen] = useState(false)
     // console.log(user)
     // console.log(state)
     // const [value, setValue] = useState('1')
@@ -41,27 +43,27 @@ export default function JobDetails() {
     //     }
     // }, [user])
 
-    async function createApplication() {
-        const data = {
-            candidateId: user?._id,
-            jobId: state?._id,
-            about: "Testing Application"
-        }
-        // console.log(data)
-        const res = await applicationServices.create(data)
-        if (res && res.success) {
-            enqueueSnackbar(res?.message, {
-                variant: "success",
-                anchorOrigin: { horizontal: "right", vertical: "top" },
-                autoHideDuration: 1000
-            })
-        } else {
-            enqueueSnackbar(res?.data, {
-                variant: "error",
-                anchorOrigin: { horizontal: "right", vertical: "top" }, autoHideDuration: 1000
-            })
-        }
-    }
+    // async function createApplication() {
+    //     const data = {
+    //         candidateId: user?._id,
+    //         jobId: state?._id,
+    //         about: "Testing Application"
+    //     }
+    //     // console.log(data)
+    //     const res = await applicationServices.create(data)
+    //     if (res && res.success) {
+    //         enqueueSnackbar(res?.message, {
+    //             variant: "success",
+    //             anchorOrigin: { horizontal: "right", vertical: "top" },
+    //             autoHideDuration: 1000
+    //         })
+    //     } else {
+    //         enqueueSnackbar(res?.data, {
+    //             variant: "error",
+    //             anchorOrigin: { horizontal: "right", vertical: "top" }, autoHideDuration: 1000
+    //         })
+    //     }
+    // }
 
 
     const jobBasicDetails = [
@@ -151,7 +153,7 @@ export default function JobDetails() {
                                 sx={{ fontSize: 14, width: "58px", height: "30px", fontWeight: 500 }}
                             >Save</Button>
                             <Button variant="blackButton"
-                                onClick={() => createApplication()}
+                                onClick={() => navigate('/jobs/create/application', { state: state?._id })}
                                 sx={{ fontSize: 12, width: "110px", height: "30px", bgcolor: 'black', fontWeight: 500, }}
                             >Apply</Button>
                         </Stack>

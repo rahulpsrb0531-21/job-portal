@@ -81,15 +81,6 @@ export function ResumeUpload() {
                                 </Stack>
                             )}
                         </div>
-
-                        {/* <div {...getRootProps()} style={dropzoneStyles}>
-        <input {...getInputProps()} />
-        {!uploadedResume ? (
-          <p>Drag & drop your resume here, or click to select a resume (PDF, DOC, DOCX)</p>
-        ) : (
-          <p>Resume uploaded: {uploadedResume}</p>
-        )}
-      </div> */}
                     </FormControl>
                     <Typography sx={{
                         fontSize: 14, cursor: 'pointer', textAlign: "right", ":hover": {
@@ -98,14 +89,6 @@ export function ResumeUpload() {
                     }} onClick={() => removeFile()} >Remove your resume</Typography>
                 </Stack>
             </Stack>
-            {/* {
-                // user?.resume ?
-                <Button variant="contained"
-                    onClick={() => download(user?.resume, user?.candidateName)}
-                // onClick={()=> window.open(url)}
-                >Download</Button>
-                // : "df"
-            } */}
             <DownloadResumeButton id={user?._id} />
         </Box>
     )

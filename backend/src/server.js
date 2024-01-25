@@ -96,6 +96,15 @@ const StartServer = () => {
         const filePath = req.file.path;
         res.json({ message: 'Uploaded successfully', filePath })
     })
+    router.post('/upload/candidate/document', handleResumeUpload, async (req, res) => {
+        const filePath = req.file.path
+        try {
+            res.json({ message: 'Uploaded successfully', filePath })
+        } catch (error) {
+            console.error('Error updating resume:', error);
+            res.status(500).json({ error: 'Internal Server Error' });
+        }
+    })
 
     router.listen(config.server.port, () => Logging.info(`Server is running on port ${config.server.port}`));
 };
