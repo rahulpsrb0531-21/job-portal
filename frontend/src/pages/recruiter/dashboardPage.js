@@ -10,6 +10,13 @@ export default function DashboardPage() {
     const [applicant, setApplicant] = useState([])
     const [jobs, setJobs] = useState([])
     const { user } = useSelector((user) => user.auth)
+    const token = localStorage.getItem('access')
+
+    useEffect(() => {
+        if (!token) {
+            navigate('/login')
+        }
+    }, [])
 
     async function getRecruiterJobs(id) {
         const res = await recruiterServices.getJobRecruiterById(id)

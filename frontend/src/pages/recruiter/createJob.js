@@ -18,39 +18,12 @@ export default function CreateJob() {
     const { enqueueSnackbar } = useSnackbar()
     const [uploadedImage, setUploadedImage] = useState(null)
     const { user } = useSelector((state) => state.auth)
-    const onDrop = useCallback((acceptedFiles) => {
-        const imageFile = acceptedFiles[0]
-        setUploadedImage(URL.createObjectURL(imageFile))
-        const formData = new FormData();
-        formData.append('image', imageFile);
-        server.post(`upload-image`, formData)
-            .then(res => {
-                return res.data
-            })
-            .catch(err => {
-                return null
-            })
+    const token = localStorage.getItem('access')
+    useEffect(() => {
+        if (!token) {
+            navigate('/login')
+        }
     }, [])
-    const { getRootProps, getInputProps } = useDropzone({
-        onDrop,
-        accept: 'image/*',
-        maxFiles: 1,
-    })
-
-    const dropzoneStyles = {
-        border: '1px dashed #cccccc',
-        display: "flex",
-        justifyContent: "center",
-        alignItems: 'center',
-        borderRadius: '4px',
-        padding: '20px',
-        // textAlign: 'center',
-        cursor: 'pointer',
-        backgroundImage: uploadedImage ? `url(${uploadedImage})` : 'none',
-        backgroundSize: 'cover',
-        backgroundPosition: 'center',
-        height: '160px',
-    }
 
     const createJobSchema = Yup.object().shape({
         // company 

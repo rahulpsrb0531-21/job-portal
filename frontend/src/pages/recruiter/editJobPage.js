@@ -20,6 +20,13 @@ export default function EditJob() {
     console.log("state", state)
     const { enqueueSnackbar } = useSnackbar()
     const { user } = useSelector((state) => state.auth)
+    const token = localStorage.getItem('access')
+
+    useEffect(() => {
+        if (!token) {
+            navigate('/login')
+        }
+    }, [])
 
     const editJobSchema = Yup.object().shape({
         // company 

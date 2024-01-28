@@ -15,6 +15,13 @@ export default function EditRecruiterProfile() {
     const { enqueueSnackbar } = useSnackbar()
     const [uploadedImage, setUploadedImage] = useState(null)
     const { user } = useSelector((state) => state.auth)
+    const token = localStorage.getItem('access')
+
+    useEffect(() => {
+        if (!token) {
+            navigate('/login')
+        }
+    }, [])
     // console.log("user", user)
     const onDrop = useCallback((acceptedFiles) => {
         const imageFile = acceptedFiles[0]

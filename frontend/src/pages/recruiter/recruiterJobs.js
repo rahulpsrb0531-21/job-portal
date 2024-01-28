@@ -11,6 +11,13 @@ export default function RecruiterJobs() {
     const [open, setOpen] = useState(false)
     const [jobId, setJobId] = useState('')
     const [jobs, setJobs] = useState([])
+    const token = localStorage.getItem('access')
+
+    useEffect(() => {
+        if (!token) {
+            navigate('/login')
+        }
+    }, [])
 
     async function getRecruiterJobs() {
         const res = await recruiterServices.getJobRecruiterById(user?._id)

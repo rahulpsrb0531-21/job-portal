@@ -3,15 +3,24 @@ import { Box, Container, Stack, Tab, Typography } from '@mui/material'
 import { useSelector } from 'react-redux'
 import Iconify from '../../components/Iconify'
 import recruiterServices from '../../services/recruiterServices'
+import { useNavigate } from 'react-router-dom'
 
 export default function ApplicantPage() {
     const [value, setValue] = useState('1')
+    const navigate = useNavigate()
     const [applicantJob, setApplicantJob] = useState([])
+    const token = localStorage.getItem('access')
     const { user } = useSelector((state) => state.auth)
 
     const handleChange = (event, newValue) => {
         setValue(newValue);
     }
+
+    useEffect(() => {
+        if (!token) {
+            navigate('/login')
+        }
+    }, [])
 
 
     async function getapplicantJob() {
@@ -25,7 +34,7 @@ export default function ApplicantPage() {
     useEffect(() => {
         getapplicantJob()
     }, [user])
-    // console.log(applicantJob)
+
     return (
         <Container>
             <Box sx={{ width: '100%', pt: 6 }}>
