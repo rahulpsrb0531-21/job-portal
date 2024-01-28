@@ -3,17 +3,19 @@ import { useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { Button, Chip, Container, Stack, Typography } from "@mui/material";
 import recruiterServices from "../../services/recruiterServices";
+import DeleteJobModal from "../../components/deleteJobModal";
 
 export default function RecruiterJobs() {
     const navigate = useNavigate()
     const { user } = useSelector((user) => user.auth)
+    const [open, setOpen] = useState(false)
+    const [jobId, setJobId] = useState('')
     const [jobs, setJobs] = useState([])
 
-    async function getRecruiterJobs(id) {
-        const res = await recruiterServices.getJobRecruiterById(id)
+    async function getRecruiterJobs() {
+        const res = await recruiterServices.getJobRecruiterById(user?._id)
         // setSubmitting(false)
         if (res && res.success) {
-            console.log('res', res)
             setJobs(res?.data)
         } else {
             console.log('error')
@@ -26,12 +28,13 @@ export default function RecruiterJobs() {
 
     useEffect(() => {
         if (user) {
-            getRecruiterJobs(user?._id)
+            getRecruiterJobs()
         }
     }, [])
 
     return (
         <Container>
+            <DeleteJobModal open={open} setOpen={setOpen} jobId={jobId} getRecruiterJobs={getRecruiterJobs} />
             <Stack spacing={1} sx={{ mt: 4 }} >
                 <Stack direction={'row'} alignItems={'center'} justifyContent={'space-between'}
                     sx={{
@@ -49,24 +52,49 @@ export default function RecruiterJobs() {
                 <Stack spacing={1} >
                     {
                         jobs?.map((job, idx) => (
-                            <Stack sx={{
-                                width: "60%",
-                                border: '1px solid #e0e0e0', borderRadius: "8px",
-                                p: 2,
-                                backgroundImage: "linear-gradient(178deg,#fafafa,#fff 35%)"
-                            }}>
-                                <Typography sx={{ fontSize: 16, fontWeight: 700 }} >{job?.title}</Typography>
-                                <Typography sx={{ fontSize: 12 }}
-                                    dangerouslySetInnerHTML={{ __html: job?.jobOverview[0] }} />
-                                <Stack direction={'row'} alignItems={'center'} spacing={0.8} >
-                                    <Typography sx={{ fontSize: 14, fontWeight: 700 }} >Skills:</Typography>
-                                    {
-                                        job?.skills.map((skill, idx) => (
-                                            <Chip label={skill} key={idx} sx={{ borderRadius: "4px" }}
-                                            // onDelete={() => deleteSkill(idx)}
-                                            />
-                                        ))
-                                    }
+                            <Stack direction={'row'} alignItems={'start'}
+                                justifyContent={'space-between'}
+                                sx={{
+                                    width: "60%",
+                                    border: '1px solid #e0e0e0', borderRadius: "8px",
+                                    p: 2,
+                                    backgroundImage: "linear-gradient(178deg,#fafafa,#fff 35%)"
+                                }}
+                            >
+                                <Stack >
+                                    <Typography sx={{ fontSize: 16, fontWeight: 700 }} >{job?.title}</Typography>
+                                    <Typography sx={{ fontSize: 12 }}
+                                        dangerouslySetInnerHTML={{ __html: job?.jobOverview[0] }} />
+                                    <Stack direction={'row'} alignItems={'center'} spacing={0.8} >
+                                        <Typography sx={{ fontSize: 14, fontWeight: 700 }} >Skills:</Typography>
+                                        {
+                                            job?.skills.map((skill, idx) => (
+                                                <Chip label={skill} key={idx} sx={{ borderRadius: "4px" }}
+                                                // onDelete={() => deleteSkill(idx)}
+                                                />
+                                            ))
+                                        }
+                                    </Stack>
+                                </Stack>
+                                <Stack spacing={2} >
+                                    <Typography
+                                        onClick={() => navigate('/recruiter/edit/job', { state: job })}
+                                        sx={{
+                                            color: "rgb(20, 63, 205)", fontSize: 14,
+                                            fontWeight: 500,
+                                            "&:hover": {
+                                                textDecoration: 'underline'
+                                            }
+                                        }}>Edit</Typography>
+                                    <Typography
+                                        onClick={() => { setJobId(job?._id); setOpen(true) }}
+                                        sx={{
+                                            color: "Red", fontSize: 14,
+                                            fontWeight: 500,
+                                            "&:hover": {
+                                                textDecoration: 'underline'
+                                            }
+                                        }}>Remove</Typography>
                                 </Stack>
                             </Stack>
                         ))

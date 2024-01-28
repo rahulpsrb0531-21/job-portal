@@ -22,6 +22,25 @@ const createJob = (data) => {
         })
 }
 
+const updateJob = (data) => {
+    return server.post(`/api/job/update`, data)
+        .then(res => {
+            return res.data
+        })
+        .catch(err => {
+            return null
+        })
+}
+
+const deleteJob = (id) => {
+    return server.delete(`/api/job/delete/${id}`)
+        .then(res => {
+            return res.data
+        })
+        .catch(err => {
+            return null
+        })
+}
 
 const getAllJobs = () => {
     return server.get(`api/job/all`)
@@ -45,7 +64,7 @@ const savedJob = (data) => {
         })
 }
 
-const deleteJob = (data) => {
+const deleteSavedJob = (data) => {
     return server.post(`api/job/delete/saved/candidate`, data)
         .then(res => {
             return res.data
@@ -55,7 +74,30 @@ const deleteJob = (data) => {
         })
 }
 
+// ADMIN 
+const getJobs = () => {
+    return server.get(`api/job/get/all`)
+        .then(res => {
+            // console.log(res.data);
+            return res.data
+        })
+        .catch(err => {
+            // console.log(err.response.data.details.message);
+            return null
+        })
+}
+
+const adminCreateJob = (data) => {
+    return server.post(`/api/job/admin/create`, data)
+        .then(res => {
+            return res.data
+        })
+        .catch(err => {
+            return null
+        })
+}
+
 const jobServices = {
-    createJob, getAllJobs, savedJob, deleteJob
+    createJob, updateJob, getAllJobs, savedJob, deleteSavedJob, deleteJob, getJobs, adminCreateJob
 }
 export default jobServices

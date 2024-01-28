@@ -4,15 +4,7 @@ import { useSnackbar } from 'notistack'
 import Iconify from '../Iconify';
 import candidateServices from '../../services/candidateServices';
 import { useSelector } from 'react-redux';
-import jobServices from '../../services/jobServices';
-// import TabContext from '@mui/lab/TabContext'
-// import TabList from '@mui/lab/TabList'
-// import TabPanel from '@mui/lab/TabPanel'
-// import Overview from '../components/profile/overview'
-// import { BrowseAllJobs } from '../components/job/browseAllJobs'
-// import jobServices from '../services/jobServices'
-// import { useSelector } from 'react-redux'
-// import { useNavigate } from 'react-router-dom'
+import jobServices from '../../services/jobServices'
 
 export default function SavedJobPage() {
     // console.log('Here>>>>>>>>>>>')
@@ -52,7 +44,7 @@ export default function SavedJobPage() {
             candidateId: user?._id,
             job
         }
-        const res = await jobServices.deleteJob(data)
+        const res = await jobServices.deleteSavedJob(data)
         console.log(res)
         if (res && res.success) {
             getCandidateById()
@@ -77,6 +69,7 @@ export default function SavedJobPage() {
                 {
                     candidateData?.jobsSaved?.map((data, idx) => (
                         <Stack sx={{
+                            width: "60%",
                             border: '1px solid #e0e0e0', borderRadius: "8px",
                             p: 2,
                             backgroundImage: "linear-gradient(178deg,#fafafa,#fff 35%)"
@@ -127,11 +120,6 @@ export default function SavedJobPage() {
                                             onClick={() => deleteSavedJob(data)}
                                         >
                                             Remove
-                                        </Button>
-                                        <Button variant="blackButton"
-                                            sx={{ fontSize: 12, width: "110px", height: "30px", bgcolor: 'black', fontWeight: 500, }}
-                                        >
-                                            Learn more
                                         </Button>
                                     </Stack>
                                 </Stack>

@@ -196,4 +196,28 @@ const getRecruiterApplicants = async (req, res) => {
     }
 }
 
-export { registerRecruiter, loginRecruiter, updateRecruiter, deleteRecruiter, getAllJobByRecruiterId, getRecruiterApplicants }
+// ADMIN 
+
+// @desc    Get All Recruiter
+// @route   GET /api/get/all
+// @access  Admin
+const getAllRecruiter = async (req, res) => {
+    try {
+        let recruiters = await Recruiter.find({})
+        res.status(200).json({
+            success: true,
+            data: recruiters,
+            message: `Get All Recruiters Successfully`,
+        })
+
+    } catch (error) {
+        console.log(`***** ERROR : ${req.originalUrl, error} error`);
+        res.status(200).json({
+            success: false,
+            data: error,
+        });
+    }
+}
+
+
+export { registerRecruiter, loginRecruiter, updateRecruiter, deleteRecruiter, getAllJobByRecruiterId, getRecruiterApplicants, getAllRecruiter }

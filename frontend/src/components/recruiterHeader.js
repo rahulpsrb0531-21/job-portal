@@ -80,7 +80,7 @@ const RecruiterHeader = () => {
             }}
             justifyContent={'space-between'}
         >
-            <Typography variant="logo" sx={{ color: "white" }} >W:</Typography>
+            <Typography variant="logo" sx={{ color: "white" }} >Logo</Typography>
             <Stack direction={'row'} justifyContent={'space-between'} alignItems={'center'}
                 sx={{ width: '20%' }}
             >
@@ -95,7 +95,7 @@ const RecruiterHeader = () => {
             </Stack>
             <Stack direction={'row'} alignItems={'center'}
                 justifyContent={'space-around'}
-                sx={{ width: "18%" }}
+                sx={{ width: "4%" }}
             >
                 {/* <Search>
                     <SearchIconWrapper>
@@ -106,7 +106,7 @@ const RecruiterHeader = () => {
                         inputProps={{ 'aria-label': 'search' }}
                     />
                 </Search> */}
-                <Iconify icon={"iconamoon:notification-fill"} sx={{ width: 24, height: 24, color: "white" }} />
+                {/* <Iconify icon={"iconamoon:notification-fill"} sx={{ width: 24, height: 24, color: "white" }} /> */}
                 <Stack direction={'row'} alignItems={'center'}>
                     {/* <Iconify icon={"mingcute:user-4-fill"} sx={{ width: 32, height: 32, color: "white" }} />
                     <Stack sx={{ color: "white" }} >

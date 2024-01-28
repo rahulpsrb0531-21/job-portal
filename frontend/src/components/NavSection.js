@@ -153,7 +153,7 @@ export default function NavSection({ navConfig, ...other }) {
   return (
     <List>
       {navConfig.map((item) => (
-        <Stack alignItems={'center'} sx={{ mr: 12 }} >
+        <Stack alignItems={'center'} >
           <NavItem key={item.title} item={item} active={match} />
         </Stack>
       ))

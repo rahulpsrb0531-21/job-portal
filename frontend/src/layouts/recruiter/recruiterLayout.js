@@ -21,7 +21,7 @@ const MainStyle = styled('div')(({ theme }) => ({
     overflow: 'auto',
     // minHeight: '10%',
     // paddingTop: 9,
-    paddingBottom: theme.spacing(10),
+    // paddingBottom: theme.spacing(10),
     [theme.breakpoints.up('lg')]: {
         // paddingTop: APP_BAR_DESKTOP + 24,
         // paddingLeft: theme.spacing(2),
@@ -45,8 +45,9 @@ export default function RecruiterLayout() {
             <RecruiterHeader />
             <RootStyle
                 sx={{
+                    mt: 8
                     // marginRight: { lg: 10 },
-                    paddingY: { lg: 6 },
+                    // paddingY: { lg: 6 },
                     // bgcolor: 'rgb(250, 250, 251)'
                     // bgcolor: 'white'
                 }}

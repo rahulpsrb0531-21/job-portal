@@ -6,7 +6,7 @@ import { useLocation } from "react-router-dom";
 
 export default function CompanyDetails() {
     const { state } = useLocation()
-    console.log(state)
+    // console.log(state)
     // const [value, setValue] = useState('1')
     // const handleChange = (event, newValue) => {
     //     setValue(newValue);

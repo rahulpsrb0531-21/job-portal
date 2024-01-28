@@ -16,8 +16,8 @@ export default function CandidatePopover() {
     const anchorRef = useRef(null)
     const [open, setOpen] = useState(false)
     const dispatch = useDispatch()
-    const { user } = useSelector((user) => user.auth)
-    // console.log(user)
+    const { user } = useSelector((state) => state.auth)
+    console.log(user)
     const handleOpen = () => {
         setOpen(true);
     }
@@ -56,7 +56,11 @@ export default function CandidatePopover() {
                 <Stack spacing={0.75}>
                     <Stack direction={'row'} alignItems={'center'} >
                         <Iconify icon={"mingcute:user-4-fill"} sx={{ width: 32, height: 32 }} />
-                        <Typography sx={{ fontSize: 14, fontWeight: 500 }} >{user?.candidateName || ''}</Typography>
+                        <Typography sx={{ fontSize: 14, fontWeight: 500 }} >{
+                            user?.role === "CANDIDATE" ? user?.candidateName :
+                                user?.role === "RECRUITER" ? user?.recruiterName :
+                                    user?.recruiterName
+                        }</Typography>
                     </Stack>
                     <Divider />
                     <Stack spacing={0.7} >

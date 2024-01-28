@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react'
 import { Box, Stack, Tab, Typography } from '@mui/material'
 import TabContext from '@mui/lab/TabContext'
 import TabList from '@mui/lab/TabList'
+import { useNavigate } from 'react-router-dom'
 import TabPanel from '@mui/lab/TabPanel'
 import Overview from '../components/profile/overview'
 import { BrowseAllJobs } from '../components/job/browseAllJobs'
@@ -11,7 +12,9 @@ import { useSelector } from 'react-redux'
 
 export default function AppliedPage() {
     const [value, setValue] = useState('1')
+    const navigate = useNavigate()
     const [appliedJob, setAppliedJob] = useState([])
+    const token = localStorage.getItem('access')
     const { user } = useSelector((state) => state.auth)
 
     const handleChange = (event, newValue) => {
@@ -30,13 +33,18 @@ export default function AppliedPage() {
     useEffect(() => {
         getAppliedJob()
     }, [user])
+
+    useEffect(() => {
+        if (!token) {
+            navigate('/login')
+        }
+    }, [])
     return (
         <Box sx={{ width: '100%', pt: 2 }}>
             <TabContext value={value}>
                 <Box sx={{ borderBottom: 1, borderColor: 'divider' }}>
                     <TabList onChange={handleChange} aria-label="lab API tabs example">
                         <Tab label="Ongoing " value="1" />
-                        <Tab label="Archived" value="2" />
                     </TabList>
                 </Box>
                 <TabPanel value="1">
@@ -47,6 +55,7 @@ export default function AppliedPage() {
                                 return (
                                     <Stack direction={'row'} justifyContent={'space-between'} alignItems={"start"}
                                         sx={{
+                                            width: "60%",
                                             border: '1px solid #e0e0e0', borderRadius: "4px", p: 1,
                                             ":hover": { boxShadow: 1 }
                                         }}
@@ -79,7 +88,6 @@ export default function AppliedPage() {
                         }
                     </Stack>
                 </TabPanel>
-                <TabPanel value="2">Archived</TabPanel>
             </TabContext>
         </Box>
     )

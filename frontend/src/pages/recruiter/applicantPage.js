@@ -25,50 +25,64 @@ export default function ApplicantPage() {
     useEffect(() => {
         getapplicantJob()
     }, [user])
+    // console.log(applicantJob)
     return (
         <Container>
             <Box sx={{ width: '100%', pt: 6 }}>
-                <Stack spacing={1} >
-                    {
-                        applicantJob?.map((data, idx) => {
-                            console.log(data)
-                            return (
-                                <Stack direction={'row'} justifyContent={'space-between'} alignItems={"start"}
-                                    sx={{
-                                        border: '1px solid #e0e0e0', borderRadius: "4px", p: 1,
-                                        ":hover": { boxShadow: 1 }
-                                    }}
-                                >
-                                    <Stack direction={'row'} spacing={1} >
-                                        {/* <Typography>Logo</Typography> */}
-                                        {/* <Box
+                {
+                    applicantJob?.length === 0 ? (
+                        <Box sx={{
+                            width: '60%',
+                            border: '1px solid #e0e0e0',
+                            borderRadius: "4px", p: 1,
+                        }} >
+                            <Typography sx={{ fontSize: 26, fontWeight: 700 }} >No applicant applied</Typography>
+                        </Box>
+                    ) : (
+
+                        <Stack spacing={1} >
+                            {
+                                applicantJob?.map((data, idx) => {
+                                    console.log(data)
+                                    return (
+                                        <Stack direction={'row'} justifyContent={'space-between'} alignItems={"start"}
+                                            sx={{
+                                                border: '1px solid #e0e0e0', borderRadius: "4px", p: 1,
+                                                ":hover": { boxShadow: 1 }
+                                            }}
+                                        >
+                                            <Stack direction={'row'} spacing={1} >
+                                                {/* <Typography>Logo</Typography> */}
+                                                {/* <Box
                                             component={'img'}
                                             src={data?.job?.company?.companyLogo}
                                             alt={data?.job?.company?.companyName}
                                             width={100}
                                             height={100}
                                         /> */}
-                                        <Box>
-                                            <Typography
-                                                sx={{ fontSize: 20, fontWeight: 500 }}
-                                            >{data?.name}</Typography>
-                                            <Typography
-                                                sx={{ fontSize: 20, fontWeight: 500 }}
-                                            >{data?.email}</Typography>
-                                            <Typography
-                                                sx={{ fontSize: 16, color: 'rgb(97, 97, 97)', bgcolor: "blue", width: 70, textAlign: 'center', p: 0.2, borderRadius: '8px' }}
-                                            >{"Resume"}</Typography>
-                                            <Typography
-                                                sx={{ fontSize: 12, fontWeight: 600 }}
-                                            >{data?.status}</Typography>
-                                        </Box>
-                                    </Stack>
-                                    <Iconify icon={"fluent:ios-arrow-24-regular"} sx={{ width: 16, height: 16, transform: "rotate(180deg)" }} />
-                                </Stack>
-                            )
-                        })
-                    }
-                </Stack>
+                                                <Box>
+                                                    <Typography
+                                                        sx={{ fontSize: 20, fontWeight: 500 }}
+                                                    >{data?.name}</Typography>
+                                                    <Typography
+                                                        sx={{ fontSize: 20, fontWeight: 500 }}
+                                                    >{data?.email}</Typography>
+                                                    <Typography
+                                                        sx={{ fontSize: 16, color: 'rgb(97, 97, 97)', bgcolor: "blue", width: 70, textAlign: 'center', p: 0.2, borderRadius: '8px' }}
+                                                    >{"Resume"}</Typography>
+                                                    <Typography
+                                                        sx={{ fontSize: 12, fontWeight: 600 }}
+                                                    >{data?.status}</Typography>
+                                                </Box>
+                                            </Stack>
+                                            <Iconify icon={"fluent:ios-arrow-24-regular"} sx={{ width: 16, height: 16, transform: "rotate(180deg)" }} />
+                                        </Stack>
+                                    )
+                                })
+                            }
+                        </Stack>
+                    )
+                }
             </Box>
         </Container>
     )

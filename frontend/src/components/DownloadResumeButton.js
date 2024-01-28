@@ -2,9 +2,9 @@ import React, { useState } from 'react';
 import axios from 'axios';
 import { server } from '../utils/server';
 import { useSelector } from 'react-redux';
+import { Stack } from '@mui/material';
 
 const DownloadResumeButton = ({ id }) => {
-    const [resumePath, setResumePath] = useState(null)
     const { user } = useSelector((state) => state.auth)
 
     const handleDownload = async () => {
@@ -24,9 +24,9 @@ const DownloadResumeButton = ({ id }) => {
     };
 
     return (
-        <div>
+        <Stack>
             <button onClick={handleDownload}>Download Resume</button>
-        </div>
+        </Stack>
     );
 };
 

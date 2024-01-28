@@ -30,7 +30,29 @@ const getApplicants = (id) => {
         })
 }
 
+
+// ADMIN 
+const getAllRecruiter = (id) => {
+    return server.get(`api/recruiter/get/all`)
+        .then(res => {
+            return res.data
+        })
+        .catch(err => {
+            return null
+        })
+}
+
+const adminUpdate = (data) => {
+    return server.put(`api/recruiter/admin/update`, data)
+        .then(res => {
+            return res.data
+        })
+        .catch(err => {
+            return null
+        })
+}
+
 const recruiterServices = {
-    update, getJobRecruiterById, getApplicants
+    update, getJobRecruiterById, getApplicants, getAllRecruiter, adminUpdate
 }
 export default recruiterServices

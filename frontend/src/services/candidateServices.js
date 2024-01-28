@@ -70,8 +70,32 @@ const deleteEducation = (deleteEducationData) => {
         })
 }
 
+const deleteResume = (data) => {
+    return server.post(`api/candidate/delete/resume`, data)
+        .then(res => {
+            // console.log(res.data);
+            return res.data
+        })
+        .catch(err => {
+            // console.log(err.response.data.details.message);
+            return null
+        })
+}
+
+// ADMIN 
+const getAllCandidate = (id) => {
+    return server.get(`api/candidate/get/all`)
+        .then(res => {
+            return res.data
+        })
+        .catch(err => {
+            // console.log(err.response.data.details.message);
+            return null
+        })
+}
+
 const candidateServices = {
     createCandidate, updateCandidate, getCandidateById, deleteWokrExp,
-    deleteEducation, getAppliedJobCandidateById
+    deleteEducation, getAppliedJobCandidateById, getAllCandidate, deleteResume
 }
 export default candidateServices

@@ -18,6 +18,15 @@ import RecruiterJobs from './pages/recruiter/recruiterJobs'
 import JobDetails from './pages/jobDetails'
 import ApplicantPage from './pages/recruiter/applicantPage'
 import CreateApplication from './pages/createApplication'
+import CandidateList from './pages/adminDashboard/candidate/candidateList'
+import AdminLayout from './layouts/adminDashboard/adminLayout'
+import RecruiterList from './pages/adminDashboard/recruiterList'
+import JobList from './pages/adminDashboard/job/jobList'
+import CreateCandidate from './pages/adminDashboard/candidate/createCandidate'
+import CreateJobByAdmin from './pages/adminDashboard/job/createJobByAdmin'
+import AdminLogin from './sections/adminLogin'
+import DashboardPage from './pages/recruiter/dashboardPage'
+import EditJob from './pages/recruiter/editJobPage'
 
 export default function Router() {
     const { user } = useSelector((state) => state.auth)
@@ -27,9 +36,10 @@ export default function Router() {
                 path: '/recruiter',
                 element: <RecruiterLayout />,
                 children: [
-                    { path: "dashboard", element: <CompanyDetails /> },
+                    { path: "dashboard", element: <DashboardPage /> },
                     { path: "jobs", element: <RecruiterJobs /> },
                     { path: "create/job", element: <CreateJob /> },
+                    { path: "edit/job", element: <EditJob /> },
                     { path: "applicant", element: <ApplicantPage /> },
                 ]
             },
@@ -46,6 +56,18 @@ export default function Router() {
                 { path: "create/application", element: <CreateApplication /> },
             ]
         },
+        user === "ADMIN" ? "" :
+            {
+                path: '/admin',
+                element: <AdminLayout />,
+                children: [
+                    { path: 'candidates', element: <CandidateList /> },
+                    { path: 'create/candidate', element: <CreateCandidate /> },
+                    { path: 'recruiters', element: <RecruiterList /> },
+                    { path: 'jobs', element: <JobList /> },
+                    { path: 'job/create', element: <CreateJobByAdmin /> }
+                ]
+            },
         {
             path: '/company',
             element: <MainLayout />,
@@ -53,20 +75,19 @@ export default function Router() {
                 { path: ":name", element: <CompanyDetails /> }
             ]
         },
+
+        // Candidate login and register staff 
         { path: '/', element: <MainPage /> },
         { path: '/login', element: <Login /> },
         { path: '/register', element: <Register /> },
-        // recruiter 
-        // user === 'RECRUITER' ? {
-        //     path: '/recruiter',
-        //     element: <RecruiterLayout />,
-        //     children: [
-        //         { path: "dashboard", element: <CompanyDetails /> },
-        //     ]
-        // } : "",
+
+        // Recruiter login and register staff
         { path: '/onboarding/recruiter/login', element: <RecruiterLogin /> },
         { path: '/onboarding/recruiter/sign-up', element: <RecruiterRegister /> },
         { path: '/onboarding/recruiter', element: <EditRecruiterProfile /> },
+
+        // Admin login staff
+        { path: '/admin/login', element: <AdminLogin /> },
 
     ])
 }

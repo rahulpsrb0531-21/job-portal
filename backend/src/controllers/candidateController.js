@@ -169,6 +169,7 @@ const updateCandidate = async (req, res) => {
     }
 }
 
+
 const getCandidateSaveJob = async (req, res) => {
     try {
         const ObjectId = mongoose.Types.ObjectId
@@ -303,8 +304,60 @@ const candidateDeleteEducation = async (req, res) => {
 }
 
 
+// @desc    Delete Candidate Resume
+// @route   POST /api/candidate/delete/resume
+// @access  private
+const candidateDeleteResume = async (req, res) => {
+    try {
+        console.log(req.body)
+        const { candidateId } = req.body
+        const updatedCandidate = await Candidate.findByIdAndUpdate({ _id: candidateId }, { $set: { resume: '' } }, { new: true });
+        if (!updatedCandidate) {
+            return res.status(404).json({ error: 'Candidate not found.' });
+        }
+
+        // res.json({ message: 'Candidate updated successfully.', updatedCandidate })
+        res.status(200).json({
+            success: true,
+            updatedCandidate,
+            message: 'Candidate updated successfully.'
+        })
+    } catch (error) {
+        console.log(`***** ERROR: ${req.originalUrl, error} error`)
+        res.status({
+            success: false,
+            message: error?.message
+        })
+    }
+}
+
+// ADMIN 
+
+// @desc    Get All Candidate
+// @route   GET /api/candidate/get/all
+// @access  Admin
+const getAllCandidate = async (req, res) => {
+    try {
+        let candidates = await Candidate.find({})
+        res.status(200).json({
+            success: true,
+            data: candidates,
+            message: `Get All Candidate Successfully`,
+        })
+
+    } catch (error) {
+        console.log(`***** ERROR : ${req.originalUrl, error} error`);
+        res.status(200).json({
+            success: false,
+            data: error,
+        });
+    }
+}
+
+
 
 export {
     registerCandidate, loginCandidate, getCandidateByid, updateCandidate, candidateDeleteWorkExpr,
-    candidateDeleteEducation, getCandidateAppliedJob, getResumeCandidateById
+    candidateDeleteEducation, getCandidateAppliedJob, getResumeCandidateById,
+    getAllCandidate, candidateDeleteResume
 }

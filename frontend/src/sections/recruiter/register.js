@@ -13,7 +13,7 @@ export default function RecruiterRegister() {
     const navigate = useNavigate()
     const dispatch = useDispatch()
     const { enqueueSnackbar } = useSnackbar()
-    // const token = localStorage.getItem('access')
+    const token = localStorage.getItem('access')
     // const { user } = useSelector((state) => state.auth)
 
     const registerSchema = Yup.object().shape({
@@ -54,6 +54,12 @@ export default function RecruiterRegister() {
             })
         }
     }
+
+    useEffect(() => {
+        if (token) {
+            navigate("/recruiter/dashboard", { replace: true })
+        }
+    }, [token])
 
     const {
         errors,

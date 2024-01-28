@@ -14,7 +14,7 @@ import { margin } from '@mui/system';
 
 // ----------------------------------------------------------------------
 
-const DRAWER_WIDTH = 140;
+// const DRAWER_WIDTH = 30;
 
 const RootStyle = styled('div')(({ theme }) => ({
   [theme.breakpoints.up('lg')]: {
@@ -62,41 +62,8 @@ export default function DashboardSidebar({ isOpenSidebar, onCloseSidebar }) {
   );
 
   return (
-    <RootStyle>
-      {!isDesktop && (
-        <Drawer
-          open={isOpenSidebar}
-          onClose={onCloseSidebar}
-          PaperProps={{
-            sx: { width: DRAWER_WIDTH },
-          }}
-        >
-          {renderContent}
-        </Drawer>
-      )}
-
-      {isDesktop && (
-        <Drawer
-          open
-          variant="persistent"
-          PaperProps={{
-            sx: {
-              // display: 'flex', alignItems: 'center',
-              // width: DRAWER_WIDTH,
-              // height: "80%",
-              top: "11%",
-              marginLeft: 2,
-              // paddingLeft: 5,
-              position: 'fixed',
-              border: 'none',
-              width: '12%',
-              // bgcolor: 'red'
-            },
-          }}
-        >
-          {renderContent}
-        </Drawer>
-      )}
-    </RootStyle>
+    <Stack spacing={2} sx={{ width: 120 }} >
+      {renderContent}
+    </Stack>
   );
 }

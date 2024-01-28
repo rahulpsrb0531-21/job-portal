@@ -13,7 +13,7 @@ export default function RecruiterLogin() {
     const navigate = useNavigate()
     const { enqueueSnackbar } = useSnackbar()
     const dispatch = useDispatch()
-    // const token = sessionStorage.getItem('access')
+    const token = sessionStorage.getItem('access')
     // const user = JSON.parse(sessionStorage.getItem('user'))
 
     const LoginSchema = Yup.object().shape({
@@ -44,11 +44,11 @@ export default function RecruiterLogin() {
         setFieldValue
     } = formik
 
-    // useEffect(() => {
-    //     if (token && user?.role === 'CANDIDATE') {
-    //         navigate("/jobs/profile", { replace: true })
-    //     }
-    // }, [token])
+    useEffect(() => {
+        if (token) {
+            navigate("/recruiter/dashboard", { replace: true })
+        }
+    }, [token])
 
     async function loginRecruiter(data) {
         const res = await authServices.recruiterLogin(data)
@@ -61,9 +61,7 @@ export default function RecruiterLogin() {
             })
             dispatch(setCredentials({ ...res }))
             localStorage.setItem("access", res.accessToken)
-            // sessionStorage.setItem("user", JSON.stringify(res.candidate))
-            // navigate("/jobs/profile", { replace: true })
-            navigate("/recruiter", { replace: true })
+            navigate("/recruiter/dashboard", { replace: true })
         } else {
             enqueueSnackbar(res?.data, {
                 variant: "error",

@@ -13,6 +13,7 @@ export default function JobDetails() {
     const navigate = useNavigate()
     const { enqueueSnackbar } = useSnackbar()
     const { user } = useSelector((state) => state.auth)
+    const token = localStorage.getItem('access')
     const [open, setOpen] = useState(false)
     // console.log(user)
     // console.log(state)
@@ -84,6 +85,12 @@ export default function JobDetails() {
             value: state?.jobResponsibilities[0]
         },
     ]
+
+    useEffect(() => {
+        if (!token) {
+            navigate('/login')
+        }
+    }, [])
 
     return (
         <Stack mt={6} spacing={2} >

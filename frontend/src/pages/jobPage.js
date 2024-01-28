@@ -17,6 +17,7 @@ export default function JobPage() {
     const { enqueueSnackbar } = useSnackbar()
     const [value, setValue] = useState('1')
     const [jobsData, setJobsData] = useState([])
+    const token = localStorage.getItem('access')
     const { user } = useSelector((state) => state.auth)
 
     const handleChange = (event, newValue) => {
@@ -62,6 +63,12 @@ export default function JobPage() {
         }
     }
 
+    useEffect(() => {
+        if (!token) {
+            navigate('/login')
+        }
+    }, [])
+
     return (
         <Box sx={{ width: '100%', pt: 2 }}>
             <TabContext value={value}>
@@ -76,6 +83,7 @@ export default function JobPage() {
                         {
                             jobsData?.map((data, idx) => (
                                 <Stack sx={{
+                                    width: "60%",
                                     border: '1px solid #e0e0e0', borderRadius: "8px",
                                     p: 2,
                                     backgroundImage: "linear-gradient(178deg,#fafafa,#fff 35%)"
@@ -85,8 +93,6 @@ export default function JobPage() {
                                             <Iconify icon={"mingcute:user-4-fill"} sx={{ width: 42, height: 42 }} />
                                             <Box>
                                                 <Typography
-                                                    // component={RouterLink}
-                                                    // to={`/company/${data?.companyName}`, }
                                                     onClick={() => navigate(`/company/${data?.companyName}`,
                                                         { state: data })}
                                                     sx={{ color: 'rgb(14, 17, 17)', fontSize: 18, fontWeight: 500, cursor: "pointer" }}
@@ -94,9 +100,6 @@ export default function JobPage() {
                                                 <Typography
                                                     sx={{ fontSize: 14 }}
                                                 >{data?.companyDescription}</Typography>
-                                                {/* <Typography
-                                                    sx={{ fontSize: 11, fontWeight: 500, color: 'rgb(158, 158, 158)' }}
-                                                >1-10 EMPLOYEES</Typography> */}
                                             </Box>
                                         </Stack>
                                         <Iconify icon={"fluent:ios-arrow-24-regular"} sx={{ width: 16, height: 16, transform: "rotate(180deg)" }} />

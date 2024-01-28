@@ -62,34 +62,42 @@ const createJob = async (req, res) => {
 // @access  private
 const updateJob = async (req, res) => {
     try {
-        const { _id, title, experience, website, companyName,
-            aboutCompany, jobOverview, qualifications, jobResponsibilities, jobRequirements, culture, location, reLocation, visaSponsorship, companyType, salaryRange, salaryCurrency, skills, jobDescription,
-            employmentType, recruiterId, } = req.body
+        console.log('shldfdhs', req.body)
+        const { id, company, recruiterId, title, experience, jobOverview,
+            qualifications, jobRequirements, jobResponsibilities, salaryRange, salaryCurrency,
+            location,
+            skills,
+            employmentType,
+            visaSponsorship,
+            reLocation } = req.body
 
-        let jobExist = await Job.findOne({ _id })
+        console.log(id, company, recruiterId, title, experience, jobOverview,
+            qualifications, jobRequirements, jobResponsibilities, salaryRange, salaryCurrency,
+            location,
+            skills,
+            employmentType,
+            visaSponsorship,
+            reLocation)
+
+        let jobExist = await Job.findOne({ _id: id })
 
         if (jobExist) {
-            console.log('1')
-            jobExist.title = title,
+            // console.log('1')
+            jobExist.company = company,
+                jobExist.recruiterId = recruiterId,
+                jobExist.title = title,
                 jobExist.experience = experience,
-                jobExist.website = website,
-                jobExist.companyName = companyName,
-                jobExist.aboutCompany = aboutCompany,
                 jobExist.jobOverview = jobOverview,
                 jobExist.qualifications = qualifications,
-                jobExist.jobResponsibilities = jobResponsibilities,
                 jobExist.jobRequirements = jobRequirements,
-                jobExist.culture = culture,
-                jobExist.location = location,
-                jobExist.reLocation = reLocation,
-                jobExist.visaSponsorship = visaSponsorship,
-                jobExist.companyType = companyType,
+                jobExist.jobResponsibilities = jobResponsibilities,
                 jobExist.salaryRange = salaryRange,
                 jobExist.salaryCurrency = salaryCurrency,
+                jobExist.location = location,
                 jobExist.skills = skills,
-                jobExist.jobDescription = jobDescription,
                 jobExist.employmentType = employmentType,
-                jobExist.recruiterId = recruiterId
+                jobExist.visaSponsorship = visaSponsorship,
+                jobExist.reLocation = reLocation
         }
         console.log('2')
         let updateJob = await jobExist.save()
@@ -111,7 +119,7 @@ const updateJob = async (req, res) => {
 }
 
 // @desc    Delete Job
-// @route   DELETE /api/Job/delete
+// @route   DELETE /api/Job/delete/:id
 // @access  private
 const deleteJob = async (req, res) => {
     try {
@@ -131,7 +139,7 @@ const deleteJob = async (req, res) => {
 }
 
 // @desc    Get Job By Id
-// @route   GET /api/Job/get/:id
+// @route   GET /api/Job/:id
 // @access  public
 const getJob = async (req, res) => {
     try {
@@ -152,10 +160,11 @@ const getJob = async (req, res) => {
 }
 
 // @desc    Get Job All
-// @route   GET /api/Job/get/all
+// @route   GET /api/Job/all
 // @access  public
 const getJobAll = async (req, res) => {
     try {
+        console.log('hldfh')
         // const job = await Job.find({})
         const job = await Job.aggregate([
             {
@@ -186,6 +195,7 @@ const getJobAll = async (req, res) => {
                 }
             }
         ])
+        console.log(job)
         res.status(200).json({
             success: true,
             job,
@@ -266,6 +276,25 @@ const deleteCandidateSaveJob = async (req, res) => {
     }
 }
 
+// ADMIN 
+// @desc    Get Job All
+// @route   GET /api/Job/get/all
+// @access  Admin
+const getAllJob = async (req, res) => {
+    try {
+        const job = await Job.find({})
+        res.status(200).json({
+            success: true,
+            data: job,
+            message: 'Get All Job  successfully',
+        })
+    } catch (error) {
+        console.log(`***** ERROR: ${req.originalUrl, error} error`)
+        res.status({
+            success: false,
+            data: error
+        })
+    }
+}
 
-
-export { createJob, updateJob, deleteJob, getJob, getJobAll, candidateSaveJob, deleteCandidateSaveJob }
+export { createJob, updateJob, deleteJob, getJob, getJobAll, candidateSaveJob, deleteCandidateSaveJob, getAllJob }

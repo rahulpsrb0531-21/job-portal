@@ -123,7 +123,7 @@ export default function EditRecruiterProfile() {
                 anchorOrigin: { horizontal: "right", vertical: "top" },
                 autoHideDuration: 1000
             })
-            navigate('/recruiter')
+            navigate('/recruiter/dashboard')
         } else {
             enqueueSnackbar('error', {
                 variant: "error",
@@ -166,7 +166,7 @@ export default function EditRecruiterProfile() {
         <FormikProvider value={formik}>
             <Form autoComplete="off" noValidate onSubmit={handleSubmit}>
                 <Stack justifyContent={'space-between'} direction={'row'}>
-                    <Box sx={{ bgcolor: 'black', width: '16%', textAlign: "center" }} >
+                    <Box sx={{ bgcolor: 'black', width: '18%', textAlign: "center", px: 1 }} >
                         <Typography sx={{ color: "white", fontSize: 18, pt: 4 }} >Set up your account</Typography>
                         <Typography sx={{ color: "white", fontSize: 12 }} >We make it easy for you to connect with high-quality startup talent who are ready for a new challenge.start sourcing today</Typography>
                     </Box>

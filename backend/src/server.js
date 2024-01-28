@@ -12,6 +12,7 @@ import recruiterRoute from './routes/recruiterRoute.js'
 import jobRoute from './routes/jobRoute.js'
 import candidateRoute from './routes/candidateRoute.js'
 import applicationRoute from './routes/applicationRoute.js'
+import adminRoute from './routes/adminRoute.js'
 import { handleResumeUpload } from './custom/uploadFile.js'
 import { uploadImage } from './custom/uploadImage.js'
 import Candidate from './model/candidateModal.js'
@@ -70,6 +71,7 @@ const StartServer = () => {
     router.use('/api/application', applicationRoute)
     router.use('/api/recruiter', recruiterRoute)
     router.use('/api/job', jobRoute)
+    router.use('/api/admin', adminRoute)
 
     router.post('/upload/resume/candidate/:id', handleResumeUpload, async (req, res) => {
 

@@ -45,7 +45,19 @@ const recruiterLogin = (data) => {
 }
 
 
+const adminLogin = (data) => {
+    return server.post(`api/admin/login`, data)
+        .then(res => {
+            return res.data
+        })
+        .catch(err => {
+            return null
+        })
+}
+
+
+
 const authServices = {
-    login, register, recruiterRegister, recruiterLogin
+    login, register, recruiterRegister, recruiterLogin, adminLogin
 }
 export default authServices

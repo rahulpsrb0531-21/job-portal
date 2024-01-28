@@ -56,22 +56,8 @@ const MainHeader = () => {
                 width: '100%',
                 p: 1
             }} >
-            <Typography variant="h2">W:</Typography>
+            <Typography variant="h2">Logo</Typography>
             <Stack direction={'row'} alignItems={'center'} spacing={2} >
-                <Typography sx={{
-                    fontSize: 14, fontWeight: 300,
-                    ":hover": {
-                        color: 'rgb(15, 111, 255)',
-                        textDecoration: 'underline'
-                    }
-                }}>Find Jobs</Typography>
-                <Typography sx={{
-                    fontSize: 14, fontWeight: 300,
-                    ":hover": {
-                        color: 'rgb(15, 111, 255)',
-                        textDecoration: 'underline'
-                    }
-                }} >For Recruiter</Typography>
                 <Button variant="outlined"
                     onClick={() => navigate('/login')}
                 >Log In</Button>

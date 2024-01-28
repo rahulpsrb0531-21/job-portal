@@ -1,5 +1,5 @@
-import React, { useState } from 'react'
-import { Link } from 'react-router-dom'
+import React, { useEffect, useState } from 'react'
+import { Link, useNavigate } from 'react-router-dom'
 import { Box, Tab, Typography } from '@mui/material'
 import TabContext from '@mui/lab/TabContext'
 import TabList from '@mui/lab/TabList'
@@ -9,11 +9,18 @@ import { CandidateProfile } from '../components/profile/condidateProfile'
 import { ResumeUpload } from '../components/profile/resumeUpload'
 
 export default function Profile() {
+    const navigate = useNavigate()
     const [value, setValue] = useState('1')
-
+    const token = localStorage.getItem('access')
     const handleChange = (event, newValue) => {
         setValue(newValue);
-    };
+    }
+
+    useEffect(() => {
+        if (!token) {
+            navigate('/login')
+        }
+    }, [])
 
     return (
         <Box>

@@ -26,17 +26,7 @@ const navConfig = [
     title: 'Applied',
     path: '/jobs/applications',
     icon: 'octicon:checklist-24'
-  },
-  {
-    title: 'Messages',
-    path: '/my/messages',
-    icon: 'mynaui:message'
-  },
-  {
-    title: 'Discover',
-    path: '/my/discover',
-    icon: 'mdi:compass-outline'
-  },
+  }
 ]
 
 export default navConfig
