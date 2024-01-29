@@ -1,13 +1,13 @@
 import React, { useCallback, useState } from 'react';
 import * as Yup from "yup"
 import Dialog from '@mui/material/Dialog';
-import { Box, Button, CardContent, FormControl, FormLabel, Stack, TextField, Typography } from '@mui/material';
+import { Box, Button, CardContent, FormControl, FormHelperText, FormLabel, Stack, TextField, Typography } from '@mui/material';
 import Iconify from "../components/Iconify";
 import { useSnackbar } from "notistack"
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 import { DatePicker } from '@mui/x-date-pickers/DatePicker';
-import { useFormik, Form, FormikProvider } from "formik"
+import { useFormik, Form, FormikProvider, getIn } from "formik"
 import candidateServices from '../services/candidateServices';
 import { useSelector } from 'react-redux';
 import moment from 'moment';
@@ -24,18 +24,18 @@ export default function CreateApplication({ open, setOpen, candidateData }) {
     const { user } = useSelector((state) => state.auth)
     const { enqueueSnackbar } = useSnackbar();
     const experienceSchema = Yup.object().shape({
-        resume: Yup.mixed(),
-        coverLetter: Yup.mixed(),
-        academicCertificates: Yup.mixed(),
-        professionalCertificates: Yup.mixed(),
-        proofOfIdentity: Yup.mixed(),
-        proofOfAddress: Yup.mixed(),
-        workPermits: Yup.mixed(),
-        righttoWorkDocumentation: Yup.mixed(),
-        drivingLicense: Yup.mixed(),
-        dbs: Yup.mixed(),
-        healthDeclaration: Yup.mixed(),
-        offerLetter: Yup.mixed(),
+        resume: Yup.mixed().required("upload resume"),
+        coverLetter: Yup.mixed().required("Upload Cover Letter"),
+        academicCertificates: Yup.mixed().required("Upload Academic Certificates"),
+        professionalCertificates: Yup.mixed().required("Upload Professional Certificates"),
+        proofOfIdentity: Yup.mixed().required("Upload Proof of Identity"),
+        proofOfAddress: Yup.mixed().required("Upload Proof of Address"),
+        workPermits: Yup.mixed().required("Upload Work Permits/Visa"),
+        righttoWorkDocumentation: Yup.mixed().required("Upload Right to Work Documentation"),
+        drivingLicense: Yup.mixed().required("Upload Driving License"),
+        dbs: Yup.mixed().required("Upload Disclosure and Barring Service"),
+        healthDeclaration: Yup.mixed().required("Upload Health Declaration"),
+        offerLetter: Yup.mixed().required("Upload Employment Contracts or Offer Letter"),
     })
     const formik = useFormik({
         initialValues: {
@@ -126,18 +126,41 @@ export default function CreateApplication({ open, setOpen, candidateData }) {
                             </Stack> */}
                             {/* <Stack direction={'row'}>
                                 <Typography variant="profilePageTitle">Cover Letter*</Typography> */}
-                            <UploadPdf title="resume" setFieldValue={setFieldValue} uploadName={"resume"} />
-                            <UploadPdf title="cover Letter" setFieldValue={setFieldValue} uploadName={"coverLetter"} />
-                            <UploadPdf title="academic Certificates" setFieldValue={setFieldValue} uploadName={"academicCertificates"} />
-                            <UploadPdf title="professional Certificates" setFieldValue={setFieldValue} uploadName={"professionalCertificates"} />
-                            <UploadPdf title="Proof Of Identity" setFieldValue={setFieldValue} uploadName={"proofOfIdentity"} />
-                            <UploadPdf title="Proof Of Address" setFieldValue={setFieldValue} uploadName={"proofOfAddress"} />
-                            <UploadPdf title="Work Permits/Visa" setFieldValue={setFieldValue} uploadName={"workPermits"} />
-                            <UploadPdf title="Right to Work Documentation" setFieldValue={setFieldValue} uploadName={"righttoWorkDocumentation"} />
-                            <UploadPdf title="Driving License" setFieldValue={setFieldValue} uploadName={"drivingLicense"} />
-                            <UploadPdf title="Disclosure and Barring Service" setFieldValue={setFieldValue} uploadName={"dbs"} />
-                            <UploadPdf title="Health Declaration" setFieldValue={setFieldValue} uploadName={"healthDeclaration"} />
-                            <UploadPdf title="Employment Contracts or Offer Letter" setFieldValue={setFieldValue} uploadName={"offerLetter"} />
+                            <UploadPdf title="resume" setFieldValue={setFieldValue} uploadName={"resume"}
+                                textHelper={touched.resume && errors.resume} />
+                            <UploadPdf title="cover Letter" setFieldValue={setFieldValue} uploadName={"coverLetter"}
+                                textHelper={touched.coverLetter && errors.coverLetter}
+                            />
+                            <UploadPdf title="academic Certificates" setFieldValue={setFieldValue} uploadName={"academicCertificates"}
+                                textHelper={touched.academicCertificates && errors.academicCertificates}
+                            />
+                            <UploadPdf title="professional Certificates" setFieldValue={setFieldValue} uploadName={"professionalCertificates"}
+                                textHelper={touched.professionalCertificates && errors.professionalCertificates}
+                            />
+                            <UploadPdf title="Proof Of Identity" setFieldValue={setFieldValue} uploadName={"proofOfIdentity"}
+                                textHelper={touched.proofOfIdentity && errors.proofOfIdentity}
+                            />
+                            <UploadPdf title="Proof Of Address" setFieldValue={setFieldValue} uploadName={"proofOfAddress"}
+                                textHelper={touched.proofOfAddress && errors.proofOfAddress}
+                            />
+                            <UploadPdf title="Work Permits/Visa" setFieldValue={setFieldValue} uploadName={"workPermits"}
+                                textHelper={touched.workPermits && errors.workPermits}
+                            />
+                            <UploadPdf title="Right to Work Documentation" setFieldValue={setFieldValue} uploadName={"righttoWorkDocumentation"}
+                                textHelper={touched.righttoWorkDocumentation && errors.righttoWorkDocumentation}
+                            />
+                            <UploadPdf title="Driving License" setFieldValue={setFieldValue} uploadName={"drivingLicense"}
+                                textHelper={touched.drivingLicense && errors.drivingLicense}
+                            />
+                            <UploadPdf title="Disclosure and Barring Service" setFieldValue={setFieldValue} uploadName={"dbs"}
+                                textHelper={touched.dbs && errors.dbs}
+                            />
+                            <UploadPdf title="Health Declaration" setFieldValue={setFieldValue} uploadName={"healthDeclaration"}
+                                textHelper={touched.healthDeclaration && errors.healthDeclaration}
+                            />
+                            <UploadPdf title="Employment Contracts or Offer Letter" setFieldValue={setFieldValue} uploadName={"offerLetter"}
+                                textHelper={touched.offerLetter && errors.offerLetter}
+                            />
                         </Stack>
                         <Stack direction={'row'} justifyContent={'end'} alignItems={'center'} spacing={1} >
                             <Button variant="outlined" sx={{ width: 80 }}
@@ -154,7 +177,7 @@ export default function CreateApplication({ open, setOpen, candidateData }) {
     )
 }
 
-const UploadPdf = ({ setFieldValue, uploadName, title }) => {
+const UploadPdf = ({ setFieldValue, uploadName, title, textHelper }) => {
     const [upload, setUpload] = useState(null)
     const SUPPORTED_FORMATS_PDF = ['application/pdf', 'application/octet-stream', "image/jpeg", "image/jpg"]
     const { user } = useSelector((state) => state.auth)
@@ -205,6 +228,7 @@ const UploadPdf = ({ setFieldValue, uploadName, title }) => {
                     </Stack>
                 )}
             </div>
+            <FormHelperText>{textHelper}</FormHelperText>
             {/* </FormControl> */}
         </Stack>
     )

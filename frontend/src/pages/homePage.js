@@ -39,7 +39,7 @@ const HomePage = () => {
 
     return (
         <Stack sx={{
-            bgcolor: 'rgb(255, 255, 255)', width: '100%',
+            bgcolor: 'rgb(255, 255, 255)', width: '60%',
             borderRadius: 0.4, p: 1, pt: 4
         }} spacing={1} >
             {/* <Typography sx={{ fontSize: 16, fontWeight: 500, textAlign: 'right' }} >Profile last updated on: Jan 9, 2024</Typography> */}
