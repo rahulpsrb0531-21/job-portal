@@ -52,7 +52,7 @@ export default function RecruiterRegister() {
                 navigate("/onboarding/recruiter/login", { replace: true })
             }
         } else {
-            enqueueSnackbar(res?.message, {
+            enqueueSnackbar(res?.data?.message, {
                 variant: "error",
                 anchorOrigin: { horizontal: "right", vertical: "top" }, autoHideDuration: 1000
             })

@@ -17,10 +17,10 @@ const registerCandidate = async (req, res) => {
         const candidateExists = await Candidate.findOne({ email })
         if (candidateExists) throw customError.userExists
         const newCandidate = await Candidate.create({
-            candidateName: candidateName,
-            email: email,
-            password: password,
-            role: role,
+            candidateName,
+            email,
+            password,
+            role,
             resume: ""
         })
         res.status(200).json({
