@@ -19,6 +19,7 @@ export default function JobPage() {
     const [jobsData, setJobsData] = useState([])
     const token = localStorage.getItem('access')
     const { user } = useSelector((state) => state.auth)
+    // console.log("user", user?.role !== "CANDIDATE")
 
     const handleChange = (event, newValue) => {
         setValue(newValue);
@@ -64,7 +65,7 @@ export default function JobPage() {
     }
 
     useEffect(() => {
-        if (!token) {
+        if (user?.role !== "CANDIDATE" && token) {
             navigate('/login')
         }
     }, [])

@@ -100,7 +100,7 @@ export default function AdminLogin() {
                             />
                         </FormControl>
                         <FormControl>
-                            <Typography sx={{ fontSize: 16, fontWeight: 700 }}>Paaword</Typography>
+                            <Typography sx={{ fontSize: 16, fontWeight: 700 }}>Password</Typography>
                             <TextField
                                 autoComplete="off"
                                 type="password" placeholder="Password"

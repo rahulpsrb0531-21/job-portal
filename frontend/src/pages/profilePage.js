@@ -7,17 +7,19 @@ import TabPanel from '@mui/lab/TabPanel'
 import Overview from '../components/profile/overview'
 import { CandidateProfile } from '../components/profile/condidateProfile'
 import { ResumeUpload } from '../components/profile/resumeUpload'
+import { useSelector } from 'react-redux'
 
 export default function Profile() {
     const navigate = useNavigate()
     const [value, setValue] = useState('1')
+    const { user } = useSelector((state) => state.auth)
     const token = localStorage.getItem('access')
     const handleChange = (event, newValue) => {
         setValue(newValue);
     }
 
     useEffect(() => {
-        if (!token) {
+        if (user?.role !== "CANDIDATE" && token) {
             navigate('/login')
         }
     }, [])

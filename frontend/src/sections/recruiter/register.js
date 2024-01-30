@@ -46,7 +46,11 @@ export default function RecruiterRegister() {
             })
             dispatch(setCredentials({ ...res }))
             localStorage.setItem("access", res.accessToken)
-            navigate("/onboarding/recruiter", { replace: true })
+            if (res.accessToken) {
+                navigate("/onboarding/recruiter", { replace: true })
+            } else {
+                navigate("/onboarding/recruiter/login", { replace: true })
+            }
         } else {
             enqueueSnackbar(res?.message, {
                 variant: "error",
@@ -55,11 +59,11 @@ export default function RecruiterRegister() {
         }
     }
 
-    useEffect(() => {
-        if (token) {
-            navigate("/recruiter/dashboard", { replace: true })
-        }
-    }, [token])
+    // useEffect(() => {
+    //     if (token) {
+    //         navigate("/recruiter/dashboard", { replace: true })
+    //     }
+    // }, [token])
 
     const {
         errors,
@@ -112,7 +116,7 @@ export default function RecruiterRegister() {
                             />
                         </FormControl>
                         <FormControl>
-                            <Typography sx={{ fontSize: 16, fontWeight: 700 }}>Paaword</Typography>
+                            <Typography sx={{ fontSize: 16, fontWeight: 700 }}>Password</Typography>
                             <TextField type="password" placeholder="enter password"
                                 sx={{ ".css-3ux5v-MuiInputBase-root-MuiOutlinedInput-root": { height: "40px", borderRadius: "2px" } }}
                                 {...getFieldProps("password")}

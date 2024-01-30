@@ -19,7 +19,7 @@ const HomePage = () => {
     }, [])
 
     useEffect(() => {
-        if (!token) {
+        if (user?.role !== "CANDIDATE" && token) {
             navigate('/login')
         }
     }, [])

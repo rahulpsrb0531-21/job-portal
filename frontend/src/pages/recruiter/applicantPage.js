@@ -17,7 +17,7 @@ export default function ApplicantPage() {
     }
 
     useEffect(() => {
-        if (!token) {
+        if (user?.role !== "RECRUITER" && token) {
             navigate('/login')
         }
     }, [])

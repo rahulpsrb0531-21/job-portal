@@ -17,7 +17,7 @@ export function ResumeUpload() {
     const [update, setUpdate] = useState(false)
     const SUPPORTED_FORMATS_PDF = ['application/pdf', 'application/octet-stream', "image/jpeg", "image/jpg"]
     const { user } = useSelector((state) => state.auth)
-
+    console.log('candidte', candidate)
     function download(url, filename) {
         Axios.get(url, {
             responseType: 'blob',
@@ -135,7 +135,7 @@ export function ResumeUpload() {
                         </div>
                     </FormControl>
                     {
-                        (candidate?.resume?.length !== 0) && (
+                        (candidate?.resume?.length === 0) ? "" : (
                             <Stack direction={'row'} alignItems={'center'} justifyContent={'space-between'} sx={{
                                 border: '0.4px solid #ccc', width: 300,
                                 p: 1,

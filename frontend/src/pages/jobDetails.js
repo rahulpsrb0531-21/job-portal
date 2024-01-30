@@ -87,7 +87,7 @@ export default function JobDetails() {
     ]
 
     useEffect(() => {
-        if (!token) {
+        if (user?.role !== "CANDIDATE" && token) {
             navigate('/login')
         }
     }, [])

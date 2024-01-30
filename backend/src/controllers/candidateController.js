@@ -14,14 +14,14 @@ const registerCandidate = async (req, res) => {
         console.log('req.body', req.body)
         const { candidateName, email, password, role } = req.body
         if (!candidateName || !email || !password || !role) throw customError.dataInvalid
-
         const candidateExists = await Candidate.findOne({ email })
         if (candidateExists) throw customError.userExists
         const newCandidate = await Candidate.create({
-            candidateName,
-            email,
-            password,
-            role
+            candidateName: candidateName,
+            email: email,
+            password: password,
+            role: role,
+            resume: ""
         })
         res.status(200).json({
             success: true,
@@ -150,9 +150,9 @@ const updateCandidate = async (req, res) => {
                 candidate.skills = skills,
                 candidate.achivements = achivements
         }
-        console.log('2')
+        // console.log('2')
         let updateCandidate = await candidate.save()
-        console.log('3')
+        // console.log('3')
 
         res.status(200).json({
             success: true,

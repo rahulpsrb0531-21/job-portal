@@ -17,7 +17,7 @@ export default function CandidatePopover() {
     const [open, setOpen] = useState(false)
     const dispatch = useDispatch()
     const { user } = useSelector((state) => state.auth)
-    console.log(user)
+    // console.log(user)
     const handleOpen = () => {
         setOpen(true);
     }

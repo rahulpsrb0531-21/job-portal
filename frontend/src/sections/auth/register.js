@@ -111,7 +111,7 @@ export default function Register() {
                             />
                         </FormControl>
                         <FormControl>
-                            <Typography sx={{ fontSize: 16, fontWeight: 700 }}>Paaword</Typography>
+                            <Typography sx={{ fontSize: 16, fontWeight: 700 }}>Password</Typography>
                             <TextField type="password" placeholder="enter password"
                                 sx={{ ".css-3ux5v-MuiInputBase-root-MuiOutlinedInput-root": { height: "40px", borderRadius: "2px" } }}
                                 {...getFieldProps("password")}

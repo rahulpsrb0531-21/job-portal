@@ -18,7 +18,7 @@ export default function EditRecruiterProfile() {
     const token = localStorage.getItem('access')
 
     useEffect(() => {
-        if (!token) {
+        if (user?.role !== "RECRUITER" && token) {
             navigate('/login')
         }
     }, [])

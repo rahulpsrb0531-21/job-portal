@@ -45,8 +45,8 @@ export default function RecruiterLogin() {
     } = formik
 
     useEffect(() => {
-        if (token) {
-            navigate("/recruiter/dashboard", { replace: true })
+        if (!token) {
+            navigate("/onboarding/recruiter/login", { replace: true })
         }
     }, [token])
 
@@ -99,7 +99,7 @@ export default function RecruiterLogin() {
                             />
                         </FormControl>
                         <FormControl>
-                            <Typography sx={{ fontSize: 16, fontWeight: 700 }}>Paaword</Typography>
+                            <Typography sx={{ fontSize: 16, fontWeight: 700 }}>Password</Typography>
                             <TextField
                                 autoComplete="off"
                                 type="password" placeholder="Password"

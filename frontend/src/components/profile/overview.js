@@ -7,7 +7,7 @@ import Iconify from "../Iconify";
 export default function Overview() {
     const { user } = useSelector((state) => state.auth)
     const [candidateData, setCandidateData] = useState(null)
-    console.log(candidateData)
+    // console.log(candidateData)
 
     async function getCandidateById(data) {
         const id = user?._id
