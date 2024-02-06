@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react"
-import { filter } from 'lodash';
+import { filter, set } from 'lodash';
 import candidateServices from "../../../services/candidateServices";
 // @mui
 import {
@@ -12,12 +12,15 @@ import { AdminListToolbar } from "../../../sections/adminDashboard";
 import SearchNotFound from "../../../components/SearchNotFound";
 import recruiterServices from "../../../services/recruiterServices";
 import jobServices from "../../../services/jobServices";
+// import DeleteModal from "../../../components/deleteModal";
+import Iconify from "../../../components/Iconify";
+import DeleteModal from "../../../components/modal/admin/deleteModal";
 
 const TABLE_HEAD = [
     { id: 'name', label: 'Company Name', alignRight: false },
+    { id: 'recruiterName', label: 'Recruiter Name', alignRight: false },
     { id: 'title', label: 'Title', alignRight: false },
-    { id: 'employmentType', label: 'Employment Type', alignRight: false },
-    // { id: 'companyType', label: 'Company Type', alignRight: false },
+    { id: 'employmentType', label: 'Employment Type', alignRight: false }
 ]
 
 // ----------------------------------------------------------------------
@@ -69,7 +72,8 @@ export default function JobList() {
 
     const [rowsPerPage, setRowsPerPage] = useState(5)
 
-    const [openModal, setOpenModal] = useState(false)
+    const [open, setOpen] = useState(false)
+    const [id, setId] = useState('')
 
     useEffect(() => {
         getAllJob()
@@ -78,6 +82,7 @@ export default function JobList() {
     async function getAllJob() {
         const res = await jobServices.getJobs()
         if (res && res.success) {
+            console.log("res", res?.data)
             setJobs(res?.data)
         }
     }
@@ -134,22 +139,22 @@ export default function JobList() {
 
     return (
         <Container sx={{ m: 0, mt: 2.3 }} maxWidth="xl">
+            <DeleteModal open={open} setOpen={setOpen} tag={"JOB"} id={id} reDirectFunction={getAllJob} />
             <Stack direction="row" alignItems="center" justifyContent="space-between" mb={1.5}>
                 <Typography variant="h3" sx={{ color: "#43425D" }}>
-                    Recruiter
+                    Jobs
                 </Typography>
                 <Button
                     variant="blackButton"
                     onClick={() => navigate("/admin/job/create")}
                 >
-                    Add New Recruiter
+                    Add New Job
                 </Button>
             </Stack>
             <Grid container>
                 <Grid item xs={12} md={12} lg={12}>
                     <Card
                         sx={{
-                            // width: "90rem",
                             height: "auto",
                             boxShadow: "0px 2px 6px #0000000A",
                             borderRadius: 0,
@@ -177,16 +182,14 @@ export default function JobList() {
                                         {filteredJobs
                                             .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
                                             .map((row, i) => {
-                                                console.log(row)
                                                 const { company, title, employmentType } = row
                                                 return (
-                                                    <TableRow hover sx={{ cursor: 'pointer' }} tabIndex={-1}
-                                                    //   onClick={() =>
-                                                    //     navigate("referral-detail", { state: row })
-                                                    //   }
-                                                    >
+                                                    <TableRow hover sx={{ cursor: 'pointer' }} tabIndex={-1}>
                                                         <TableCell align="left">
                                                             {company?.companyName}
+                                                        </TableCell>
+                                                        <TableCell align="left">
+                                                            {company?.recruiterName}
                                                         </TableCell>
                                                         <TableCell align="left">
                                                             {title}
@@ -194,9 +197,25 @@ export default function JobList() {
                                                         <TableCell align="left">
                                                             {employmentType}
                                                         </TableCell>
-                                                        {/* <TableCell align="left">
-                                                            {companyType}
-                                                        </TableCell> */}
+                                                        <TableCell align="left">
+                                                            <Box onClick={() => {
+                                                                setId(row?._id);
+                                                                setOpen(true)
+                                                            }} >
+                                                                <Iconify icon={"bi:trash-fill"}
+                                                                    sx={{ bgColor: "red", width: 24, height: 24 }}
+                                                                />
+                                                            </Box>
+                                                        </TableCell>
+                                                        <TableCell align="left">
+                                                            <Box
+                                                                onClick={() => navigate('/admin/edit/job', { state: row })}
+                                                            >
+                                                                <Iconify icon={"mdi:pencil-box"}
+                                                                    sx={{ bgColor: "red", width: 24, height: 24 }}
+                                                                />
+                                                            </Box>
+                                                        </TableCell>
                                                     </TableRow>
                                                 )
                                             })}

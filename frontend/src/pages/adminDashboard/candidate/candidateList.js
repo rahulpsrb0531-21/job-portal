@@ -137,12 +137,12 @@ export default function CandidateList() {
                 <Typography variant="h3" sx={{ color: "#43425D" }}>
                     Candidates
                 </Typography>
-                <Button
+                {/* <Button
                     variant="blackButton"
                 // onClick={()=>{setOpenModal(true)}}
                 >
                     Add New Candidate
-                </Button>
+                </Button> */}
             </Stack>
             <Grid container>
                 <Grid item xs={12} md={12} lg={12}>

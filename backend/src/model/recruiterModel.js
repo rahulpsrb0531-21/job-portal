@@ -1,5 +1,6 @@
 import mongoose from "mongoose"
 import bcrypt from 'bcryptjs'
+import { validateEmail } from "./candidateModal.js"
 
 const recruiterSchema = mongoose.Schema(
     {
@@ -20,20 +21,12 @@ const recruiterSchema = mongoose.Schema(
         // email: { type: String, required: true },
         email: {
             type: String,
+            required: true,
+            unique: true,
             validate: {
-                validator: async function (email) {
-                    const user = await this.constructor.findOne({ email });
-                    if (user) {
-                        if (this.id === user.id) {
-                            return true;
-                        }
-                        return false;
-                    }
-                    return true;
-                },
-                message: props => 'The specified email address is already in use.'
+                validator: validateEmail,
+                message: 'Please enter a valid Gmail, Yahoo, or Hotmail email address',
             },
-            required: [true, 'User email required']
         },
         workEmail: { type: String },
         password: { type: String, required: true },

@@ -14,7 +14,7 @@ import candidateRoute from './routes/candidateRoute.js'
 import applicationRoute from './routes/applicationRoute.js'
 import adminRoute from './routes/adminRoute.js'
 import { handleResumeUpload } from './custom/uploadFile.js'
-import { uploadImage } from './custom/uploadImage.js'
+import { handleImageUpload } from './custom/uploadImage.js'
 import Candidate from './model/candidateModal.js'
 
 const router = express()
@@ -73,8 +73,8 @@ const StartServer = () => {
     router.use('/api/job', jobRoute)
     router.use('/api/admin', adminRoute)
 
-    router.post('/upload/resume/candidate/:id', handleResumeUpload, async (req, res) => {
 
+    router.post('/upload/resume/candidate/:id', handleResumeUpload, async (req, res) => {
         const _id = req.params.id
         const filePath = req.file.path
         try {
@@ -94,10 +94,16 @@ const StartServer = () => {
             res.status(500).json({ error: 'Internal Server Error' });
         }
     })
-    router.post('/upload-image', uploadImage.single('image'), (req, res) => {
+
+    // router.post('/upload-image', uploadImage.single('image'), (req, res) => {
+    //     const filePath = req.file.path;
+    //     res.json({ message: 'Uploaded successfully', filePath })
+    // })
+    router.post('/upload-image', handleImageUpload, async (req, res) => {
         const filePath = req.file.path;
         res.json({ message: 'Uploaded successfully', filePath })
     })
+
     router.post('/upload/candidate/document', handleResumeUpload, async (req, res) => {
         const filePath = req.file.path
         try {

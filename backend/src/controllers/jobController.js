@@ -62,7 +62,6 @@ const createJob = async (req, res) => {
 // @access  private
 const updateJob = async (req, res) => {
     try {
-        console.log('shldfdhs', req.body)
         const { id, company, recruiterId, title, experience, jobOverview,
             qualifications, jobRequirements, jobResponsibilities, salaryRange, salaryCurrency,
             location,
@@ -70,14 +69,7 @@ const updateJob = async (req, res) => {
             employmentType,
             visaSponsorship,
             reLocation } = req.body
-
-        console.log(id, company, recruiterId, title, experience, jobOverview,
-            qualifications, jobRequirements, jobResponsibilities, salaryRange, salaryCurrency,
-            location,
-            skills,
-            employmentType,
-            visaSponsorship,
-            reLocation)
+        // console.log('')
 
         let jobExist = await Job.findOne({ _id: id })
 

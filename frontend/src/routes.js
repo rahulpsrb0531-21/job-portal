@@ -20,13 +20,16 @@ import ApplicantPage from './pages/recruiter/applicantPage'
 import CreateApplication from './pages/createApplication'
 import CandidateList from './pages/adminDashboard/candidate/candidateList'
 import AdminLayout from './layouts/adminDashboard/adminLayout'
-import RecruiterList from './pages/adminDashboard/recruiterList'
+import RecruiterList from './pages/adminDashboard/recruiter/recruiterList'
 import JobList from './pages/adminDashboard/job/jobList'
 import CreateCandidate from './pages/adminDashboard/candidate/createCandidate'
 import CreateJobByAdmin from './pages/adminDashboard/job/createJobByAdmin'
 import AdminLogin from './sections/adminLogin'
 import DashboardPage from './pages/recruiter/dashboardPage'
 import EditJob from './pages/recruiter/editJobPage'
+import CreateRecruiter from './pages/adminDashboard/recruiter/createRecruiter'
+import UpdateJobByAdmin from './pages/adminDashboard/job/updateJobByAdmin'
+import UpdateRecruiterByAdmin from './pages/adminDashboard/recruiter/updateRecruiterByAdmin'
 
 export default function Router() {
     const { user } = useSelector((state) => state.auth)
@@ -64,8 +67,11 @@ export default function Router() {
                     { path: 'candidates', element: <CandidateList /> },
                     { path: 'create/candidate', element: <CreateCandidate /> },
                     { path: 'recruiters', element: <RecruiterList /> },
+                    { path: 'create/recruiter', element: <CreateRecruiter /> },
+                    { path: 'edit/recruiter', element: <UpdateRecruiterByAdmin /> },
                     { path: 'jobs', element: <JobList /> },
-                    { path: 'job/create', element: <CreateJobByAdmin /> }
+                    { path: 'job/create', element: <CreateJobByAdmin /> },
+                    { path: 'edit/job', element: <UpdateJobByAdmin /> }
                 ]
             },
         {

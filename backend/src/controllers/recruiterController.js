@@ -12,7 +12,7 @@ const loginRecruiter = async (req, res) => {
     try {
         const { email, password } = req.body
         if (!email || !password) throw customError.dataInvalid
-
+        console.log(email, password)
         let foundRecruiter = await Recruiter.findOne({ email })
 
         if (foundRecruiter && (await foundRecruiter.matchPassword(password))) {
@@ -71,7 +71,7 @@ const registerRecruiter = async (req, res) => {
     }
 }
 
-// @desc    Update Recruiter
+// @desc   Update Recruiter
 // @route   UPDATE /api/recruiter/update
 // @access  private
 const updateRecruiter = async (req, res) => {
@@ -79,19 +79,14 @@ const updateRecruiter = async (req, res) => {
         const { companyLogo, companyName, companyDescription, oneLinePitch,
             companySize, companyType, markets, location, phone, workEmail,
             website, twitter, linkedIn, facebook, blogUrl, recruiterName, email } = req.body
-
-        // console.log('0')
-        // if (!companyLogo || !companyName || !companyDescription || !oneLinePitch
-        //     || !companySize || !companyType || !markets || !location || !phone || !workEmail
-        //     || !website || !twitter || !linkedIn || !facebook || !blogUrl
-        //     || !recruiterName || !email
-        // ) throw customError.dataInvalid
-        console.log('1')
+        // console.log('1')
         const recruiterExists = await Recruiter.findOne({ email })
-        console.log('2')
+        // console.log('2')
         if (recruiterExists) {
             recruiterExists.companyLogo = companyLogo
             recruiterExists.companyName = companyName
+            recruiterExists.recruiterName = recruiterName
+            recruiterExists.email = email
             recruiterExists.companyDescription = companyDescription
             recruiterExists.oneLinePitch = oneLinePitch
             recruiterExists.companySize = companySize
@@ -106,9 +101,9 @@ const updateRecruiter = async (req, res) => {
             recruiterExists.facebook = facebook
             recruiterExists.blogUrl = blogUrl
         }
-        console.log('3')
+        // console.log('3')
         let recruiterUpdate = await recruiterExists.save()
-        console.log('4')
+        // console.log('4')
         res.status(200).json({
             success: true,
             recruiter: recruiterUpdate,
@@ -132,8 +127,6 @@ const deleteRecruiter = async (req, res) => {
         const _id = req.params.id
         console.log(_id)
         const recruiter = await Recruiter.deleteOne({ _id: _id })
-        // if (recruiter) {
-        // await recruiter.remove()
         res.status(200).json({
             success: true,
             message: 'Recruiter deleted successfully',

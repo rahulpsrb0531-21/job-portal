@@ -1,19 +1,21 @@
 import { useEffect, useState } from "react"
 import { filter } from 'lodash';
-import candidateServices from "../../services/candidateServices";
+import candidateServices from "../../../services/candidateServices";
 // @mui
 import {
     Card, Table, Stack, Paper, Button, Popover, TableRow, MenuItem, TableBody, TableCell, Container, Typography, IconButton,
     TableContainer, TablePagination, Box, Grid, Tab, Tabs, CardContent
 } from '@mui/material'
 import { useNavigate } from "react-router-dom";
-import TableHeadComponent from "../../sections/adminDashboard/TableHead";
-import { AdminListToolbar } from "../../sections/adminDashboard";
-import SearchNotFound from "../../components/SearchNotFound";
-import recruiterServices from "../../services/recruiterServices";
+import TableHeadComponent from "../../../sections/adminDashboard/TableHead";
+import { AdminListToolbar } from "../../../sections/adminDashboard";
+import SearchNotFound from "../../../components/SearchNotFound";
+import recruiterServices from "../../../services/recruiterServices";
+import DeleteModal from "../../../components/modal/admin/deleteModal";
+import Iconify from "../../../components/Iconify";
 
 const TABLE_HEAD = [
-    { id: 'name', label: 'Name', alignRight: false },
+    { id: 'name', label: 'Recruiter Name', alignRight: false },
     { id: 'email', label: 'Email', alignRight: false },
     { id: 'companyName', label: 'Company Name', alignRight: false },
     { id: 'companyType', label: 'Company Type', alignRight: false },
@@ -68,7 +70,8 @@ export default function RecruiterList() {
 
     const [rowsPerPage, setRowsPerPage] = useState(5)
 
-    const [openModal, setOpenModal] = useState(false)
+    const [open, setOpen] = useState(false)
+    const [id, setId] = useState("")
 
     useEffect(() => {
         getAllRecruiter()
@@ -133,13 +136,16 @@ export default function RecruiterList() {
 
     return (
         <Container sx={{ m: 0, mt: 2.3 }} maxWidth="xl">
+            <DeleteModal open={open} setOpen={setOpen} tag={"RECRUITER"}
+                id={id} reDirectFunction={getAllRecruiter}
+            />
             <Stack direction="row" alignItems="center" justifyContent="space-between" mb={1.5}>
                 <Typography variant="h3" sx={{ color: "#43425D" }}>
                     Recruiter
                 </Typography>
                 <Button
                     variant="blackButton"
-                // onClick={()=>{setOpenModal(true)}}
+                    onClick={() => navigate("/admin/create/recruiter")}
                 >
                     Add New Recruiter
                 </Button>
@@ -195,6 +201,25 @@ export default function RecruiterList() {
                                                         </TableCell>
                                                         <TableCell align="left">
                                                             {companyType}
+                                                        </TableCell>
+                                                        <TableCell align="left">
+                                                            <Box onClick={() => {
+                                                                setId(row?._id);
+                                                                setOpen(true)
+                                                            }} >
+                                                                <Iconify icon={"bi:trash-fill"}
+                                                                    sx={{ bgColor: "red", width: 24, height: 24 }}
+                                                                />
+                                                            </Box>
+                                                        </TableCell>
+                                                        <TableCell align="left">
+                                                            <Box
+                                                                onClick={() => navigate('/admin/edit/recruiter', { state: row })}
+                                                            >
+                                                                <Iconify icon={"mdi:pencil-box"}
+                                                                    sx={{ bgColor: "red", width: 24, height: 24 }}
+                                                                />
+                                                            </Box>
                                                         </TableCell>
                                                     </TableRow>
                                                 )
