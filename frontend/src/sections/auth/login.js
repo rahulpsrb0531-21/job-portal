@@ -74,11 +74,14 @@ export default function Login() {
     return (
         <FormikProvider value={formik}>
             <Form autoComplete="off" noValidate onSubmit={handleSubmit}>
-                <Stack direction={'row'}
+                <Stack
+                    direction={{ xs: "column", lg: 'row' }}
                     alignItems={'center'}
                     justifyContent={'space-evenly'}
-                    sx={{ width: "100%", pt: 10 }} >
-                    <Stack sx={{ width: '22%' }} spacing={2}>
+                    sx={{ width: "100%", pt: 10 }}
+                    spacing={4}
+                >
+                    <Stack sx={{ width: { xs: '90%', lg: '22%' } }} spacing={2}>
                         <Box sx={{ textAlign: 'center' }} >
                             <Typography
                                 sx={{ fontSize: 36, fontWeight: 700, color: 'gb(6, 6, 6)' }}
@@ -133,7 +136,7 @@ export default function Login() {
                             </Typography>
                         </Stack>
                     </Stack>
-                    <Stack sx={{ width: '20%' }}>
+                    <Stack sx={{ width: { xs: '80%', lg: '20%' } }}>
                         <Typography
                             sx={{ fontSize: 46, fontWeight: 700, textAlign: "center" }}
                         >Find the job made for you.</Typography>

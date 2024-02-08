@@ -16,6 +16,7 @@ import adminRoute from './routes/adminRoute.js'
 import { handleResumeUpload } from './custom/uploadFile.js'
 import { handleImageUpload } from './custom/uploadImage.js'
 import Candidate from './model/candidateModal.js'
+import { handleDocumentUpload } from './custom/uploadDoc.js'
 
 const router = express()
 
@@ -82,8 +83,8 @@ const StartServer = () => {
                 { _id: _id },
                 { $set: { resume: filePath } },
                 { new: true }
-            );
-
+            )
+            console.log("Successful")
             if (!candidate) {
                 return res.status(404).json({ error: 'Candidate not found' });
             }
@@ -95,23 +96,45 @@ const StartServer = () => {
         }
     })
 
-    // router.post('/upload-image', uploadImage.single('image'), (req, res) => {
-    //     const filePath = req.file.path;
-    //     res.json({ message: 'Uploaded successfully', filePath })
-    // })
     router.post('/upload-image', handleImageUpload, async (req, res) => {
         const filePath = req.file.path;
         res.json({ message: 'Uploaded successfully', filePath })
     })
 
-    router.post('/upload/candidate/document', handleResumeUpload, async (req, res) => {
+    router.post('/upload/candidate/document/:id/:docName', handleDocumentUpload, async (req, res) => {
+        const _id = req.params.id
+        const docName = req.params.docName
         const filePath = req.file.path
+
         try {
-            res.json({ message: 'Uploaded successfully', filePath })
+            const updateFields = {};
+            updateFields[docName] = filePath
+
+            const updatedCandidate = await Candidate.findOneAndUpdate(
+                { _id: _id },
+                { $set: updateFields },
+                { new: true }
+            )
+            if (!updatedCandidate) {
+                return res.status(404).json({ error: 'Candidate not found' });
+            }
+
+            res.json({
+                success: true,
+                updatedCandidate: updatedCandidate
+            });
         } catch (error) {
             console.error('Error updating resume:', error);
             res.status(500).json({ error: 'Internal Server Error' });
         }
+
+        // const filePath = req.file.path
+        // try {
+        //     res.json({ message: 'Uploaded successfully', filePath })
+        // } catch (error) {
+        //     console.error('Error updating resume:', error);
+        //     res.status(500).json({ error: 'Internal Server Error' });
+        // }
     })
 
     router.listen(config.server.port, () => Logging.info(`Server is running on port ${config.server.port}`));

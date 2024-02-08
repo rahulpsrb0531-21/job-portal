@@ -6,7 +6,7 @@ import { isAdmin, isCandidate, isRecruiter, verifyToken } from "../middleware/ve
 // router.get('/get/:id', getJob)
 router.get('/:id', getCandidateByid)
 router.get('/job/saved/:candidateId', verifyToken, isCandidate, getCandidateByid)
-router.get('/upload/resume/:id', verifyToken, isCandidate, getResumeCandidateById)
+router.get('/upload/resume/:id/:uploadName', verifyToken, isCandidate, getResumeCandidateById)
 router.get('/applied/job/:candidateId', verifyToken, isCandidate, getCandidateAppliedJob)
 router.put('/update/:id', verifyToken, isCandidate, updateCandidate)
 router.post('/login', loginCandidate)

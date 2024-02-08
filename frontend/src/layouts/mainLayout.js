@@ -5,11 +5,6 @@ import { Navigate, Outlet, useLocation } from "react-router-dom"
 import Header from "../components/header"
 import DashboardSidebar from "./dashboard/DashboardSidebar"
 
-const RootStyle = styled('div')({
-    display: 'flex',
-    minHeight: '100%',
-    overflow: 'hidden'
-});
 
 const MainStyle = styled('div')(({ theme }) => ({
     flexGrow: 1,
@@ -34,21 +29,21 @@ export default function MainLayout() {
             }}
         >
             <Header />
-            <RootStyle
+            <Stack
+                direction={{ xs: "column", lg: 'row' }}
                 sx={{
-                    mt: 8, ml: 1
-                    // marginRight: { lg: 10 }, paddingY: { lg: 6 },
-                    // bgcolor: 'rgb(250, 250, 251)'
-                    // bgcolor: 'white'
+                    mt: 8,
+                    ml: 1,
+                    overflow: "hidden",
+                    minHeight: '100%'
                 }}
             >
-                <DashboardSidebar
-                    isOpenSidebar={open} onCloseSidebar={() => setOpen(false)}
-                />
+                <DashboardSidebar />
                 <MainStyle>
                     <Outlet />
                 </MainStyle>
-            </RootStyle>
+                {/* <DashboardSidebar device="mobile"/> */}
+            </Stack>
             {/* <Divider /> */}
             {/* <Footer /> */}
         </Stack>

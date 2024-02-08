@@ -1,77 +1,57 @@
-import React, { useCallback, useState } from 'react';
+import React, { useCallback, useState, useEffect } from 'react';
 import * as Yup from "yup"
 import Dialog from '@mui/material/Dialog';
-import { Box, Button, CardContent, FormControl, FormHelperText, FormLabel, Stack, TextField, Typography } from '@mui/material';
-import Iconify from "../components/Iconify";
+import { Box, Button, CardContent, Divider, FormControl, FormHelperText, FormLabel, MenuItem, Select, Stack, TextField, Typography } from '@mui/material';
+import Iconify from "../../components/Iconify";
 import { useSnackbar } from "notistack"
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 import { DatePicker } from '@mui/x-date-pickers/DatePicker';
 import { useFormik, Form, FormikProvider, getIn } from "formik"
-import candidateServices from '../services/candidateServices';
+import candidateServices from '../../services/candidateServices';
 import { useSelector } from 'react-redux';
 import moment from 'moment';
 import Axios from "axios"
 import { useDropzone } from 'react-dropzone';
-import { server } from '../utils/server';
+import { server } from '../../utils/server';
 import { useLocation, useNavigate } from 'react-router-dom';
-import applicationServices from '../services/applicationServices';
+import applicationServices from '../../services/applicationServices';
+import { experienceData } from '../../utils/basicData';
 
 export default function CreateApplication({ open, setOpen, candidateData }) {
     const { state } = useLocation()
     const navigate = useNavigate()
-    // console.log('state', state)
+    const [candidate, setCandidate] = useState({})
     const { user } = useSelector((state) => state.auth)
     const { enqueueSnackbar } = useSnackbar();
     const experienceSchema = Yup.object().shape({
-        resume: Yup.mixed().required("upload resume"),
-        coverLetter: Yup.mixed().required("Upload Cover Letter"),
-        academicCertificates: Yup.mixed().required("Upload Academic Certificates"),
-        professionalCertificates: Yup.mixed().required("Upload Professional Certificates"),
-        proofOfIdentity: Yup.mixed().required("Upload Proof of Identity"),
-        proofOfAddress: Yup.mixed().required("Upload Proof of Address"),
-        workPermits: Yup.mixed().required("Upload Work Permits/Visa"),
-        righttoWorkDocumentation: Yup.mixed().required("Upload Right to Work Documentation"),
-        drivingLicense: Yup.mixed().required("Upload Driving License"),
-        dbs: Yup.mixed().required("Upload Disclosure and Barring Service"),
-        healthDeclaration: Yup.mixed().required("Upload Health Declaration"),
-        offerLetter: Yup.mixed().required("Upload Employment Contracts or Offer Letter"),
+        totalYearExp: Yup.string().required("Total Years Experience"),
+        relavantWork: Yup.string().required("Write relevant work experience")
     })
     const formik = useFormik({
         initialValues: {
-            resume: null,
-            coverLetter: null,
-            academicCertificates: null,
-            professionalCertificates: null,
-            proofOfIdentity: null,
-            proofOfAddress: null,
-            workPermits: null,
-            righttoWorkDocumentation: null,
-            drivingLicense: null,
-            dbs: null,
-            healthDeclaration: null,
-            offerLetter: null
+            totalYearExp: "",
+            relavantWork: ""
         },
         validationSchema: experienceSchema,
         onSubmit: (v) => {
             const data = {
+                totalYearExp: v?.totalYearExp,
+                relavantWork: v?.relavantWork,
                 candidateId: user?._id,
                 jobId: state,
-                resume: v?.resume,
-                coverLetter: v?.coverLetter,
-                academicCertificates: v?.academicCertificates,
-                professionalCertificates: v?.professionalCertificates,
-                proofOfIdentity: v?.proofOfIdentity,
-                proofOfAddress: v?.proofOfAddress,
-                workPermits: v?.workPermits,
-                righttoWorkDocumentation: v?.righttoWorkDocumentation,
-                drivingLicense: v?.drivingLicense,
-                dbs: v?.dbs,
-                healthDeclaration: v?.healthDeclaration,
-                offerLetter: v?.offerLetter
+                resume: candidate?.resume
             }
             // console.log('data>>>>>', data)
-            createApplication(data)
+            if (candidate?.resume?.length !== 0) {
+                createApplication(data)
+                // console.log("fine")
+            } else {
+                enqueueSnackbar("Please Upload Resume ", {
+                    variant: "error",
+                    anchorOrigin: { horizontal: "right", vertical: "top" }, autoHideDuration: 1000
+                })
+            }
         },
     })
 
@@ -82,12 +62,6 @@ export default function CreateApplication({ open, setOpen, candidateData }) {
     }
 
     async function createApplication(data) {
-        // const data = {
-        //     candidateId: user?._id,
-        //     jobId: state?._id,
-        //     about: "Testing Application"
-        // }
-        // console.log(data)
         const res = await applicationServices.create(data)
         if (res && res.success) {
             enqueueSnackbar(res?.message, {
@@ -97,7 +71,25 @@ export default function CreateApplication({ open, setOpen, candidateData }) {
             })
             navigate('/jobs/applications')
         } else {
-            enqueueSnackbar(res?.data, {
+            enqueueSnackbar(res?.data?.message, {
+                variant: "error",
+                anchorOrigin: { horizontal: "right", vertical: "top" }, autoHideDuration: 1000
+            })
+        }
+    }
+
+    useEffect(() => {
+        getCandidateById()
+    }, [])
+
+    async function getCandidateById(data) {
+        const id = user?._id
+        const res = await candidateServices.getCandidateById(id)
+        if (res && res.success) {
+            setCandidate(res?.candidate)
+        } else {
+            console.log(res?.data)
+            enqueueSnackbar('Something went wrong', {
                 variant: "error",
                 anchorOrigin: { horizontal: "right", vertical: "top" }, autoHideDuration: 1000
             })
@@ -116,16 +108,44 @@ export default function CreateApplication({ open, setOpen, candidateData }) {
                 <Form autoComplete="off" noValidate onSubmit={handleSubmit}>
                     {/* <CardContent > */}
                     <Stack spacing={2} sx={{ p: 2 }}  >
-                        <Stack direction={'row'} justifyContent='space-between' alignItems={'center'} >
-                            <Typography variant="h4" color={"#2D2F39"}>Create Application</Typography>
+                        <Typography variant="h4" color={"#2D2F39"}>Create Application</Typography>
+
+                        <Stack spacing={0.6}>
+                            <Typography variant="profilePageTitle" >Total work experience*</Typography>
+                            <Select
+                                sx={{
+                                    ".css-k6dkf7-MuiSelect-select-MuiInputBase-input-MuiOutlinedInput-input": { p: 1 },
+                                    width: '58%'
+                                }}
+                                value={values.totalYearExp} {...getFieldProps('totalYearExp')}
+                            >
+                                {
+                                    experienceData?.map((data, idx) => (
+                                        <MenuItem key={idx} value={data} >{data}</MenuItem>
+                                    ))
+                                }
+                            </Select>
+                            <FormHelperText>{touched.totalYearExp && errors.totalYearExp}</FormHelperText>
                         </Stack>
-                        <Stack spacing={2} >
-                            {/* <Stack direction={'row'} alignItems={'center'} >
-                                <Typography variant="profilePageTitle">Company*</Typography>
-                                <UploadPdf setFieldValue={setFieldValue} uploadName={"resume"} />
-                            </Stack> */}
-                            {/* <Stack direction={'row'}>
-                                <Typography variant="profilePageTitle">Cover Letter*</Typography> */}
+                        <Stack spacing={0.6}>
+                            <Typography variant="profilePageTitle" >Write relevant work experience?*</Typography>
+                            <TextField
+                                multiline={true}
+                                rows={4}
+                                sx={{
+                                    ".css-k6dkf7-MuiSelect-select-MuiInputBase-input-MuiOutlinedInput-input": { p: 1 },
+                                    width: '58%'
+                                }}
+                                placeholder='Write a note to Dkrin to let them know why you think you’d be a good fit.'
+                                {...getFieldProps("relavantWork")}
+                                error={Boolean(touched.relavantWork && errors.relavantWork)}
+                                helperText={touched.relavantWork && errors.relavantWork}
+
+
+                            />
+                        </Stack>
+                        <Divider />
+                        {/* <Stack spacing={2} >
                             <UploadPdf title="resume" setFieldValue={setFieldValue} uploadName={"resume"}
                                 textHelper={touched.resume && errors.resume} />
                             <UploadPdf title="cover Letter" setFieldValue={setFieldValue} uploadName={"coverLetter"}
@@ -161,7 +181,7 @@ export default function CreateApplication({ open, setOpen, candidateData }) {
                             <UploadPdf title="Employment Contracts or Offer Letter" setFieldValue={setFieldValue} uploadName={"offerLetter"}
                                 textHelper={touched.offerLetter && errors.offerLetter}
                             />
-                        </Stack>
+                        </Stack> */}
                         <Stack direction={'row'} justifyContent={'end'} alignItems={'center'} spacing={1} >
                             <Button variant="outlined" sx={{ width: 80 }}
                             // onClick={() => onClose()}
@@ -191,8 +211,8 @@ const UploadPdf = ({ setFieldValue, uploadName, title, textHelper }) => {
 
         // Upload the resume file to the server using axios or your preferred HTTP library
         const formData = new FormData();
-        formData.append('resume', docFile);
-        server.post(`upload/candidate/document`, formData)
+        formData.append('document', docFile);
+        server.post(`upload/candidate/document/${user?._id}/${uploadName}`, formData)
             .then(res => {
                 setFieldValue(uploadName, res?.data?.filePath)
                 // console.log('res.data', res.data)
@@ -210,7 +230,7 @@ const UploadPdf = ({ setFieldValue, uploadName, title, textHelper }) => {
     })
     return (
         <Stack direction={'row'} spacing={2} alignItems={'center'} >
-            <Box sx={{ width: 180 }} >
+            <Box sx={{ width: 196 }} >
                 <Typography variant="profilePageTitle" sx={{ pb: 1 }}>
                     {title}*
                 </Typography>

@@ -9,14 +9,9 @@ import Job from "../model/jobModel.js";
 // @access  public 
 const applyApplication = async (req, res) => {
     try {
-        const { candidateId, jobId, coverLetter,
-            academicCertificates, professionalCertificates, proofOfIdentity,
-            proofOfAddress, workPermits, righttoWorkDocumentation, drivingLicense,
-            dbs, healthDeclaration, offerLetter } = req.body
-        if (!candidateId || !jobId ||
-            !coverLetter || !academicCertificates || !professionalCertificates ||
-            !proofOfIdentity || !proofOfAddress || !workPermits || !righttoWorkDocumentation
-            || !drivingLicense || !dbs || !healthDeclaration || !offerLetter) throw customError.dataInvalid
+        const { totalYearExp, relavantWork, candidateId, jobId } = req.body
+        if (
+            !totalYearExp || !relavantWork || !candidateId || !jobId) throw customError.dataInvalid
 
         // if job not exits throw error 
         let jobExists = await Job.findById({ _id: jobId })
@@ -34,23 +29,14 @@ const applyApplication = async (req, res) => {
         if (newApp) throw customError.applicationExists
 
         const newApplication = await Application.create({
+            totalYearExp: totalYearExp,
+            relavantWork: relavantWork,
             candidate: candidateExists,
             job: jobExists,
             name: candidateExists.candidateName,
             email: candidateExists.email,
             resume: candidateExists.resume,
             status: 'pending',
-            coverLetter,
-            academicCertificates,
-            professionalCertificates,
-            proofOfIdentity,
-            proofOfAddress,
-            workPermits,
-            righttoWorkDocumentation,
-            drivingLicense,
-            dbs,
-            healthDeclaration,
-            offerLetter,
         })
 
         // Update the candidate document to include the application ID in the appliedJobs array

@@ -1,11 +1,11 @@
 import React, { useEffect, useState } from "react"
 import { TabContext, TabList, TabPanel } from "@mui/lab";
 import { Box, Button, Divider, Stack, Tab, Typography } from "@mui/material";
-import OverView from "../components/company/overview";
+import OverView from "../../components/company/overview";
 import { useLocation, useNavigate } from "react-router-dom";
 import { useSelector } from "react-redux";
-import candidateServices from "../services/candidateServices";
-import applicationServices from "../services/applicationServices";
+import candidateServices from "../../services/candidateServices";
+import applicationServices from "../../services/applicationServices";
 import { useSnackbar } from "notistack";
 
 export default function JobDetails() {

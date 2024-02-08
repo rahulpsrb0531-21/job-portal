@@ -103,11 +103,12 @@ const getCandidateByid = async (req, res) => {
 const getResumeCandidateById = async (req, res) => {
     try {
         const _id = req.params.id
+        const uploadName = req.params.uploadName
         // Find the candidate by their ID
         let candidate = await Candidate.findOne({ _id })
 
         // Send the resume file as a download
-        res.download(candidate.resume, 'resume.pdf')
+        res.download(candidate[uploadName], `document.pdf`)
 
     } catch (error) {
         console.log(`***** ERROR : ${req.originalUrl, error} error`);
@@ -310,8 +311,18 @@ const candidateDeleteEducation = async (req, res) => {
 const candidateDeleteResume = async (req, res) => {
     try {
         console.log(req.body)
-        const { candidateId } = req.body
-        const updatedCandidate = await Candidate.findByIdAndUpdate({ _id: candidateId }, { $set: { resume: '' } }, { new: true });
+        const { candidateId, docName } = req.body
+        // const updatedCandidate = await Candidate.findByIdAndUpdate({ _id: candidateId }, { $set: { resume: '' } }, { new: true });
+
+        const updateFields = {}
+        updateFields[docName] = ""
+
+        const updatedCandidate = await Candidate.findOneAndUpdate(
+            { _id: candidateId },
+            { $set: updateFields },
+            { new: true }
+        )
+
         if (!updatedCandidate) {
             return res.status(404).json({ error: 'Candidate not found.' });
         }

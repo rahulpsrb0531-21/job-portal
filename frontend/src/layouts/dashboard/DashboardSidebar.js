@@ -21,37 +21,25 @@ const RootStyle = styled('div')(({ theme }) => ({
     flexShrink: 0,
     width: 156,
   },
-  // marginTop: 1,
-  // backgroundColor: "rgb(250, 250, 251)",
-  // borderRight: "0.2px solid #E1E1E1",
   zIndex: 1,
 
 
-}));
+}))
 
-// const AccountStyle = styled('div')(({ theme }) => ({
-//   display: 'flex',
-//   alignItems: 'center',
-//   padding: theme.spacing(2, 2.5),
-// }));
+//------------------------------------------
 
-// ----------------------------------------------------------------------
 
-DashboardSidebar.propTypes = {
-  isOpenSidebar: PropTypes.bool,
-  onCloseSidebar: PropTypes.func,
-};
-
-export default function DashboardSidebar({ isOpenSidebar, onCloseSidebar }) {
+export default function DashboardSidebar() {
   const { pathname } = useLocation()
   // const { user } = useSelector((state) => state.auth)
   const isDesktop = useResponsive('up', 'lg')
+  console.log('isDesktop', isDesktop)
 
-  useEffect(() => {
-    if (isOpenSidebar) {
-      onCloseSidebar();
-    }
-  }, [pathname]);
+  // useEffect(() => {
+  //   if (isOpenSidebar) {
+  //     onCloseSidebar();
+  //   }
+  // }, [pathname]);
 
   const renderContent = (
     <Box
@@ -62,7 +50,16 @@ export default function DashboardSidebar({ isOpenSidebar, onCloseSidebar }) {
   );
 
   return (
-    <Stack spacing={2} sx={{ width: 120 }} >
+    <Stack spacing={2}
+      sx={{
+        // bgcolor: "red",
+        display: isDesktop === true ? "block" : "none",
+        width: {
+          xs: "100%",
+          lg: 120
+        }
+      }}
+    >
       {renderContent}
     </Stack>
   );

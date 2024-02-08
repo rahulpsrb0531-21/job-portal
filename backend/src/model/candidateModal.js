@@ -74,7 +74,21 @@ const conditateSchema = mongoose.Schema(
         },
         password: { type: String },
         location: { type: String },
+
+        // DOCUMENTS 
         resume: { type: String },
+        coverLetter: { type: String },
+        academicCertificates: { type: String },
+        professionalCertificates: { type: String },
+        proofOfIdentity: { type: String },
+        proofOfAddress: { type: String },
+        workPermits: { type: String },
+        righttoWorkDocumentation: { type: String },
+        drivingLicense: { type: String },
+        dbs: { type: String },
+        healthDeclaration: { type: String },
+        offerLetter: { type: String },
+
         // like backend, frontend and fullstack developer etc... 
         primaryRole: { type: String },
         yearsOfExperience: { type: String },

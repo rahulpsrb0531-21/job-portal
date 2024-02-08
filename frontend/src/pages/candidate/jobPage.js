@@ -4,13 +4,13 @@ import { Box, Button, Tab, Stack, Typography } from "@mui/material"
 import TabContext from '@mui/lab/TabContext'
 import TabList from '@mui/lab/TabList'
 import TabPanel from '@mui/lab/TabPanel'
-import Overview from '../components/profile/overview'
-import { BrowseAllJobs } from '../components/job/browseAllJobs'
-import jobServices from '../services/jobServices'
+import Overview from '../../components/profile/overview'
+import { BrowseAllJobs } from '../../components/job/browseAllJobs'
+import jobServices from '../../services/jobServices'
 import { useSnackbar } from 'notistack'
-import Iconify from '../components/Iconify'
+import Iconify from '../../components/Iconify'
 import { useSelector } from 'react-redux'
-import SavedJobPage from '../components/job/savedJobcard'
+import SavedJobPage from '../../components/job/savedJobcard'
 
 export default function JobPage() {
     const navigate = useNavigate()
@@ -72,6 +72,9 @@ export default function JobPage() {
 
     return (
         <Box sx={{ width: '100%', pt: 2 }}>
+            <Box sx={{ position: 'fixed' }} >
+                <Typography>Search</Typography>
+            </Box>
             <TabContext value={value}>
                 <Box sx={{ borderBottom: 1, borderColor: 'divider' }}>
                     <TabList onChange={handleChange} aria-label="lab API tabs example">

@@ -1,9 +1,9 @@
 import { Box, Divider, Link, Stack, Typography } from "@mui/material"
-import Iconify from "../components/Iconify"
+import Iconify from "../../components/Iconify"
 import { Link as RouterLink, useNavigate } from 'react-router-dom'
 import { useSelector } from "react-redux"
 import { useState, useEffect } from "react"
-import candidateServices from "../services/candidateServices"
+import candidateServices from "../../services/candidateServices"
 import { useSnackbar } from "notistack"
 
 const HomePage = () => {

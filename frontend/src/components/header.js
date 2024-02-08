@@ -66,55 +66,19 @@ const Header = () => {
             }}
             justifyContent={'space-between'}
         >
-            <Typography variant="logo" >Logo</Typography>
+            {/* <Typography variant="logo" >Logo</Typography> */}
+            <Box
+                component={"img"}
+                src="/images/logo.png"
+                sx={{
+                    width: 100,
+                    objectFit: "cover"
+                }}
+            />
             <Stack direction={'row'} alignItems={'center'}
                 justifyContent={'space-between'}
-            // sx={{ width: "100%" }}
             >
-                {/* <Stack direction={'row'} justifyContent={"right"} spacing={4} sx={{ width: "100%", px: 2 }} >
-                    <Typography component={RouterLink}
-                        to='/jobs/home'
-                        sx={{
-                            fontSize: 16, fontWeight: 700, textDecoration: "none", color: "black"
-                            , '&:hover': {
-                                color: "black",
-                                textDecoration: "underline"
-                            }
-                        }}>Home</Typography>
-                    <Typography component={RouterLink}
-                        to='/jobs/profile'
-                        sx={{
-                            fontSize: 16, fontWeight: 700, textDecoration: "none", color: "black"
-                            , '&:hover': {
-                                color: "black",
-                                textDecoration: "underline"
-                            }
-                        }}
-                    >Profile</Typography>
-                    <Typography component={RouterLink}
-                        to='/jobs/lists'
-                        sx={{
-                            fontSize: 16, fontWeight: 700, textDecoration: "none", color: "black"
-                            , '&:hover': {
-                                color: "black",
-                                textDecoration: "underline"
-                            }
-                        }}
-                    >Job</Typography>
-                    <Typography component={RouterLink}
-                        to='/jobs/applications'
-                        sx={{
-                            fontSize: 16, fontWeight: 700, textDecoration: "none", color: "black"
-                            , '&:hover': {
-                                color: "black",
-                                textDecoration: "underline"
-                            }
-                        }}
-                    >Applied</Typography>
-                </Stack> */}
                 <Stack direction={'row'} alignItems={'center'}>
-                    {/* <Iconify icon={"mingcute:user-4-fill"} sx={{ width: 32, height: 32 }} />
-                    <Iconify icon={"fluent:ios-arrow-24-regular"} sx={{ width: 18, height: 18, transform: "rotate(270deg)" }} /> */}
                     <CandidatePopover />
                 </Stack>
             </Stack>

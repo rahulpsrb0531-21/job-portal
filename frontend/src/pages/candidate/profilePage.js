@@ -4,15 +4,16 @@ import { Box, Tab, Typography } from '@mui/material'
 import TabContext from '@mui/lab/TabContext'
 import TabList from '@mui/lab/TabList'
 import TabPanel from '@mui/lab/TabPanel'
-import Overview from '../components/profile/overview'
-import { CandidateProfile } from '../components/profile/condidateProfile'
-import { ResumeUpload } from '../components/profile/resumeUpload'
+import Overview from '../../components/profile/overview'
+import { CandidateProfile } from '../../components/profile/condidateProfile'
+import DocumentUpload from '../../components/profile/documentUpload'
 import { useSelector } from 'react-redux'
 
 export default function Profile() {
     const navigate = useNavigate()
     const [value, setValue] = useState('1')
     const { user } = useSelector((state) => state.auth)
+    console.log('user', user)
     const token = localStorage.getItem('access')
     const handleChange = (event, newValue) => {
         setValue(newValue);
@@ -32,12 +33,12 @@ export default function Profile() {
                     <TabList onChange={handleChange} aria-label="lab API tabs example">
                         <Tab label="Overview" value="1" />
                         <Tab label="Profile" value="2" />
-                        <Tab label="Resume/CV" value="3" />
+                        <Tab label="Upload Document/CV" value="3" />
                     </TabList>
                 </Box>
                 <TabPanel value="1"><Overview /></TabPanel>
                 <TabPanel value="2"><CandidateProfile /></TabPanel>
-                <TabPanel value="3"><ResumeUpload /></TabPanel>
+                <TabPanel value="3"><DocumentUpload /></TabPanel>
             </TabContext>
         </Box>
     );

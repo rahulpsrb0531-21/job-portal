@@ -8,7 +8,7 @@ export default function CssBaseline() {
           margin: 0,
           padding: 0,
           boxSizing: 'border-box',
-          userSelect: "none",
+          // userSelect: "none",
 
         },
         html: {

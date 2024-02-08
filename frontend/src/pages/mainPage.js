@@ -17,9 +17,10 @@ export function MainPage() {
                     sx={{
                         border: "2px dashed black",
                         borderRadius: '4px',
-                        fontSize: 52, fontWeight: 600,
+                        fontSize: { xs: 38, lg: 52 }, fontWeight: 600,
                         textAlign: 'center',
-                        width: '34%'
+                        width: { xs: '80%', lg: '34%' }
+                        // width: '34%'
                     }}
                 >Find what's next</Typography>
                 {/* </Stack>
@@ -49,9 +50,6 @@ const MainHeader = () => {
             sx={{
                 bgcolor: "white",
                 borderBottom: '1px solid #e0e0e0',
-                // position: "fixed",
-                // top: 0,
-                // transition: "background 0.5s ease",
                 zIndex: 1,
                 width: '100%',
                 p: 1
@@ -75,11 +73,11 @@ const MainHeader = () => {
                     }}
                 >
                     <Box sx={{ p: 1.4 }} >
-                        <Typography sx={{ fontSize: 12 }}
+                        <Typography sx={{ fontSize: 12, cursor: "pointer" }}
                             onClick={() => navigate('/login')}
                         >I'm looking for a job</Typography>
-                        <Typography sx={{ fontSize: 12 }}
-                            onClick={() => navigate('/onboarding/recruiter/sign-up')}
+                        <Typography sx={{ fontSize: 12, cursor: "pointer" }}
+                            onClick={() => navigate('/onboarding/recruiter/login')}
                         >I'm looking for candidates</Typography>
                     </Box>
                 </Popover>

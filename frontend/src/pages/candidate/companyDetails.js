@@ -1,7 +1,7 @@
 import React, { useState } from "react"
 import { TabContext, TabList, TabPanel } from "@mui/lab";
 import { Box, Button, Divider, Stack, Tab, Typography } from "@mui/material";
-import OverView from "../components/company/overview";
+import OverView from "../../components/company/overview";
 import { useLocation } from "react-router-dom";
 
 export default function CompanyDetails() {

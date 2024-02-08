@@ -124,10 +124,10 @@ export default function RecruiterLogin() {
                             <Typography
                                 sx={{
                                     fontSize: 14, fontWeight: 700, color: "rgb(0, 0, 0)", ":hover": {
-                                        textDecoration: 'underline'
+                                        textDecoration: 'underline', cursor: "pointer"
                                     }
                                 }}
-                                onClick={() => navigate("/register")}
+                                onClick={() => navigate("/onboarding/recruiter/sign-up")}
                             >Create an Account
                             </Typography>
                         </Stack>
