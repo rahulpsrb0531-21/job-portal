@@ -21,8 +21,8 @@ export default function JobPage() {
     // console.log(jobsData)
     const token = localStorage.getItem('access')
     const { user } = useSelector((state) => state.auth)
-    const [designations, setDesignations] = useState([])
-    const [locations, setLocations] = useState([])
+    const [designations, setDesignations] = useState('')
+    const [locations, setLocations] = useState('')
     const [experience, setExperience] = useState('')
 
     const handleChange = (event, newValue) => {
@@ -84,11 +84,7 @@ export default function JobPage() {
             // console.log(res)
             if (res && res.success) {
                 console.log("res>>>>", res)
-                enqueueSnackbar(res?.message, {
-                    variant: "success",
-                    anchorOrigin: { horizontal: "right", vertical: "top" },
-                    autoHideDuration: 1300
-                })
+                setJobsData(res?.jobs)
             } else {
                 enqueueSnackbar("error", {
                     variant: "error",
@@ -108,6 +104,13 @@ export default function JobPage() {
             navigate('/login')
         }
     }, [])
+
+    const handlerClearAll = () => {
+        setDesignations("");
+        setLocations("");
+        setExperience("");
+        getJobs()
+    }
 
     return (
         <Box sx={{ width: '100%' }}>
@@ -197,6 +200,7 @@ export default function JobPage() {
                             <Stack direction={{ xs: 'column', lg: 'row' }} flexWrap={'wrap'} rowGap={1} columnGap={1} >
                                 <TextField sx={{ ".css-3ux5v-MuiInputBase-root-MuiOutlinedInput-root": { height: "40px" }, width: "81%" }}
                                     onChange={(e) => setDesignations(e.target.value)}
+                                    value={designations}
                                     placeholder='Desinagation'
                                 />
                                 {/* <Autocomplete
@@ -225,7 +229,11 @@ export default function JobPage() {
                                 <Select
                                     sx={{ ".css-k6dkf7-MuiSelect-select-MuiInputBase-input-MuiOutlinedInput-input": { p: 2 }, width: { xs: "90%", lg: "40%" } }}
                                     value={experience}
+                                    placeholder='djls'
                                 >
+                                    <MenuItem disabled value="">
+                                        <em>Placeholder</em>
+                                    </MenuItem>
                                     {
                                         experienceData?.map((data, idx) => (
                                             <MenuItem key={idx} value={data}
@@ -235,6 +243,7 @@ export default function JobPage() {
                                     }
                                 </Select>
                                 <TextField sx={{ width: { lg: "40%" } }}
+                                    value={locations}
                                     onChange={(e) => setLocations(e.target.value)}
                                     placeholder='Location'
                                 />
@@ -265,7 +274,7 @@ export default function JobPage() {
                             </Stack>
                             <Stack direction={'row'} spacing={1} mt={1} >
                                 <Button variant='outlined' sx={{ width: '40%' }}
-                                // onClick={() => searchJob()}
+                                    onClick={() => handlerClearAll()}
                                 >Clear All</Button>
                                 <Button variant='blackButton' sx={{ width: '40%' }}
                                     onClick={() => searchJob()}
@@ -281,15 +290,34 @@ export default function JobPage() {
                                         p: 2,
                                         backgroundImage: "linear-gradient(178deg,#fafafa,#fff 35%)"
                                     }} >
-                                        {console.log(data)}
-                                        <Typography
-                                            onClick={() => navigate(`/company/${data?.company?.companyName}`,
-                                                { state: data })}
-                                            sx={{ color: 'rgb(14, 17, 17)', fontSize: 18, fontWeight: 500, cursor: "pointer" }}
-                                        >{data?.company?.companyName}</Typography>
-                                        <Typography
-                                            sx={{ fontSize: 14 }}
-                                        >{data?.company?.oneLinePitch}</Typography>
+                                        <Stack direction={"row"} alignItems={'center'}
+                                            justifyContent={'space-between'}
+                                        >
+                                            <Box>
+                                                <Typography
+                                                    onClick={() => navigate(`/company/${data?.company?.companyName}`,
+                                                        { state: data })}
+                                                    sx={{ color: 'rgb(14, 17, 17)', fontSize: 18, fontWeight: 500, cursor: "pointer" }}
+                                                >{data?.company?.companyName}</Typography>
+                                                <Typography
+                                                    sx={{ fontSize: 14 }}
+                                                >{data?.company?.oneLinePitch}</Typography>
+                                            </Box>
+                                            <Stack direction={'row'} spacing={1} >
+                                                <Button size="small" variant="outlined"
+                                                    sx={{ fontSize: 14, width: "58px", height: "30px", fontWeight: 500 }}
+                                                    onClick={() => savedJob(data)}
+                                                >
+                                                    Save
+                                                </Button>
+                                                <Button variant="blackButton"
+                                                    onClick={() => navigate(`/jobs/${data?.title}`, { state: data })}
+                                                    sx={{ fontSize: 12, width: "110px", height: "30px", bgcolor: 'black', fontWeight: 500, }}
+                                                >
+                                                    Learn more
+                                                </Button>
+                                            </Stack>
+                                        </Stack>
                                         <Divider />
                                         <Typography>{data?.title}</Typography>
                                         <Typography>{data?.salaryCurrency?.symbol}{data?.salaryRange?.minimum} - {data?.salaryCurrency?.symbol}{data?.salaryRange?.maximum}</Typography>

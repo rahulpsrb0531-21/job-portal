@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import { Stack, Typography, Button, Box, Popover } from "@mui/material"
+import { Stack, Typography, Button, Box, Popover, Divider } from "@mui/material"
 import { useNavigate } from "react-router-dom"
 import Header from "../components/header"
 import ParallaxMousemove from '../components/parallerX/ParallaxMousemove'
@@ -8,6 +8,7 @@ import CategoryServices from '../components/company/categoryServices/categorySer
 import CardCarousel from '../components/company/cardCarousel'
 import { companyServiceData } from '../utils/basicData'
 import OurServices from '../components/company/ourServices.js'
+import Footer from '../components/footer.js'
 
 
 export function MainPage() {
@@ -51,6 +52,7 @@ export function MainPage() {
                 )
             }
             <OurServices />
+            <Footer />
         </Box>
     )
 }
