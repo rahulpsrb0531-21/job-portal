@@ -33,7 +33,7 @@ export default function DashboardSidebar() {
   const { pathname } = useLocation()
   // const { user } = useSelector((state) => state.auth)
   const isDesktop = useResponsive('up', 'lg')
-  console.log('isDesktop', isDesktop)
+  // console.log('isDesktop', isDesktop)
 
   // useEffect(() => {
   //   if (isOpenSidebar) {

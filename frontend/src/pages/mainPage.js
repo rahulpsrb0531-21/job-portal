@@ -2,30 +2,55 @@ import React, { useState } from 'react'
 import { Stack, Typography, Button, Box, Popover } from "@mui/material"
 import { useNavigate } from "react-router-dom"
 import Header from "../components/header"
-// import ParallaxMousemove from '../components/parallerX/ParallaxMousemove'
+import ParallaxMousemove from '../components/parallerX/ParallaxMousemove'
+import useResponsive from '../hooks/useResponsive'
+import CategoryServices from '../components/company/categoryServices/categoryServices'
+import CardCarousel from '../components/company/cardCarousel'
+import { companyServiceData } from '../utils/basicData'
+import OurServices from '../components/company/ourServices.js'
 
 
 export function MainPage() {
+    const isDesktop = useResponsive('up', 'lg')
     return (
         <Box>
             <MainHeader />
-            {/* <Stack> */}
-            <Stack alignItems={'center'}
-                sx={{ pt: 10 }}
-            >
-                <Typography
-                    sx={{
-                        border: "2px dashed black",
-                        borderRadius: '4px',
-                        fontSize: { xs: 38, lg: 52 }, fontWeight: 600,
-                        textAlign: 'center',
-                        width: { xs: '80%', lg: '34%' }
-                        // width: '34%'
-                    }}
-                >Find what's next</Typography>
-                {/* </Stack>
-                {/* <ParallaxMousemove /> */}
-            </Stack>
+            <Box>
+                {
+                    isDesktop === true ? (
+                        <Stack alignItems={'center'}
+                            sx={{ pt: 10, height: "86vh" }}
+                        >
+                            <ParallaxMousemove />
+                        </Stack>
+                    ) : (
+                        <Stack alignItems={'center'}
+                            // sx={{ position: 'absolute', top: "50%", left: '5%' }}
+                            justifyContent={'center'}
+                            sx={{ height: '400px' }}
+                        >
+                            <Typography
+                                sx={{
+                                    border: "2px dashed black",
+                                    borderRadius: '4px',
+                                    fontSize: 38, fontWeight: 600,
+                                    textAlign: 'center',
+                                    // width: '100%',
+                                    p: 0.6
+                                }}
+                            >Welcome to DKRIN</Typography>
+                        </Stack>
+                    )
+                }
+            </Box>
+            {
+                isDesktop === true ? (
+                    <CategoryServices />
+                ) : (
+                    <CardCarousel cards={companyServiceData} />
+                )
+            }
+            <OurServices />
         </Box>
     )
 }
@@ -54,7 +79,11 @@ const MainHeader = () => {
                 width: '100%',
                 p: 1
             }} >
-            <Typography variant="h2">Logo</Typography>
+            <Box
+                component={'img'}
+                src='/images/logo.png'
+                sx={{ width: { xs: 100, lg: 200 } }}
+            />
             <Stack direction={'row'} alignItems={'center'} spacing={2} >
                 <Button variant="outlined"
                     onClick={() => navigate('/login')}

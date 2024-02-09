@@ -59,7 +59,7 @@ export default function AdminSidebar({ isOpenSidebar, onCloseSidebar }) {
       }}
     >
       <Box sx={{ pt: 2.4, ml: 1 }}>
-        <Typography variant="logo" >W:</Typography>
+        {/* <Typography variant="logo" >W:</Typography> */}
         {/* <Divider /> */}
       </Box>
       <NavSection navConfig={navConfig} />

@@ -115,10 +115,6 @@ export default function DocumentUpload({ open, setOpen, candidateData }) {
         const res = await candidateServices.getCandidateById(id)
         if (res && res.success) {
             setCandidate(res?.candidate)
-            // if (uploadName === 'resume') {
-            // setFieldValue("resume", res?.candidate?.resume)
-            // console.log(res)
-            // }
         } else {
             console.log(res?.data)
             // enqueueSnackbar('Something went wrong', {
@@ -191,77 +187,36 @@ export default function DocumentUpload({ open, setOpen, candidateData }) {
         },
     ]
     return (
-        <Box>
-            <Stack direction={{ xs: "column", lg: 'row' }} justifyContent={'space-between'} >
-                <Box>
+        <Stack>
+            <Typography sx={{ fontSize: { xs: 24, lg: 18 }, fontWeight: 600 }} >Upload Documents</Typography>
+            {/* <Box>
                     <Stack>
-                        <Typography variant="profilePageTitle" >About</Typography>
-                        <Typography variant="profilePageSubText" >Tell us about yourself so startups know who you are.</Typography>
+                        <Typography sx={{ fontSize: { xs: 14 } }} >Tell us about yourself so startups know who you are.</Typography>
                     </Stack>
-                </Box>
-                <Stack sx={{ width: "60%" }} spacing={2} >
-                    <FormikProvider value={formik}>
-                        <Form autoComplete="off" noValidate onSubmit={handleSubmit}>
-                            {/* <CardContent > */}
-                            <Stack spacing={2} sx={{ p: 1.2 }}  >
-                                <Stack spacing={2} >
-                                    {
-                                        data?.map((doc, idx) => (
-                                            <UploadPdf title={doc?.title} setFieldValue={setFieldValue}
-                                                uploadName={doc?.uploadName}
-                                                // textHelper={touched.resume && errors.resume}
-                                                docValue={doc?.docValue}
-                                                getCandidateById={getCandidateById}
-                                            />
-                                        ))
-                                    }
-                                    {/* <UploadPdf title="resume" setFieldValue={setFieldValue} uploadName={"resume"}
-                                        textHelper={touched.resume && errors.resume}
-                                        docValue={candidate?.resume}
-                                        getCandidateById={getCandidateById}
-                                    />
-                                    <UploadPdf title="cover Letter" setFieldValue={setFieldValue} uploadName={"coverLetter"}
-                                        textHelper={touched.coverLetter && errors.coverLetter}
-                                        docValue={candidate?.coverLetter}
-                                        getCandidateById={getCandidateById}
-                                    /> */}
-                                    {/* <UploadPdf title="academic Certificates" setFieldValue={setFieldValue} uploadName={"academicCertificates"}
-                                textHelper={touched.academicCertificates && errors.academicCertificates}
-                            />
-                            <UploadPdf title="professional Certificates" setFieldValue={setFieldValue} uploadName={"professionalCertificates"}
-                                textHelper={touched.professionalCertificates && errors.professionalCertificates}
-                            />
-                            <UploadPdf title="Proof Of Identity" setFieldValue={setFieldValue} uploadName={"proofOfIdentity"}
-                                textHelper={touched.proofOfIdentity && errors.proofOfIdentity}
-                            />
-                            <UploadPdf title="Proof Of Address" setFieldValue={setFieldValue} uploadName={"proofOfAddress"}
-                                textHelper={touched.proofOfAddress && errors.proofOfAddress}
-                            />
-                            <UploadPdf title="Work Permits/Visa" setFieldValue={setFieldValue} uploadName={"workPermits"}
-                                textHelper={touched.workPermits && errors.workPermits}
-                            />
-                            <UploadPdf title="Right to Work Documentation" setFieldValue={setFieldValue} uploadName={"righttoWorkDocumentation"}
-                                textHelper={touched.righttoWorkDocumentation && errors.righttoWorkDocumentation}
-                            />
-                            <UploadPdf title="Driving License" setFieldValue={setFieldValue} uploadName={"drivingLicense"}
-                                textHelper={touched.drivingLicense && errors.drivingLicense}
-                            />
-                            <UploadPdf title="Disclosure and Barring Service" setFieldValue={setFieldValue} uploadName={"dbs"}
-                                textHelper={touched.dbs && errors.dbs}
-                            />
-                            <UploadPdf title="Health Declaration" setFieldValue={setFieldValue} uploadName={"healthDeclaration"}
-                                textHelper={touched.healthDeclaration && errors.healthDeclaration}
-                            />
-                            <UploadPdf title="Employment Contracts or Offer Letter" setFieldValue={setFieldValue} uploadName={"offerLetter"}
-                                textHelper={touched.offerLetter && errors.offerLetter}
-                            /> */}
-                                </Stack>
+                </Box> */}
+            <Stack sx={{ width: { xs: '100%', lg: "60%" } }} spacing={2} >
+                <FormikProvider value={formik}>
+                    <Form autoComplete="off" noValidate onSubmit={handleSubmit}>
+                        {/* <CardContent > */}
+                        <Stack spacing={2} sx={{ p: 1.2 }}  >
+                            <Stack spacing={2} >
+                                {
+                                    data?.map((doc, idx) => (
+                                        <UploadPdf title={doc?.title} setFieldValue={setFieldValue}
+                                            uploadName={doc?.uploadName}
+                                            // textHelper={touched.resume && errors.resume}
+                                            docValue={doc?.docValue}
+                                            getCandidateById={getCandidateById}
+                                        />
+                                    ))
+                                }
                             </Stack>
-                        </Form>
-                    </FormikProvider>
-                </Stack>
+                        </Stack>
+                    </Form>
+                </FormikProvider>
             </Stack>
-        </Box>
+        </Stack>
+
     )
 }
 
@@ -328,39 +283,18 @@ const UploadPdf = ({ setFieldValue, uploadName, title, docValue, getCandidateByI
             // })
         }
     }
-
-    // useEffect(() => { }, [])
-
-    // console.log('value11 1', docValue)
     return (
-        <Stack direction={'row'} spacing={2} alignItems={'center'} >
-            <Box sx={{ width: 196 }} >
-                <Typography variant="profilePageTitle" sx={{ pb: 1 }}>
+        <Stack direction={{ lg: 'row' }} spacing={2} alignItems={{ lg: 'center' }}
+        // sx={{ bgcolor: 'blue', width: '100%' }}
+        >
+            <Box sx={{ width: 196, pb: 0.6 }} >
+                <Typography variant="profilePageTitle">
                     {title}*
                 </Typography>
             </Box>
-            {/* <div {...getRootProps()} style={dropzoneStyles}>
-                <input {...getInputProps()} />
-                {upload ? (
-                    <Typography variant="body1">{upload}</Typography>
-                ) : isDragActive ? (
-                    <Typography variant="body1">Drop the files here...</Typography>
-                ) : (
-                    <Stack alignItems={'center'} >
-                        <Typography sx={{ fontSize: 14 }} >Upload {title}</Typography>
-                    </Stack>
-                )}
-            </div>
-            <FormHelperText>{textHelper}</FormHelperText> */}
-
             {
                 (docValue?.length === 0) ? (
-                    <>
-                        {/* <Box sx={{ width: 196 }} >
-                            <Typography variant="profilePageTitle" sx={{ pb: 1 }}>
-                                {title}*
-                            </Typography>
-                        </Box> */}
+                    <Box sx={{ width: { xs: '90%', lg: '46%' } }}>
                         <div {...getRootProps()} style={dropzoneStyles}>
                             <input {...getInputProps()} />
                             {upload ? (
@@ -369,33 +303,32 @@ const UploadPdf = ({ setFieldValue, uploadName, title, docValue, getCandidateByI
                                 <Typography variant="body1">Drop the files here...</Typography>
                             ) : (
                                 <Stack alignItems={'center'} >
-                                    <Typography sx={{ fontSize: 14 }} >Upload {title}</Typography>
+                                    <Typography sx={{ fontSize: 14 }} >Upload
+                                        {/* {title} */}
+                                    </Typography>
                                 </Stack>
                             )}
                         </div>
                         {/* <FormHelperText>{textHelper}</FormHelperText> */}
-                    </>
+                    </Box>
                 ) : (
                     <Stack direction={'row'} alignItems={'center'} justifyContent={'space-between'} sx={{
-                        border: '0.4px solid #ccc', width: 300,
-                        p: 1,
+                        border: '0.4px solid #ccc', width: { xs: '90%', lg: "46%" },
+                        p: { xs: 0.8, lg: 1 }, borderRadius: '4px'
                     }} >
-                        <Stack direction={'row'} alignItems={'center'} spacing={2} >
-                            <Iconify icon={"ph:file-pdf-bold"} sx={{ width: 42, height: 42, color: "blue" }} />
+                        <Stack direction={'row'} alignItems={'center'} spacing={2} onClick={handleDownload}>
+                            <Iconify icon={"ph:file-pdf-bold"} sx={{ width: { xs: 22, lg: 42 }, color: "blue" }} />
                             <Typography
-                                sx={{ fontSize: 16, fontWeight: 700, cursor: "pointer" }}
-                                onClick={handleDownload}
+                                sx={{ fontSize: { xs: 14, lg: 16 }, fontWeight: 700, cursor: "pointer" }}
+                            // onClick={handleDownload}
                             >Download {title}</Typography>
                         </Stack>
-                        {/* <Iconify icon={"mdi:cancel-bold"} sx={{ width: 22, height: 22, cursor: "pointer" }} onClick={() => deleteCandidateResume()} /> */}
                         <Typography sx={{ fontSize: 16, fontWeight: 700, cursor: "pointer" }}
                             onClick={() => deleteCandidateResume()}
                         >X</Typography>
                     </Stack>
                 )
             }
-
-            {/* </FormControl> */}
         </Stack>
     )
 }
@@ -406,187 +339,4 @@ const dropzoneStyles = {
     padding: '2px',
     textAlign: 'center',
     cursor: 'pointer',
-    width: "40%"
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-// import React, { useCallback, useEffect, useState } from "react";
-// import { FormControl, FormLabel, Box, Stack, TextField, Typography, Select, MenuItem, Divider, Button, Chip } from "@mui/material"
-// import { useDropzone } from "react-dropzone";
-// import Iconify from "../Iconify"
-// import { useSelector } from "react-redux";
-// import candidateServices from "../../services/candidateServices";
-// import { server } from "../../utils/server";
-// import DownloadResumeButton from "../DownloadResumeButton";
-// import fileDownload from 'js-file-download'
-// import Axios from "axios";
-// import { useSnackbar } from "notistack";
-
-// export function ResumeUpload() {
-//     const { enqueueSnackbar } = useSnackbar()
-//     const [uploadedResume, setUploadedResume] = useState(null)
-//     const [candidate, setCandidate] = useState({})
-//     const [update, setUpdate] = useState(false)
-//     const SUPPORTED_FORMATS_PDF = ['application/pdf', 'application/octet-stream', "image/jpeg", "image/jpg"]
-//     const { user } = useSelector((state) => state.auth)
-//     console.log('candidte', candidate)
-//     function download(url, filename) {
-//         Axios.get(url, {
-//             responseType: 'blob',
-//         }).then(res => {
-//             fileDownload(res.data, filename);
-//         });
-//     }
-
-//     const onDrop = useCallback((acceptedFiles) => {
-//         const resumeFile = acceptedFiles[0];
-
-//         // Display resume file name
-//         setUploadedResume(resumeFile.name);
-
-//         // Upload the resume file to the server using axios or your preferred HTTP library
-//         const formData = new FormData();
-//         formData.append('resume', resumeFile);
-//         server.post(`upload/resume/candidate/${user?._id}`, formData)
-//             .then(res => {
-//                 getCandidateById()
-//                 return res.data
-//             })
-//             .catch(err => {
-//                 return null
-//             })
-//     }, [])
-
-//     const { getRootProps, getInputProps, isDragActive } = useDropzone({
-//         onDrop,
-//         accept: '.pdf, .doc, .docx', // Accept only specific file types
-//         maxFiles: 1,
-//     })
-
-//     // const removeFile = () => {
-//     //     setUploadedResume(null);
-//     // }
-
-//     const handleDownload = async () => {
-//         try {
-//             const id = user?._id
-//             const response = await server.get(`api/candidate/upload/resume/${id}`, { responseType: 'blob' })
-//             console.log("response", response)
-//             const url = window.URL.createObjectURL(new Blob([response.data]))
-//             const link = document.createElement('a')
-//             link.href = url
-//             link.setAttribute('download', `${user?.candidateName} resume.pdf`)
-//             document.body.appendChild(link);
-//             link.click();
-//             document.body.removeChild(link);
-//         } catch (error) {
-//             console.error('Error downloading resume:', error);
-//         }
-//     }
-
-//     useEffect(() => {
-//         if (candidate !== null) {
-//             getCandidateById()
-//         }
-//     }, [user, update])
-
-//     async function getCandidateById(data) {
-//         const id = user?._id
-//         const res = await candidateServices.getCandidateById(id)
-//         if (res && res.success) {
-//             setCandidate(res?.candidate)
-//         } else {
-//             enqueueSnackbar('Something went wrong', {
-//                 variant: "error",
-//                 anchorOrigin: { horizontal: "right", vertical: "top" }, autoHideDuration: 1000
-//             })
-//         }
-//     }
-
-//     const deleteCandidateResume = async () => {
-//         const data = { candidateId: user?._id }
-//         // console.log(id)
-//         const res = await candidateServices.deleteResume(data)
-//         if (res && res.success) {
-//             setUpdate(!update)
-//             setUploadedResume(null)
-//         } else {
-//             enqueueSnackbar(res?.message, {
-//                 variant: "error",
-//                 anchorOrigin: { horizontal: "right", vertical: "top" }, autoHideDuration: 1000
-//             })
-//         }
-//     }
-//     // console.log(candidate)
-//     return (
-//         <Box>
-//             <Stack direction={'row'} justifyContent={'space-between'} >
-//                 <Box>
-//                     <Stack>
-//                         <Typography variant="profilePageTitle" >About</Typography>
-//                         <Typography variant="profilePageSubText" >Tell us about yourself so startups know who you are.</Typography>
-//                     </Stack>
-//                 </Box>
-//                 <Stack sx={{ width: "60%" }} spacing={2} >
-//                     <FormControl>
-//                         <Typography variant="profilePageTitle" sx={{ pb: 1 }}>
-//                             upload a new one below
-//                         </Typography>
-//                         <div {...getRootProps()} style={dropzoneStyles}>
-//                             <input {...getInputProps()} />
-//                             {uploadedResume ? (
-//                                 <Typography variant="body1">{uploadedResume}</Typography>
-//                             ) : isDragActive ? (
-//                                 <Typography variant="body1">Drop the files here...</Typography>
-//                             ) : (
-//                                 <Stack alignItems={'center'} >
-//                                     <Iconify icon={"ph:file-pdf-bold"} sx={{ width: 42, height: 42 }} />
-//                                     <Typography variant="body1">Upload new file</Typography>
-//                                 </Stack>
-//                             )}
-//                         </div>
-//                     </FormControl>
-//                     {
-//                         (candidate?.resume?.length === 0) ? "" : (
-//                             <Stack direction={'row'} alignItems={'center'} justifyContent={'space-between'} sx={{
-//                                 border: '0.4px solid #ccc', width: 300,
-//                                 p: 1,
-//                             }} >
-//                                 <Stack direction={'row'} alignItems={'center'} spacing={2} >
-//                                     <Iconify icon={"ph:file-pdf-bold"} sx={{ width: 42, height: 42, color: "blue" }} />
-//                                     <Typography
-//                                         sx={{ fontSize: 16, fontWeight: 700, cursor: "pointer" }}
-//                                         onClick={handleDownload}>Download Resume</Typography>
-//                                 </Stack>
-//                                 {/* <Iconify icon={"mdi:cancel-bold"} sx={{ width: 22, height: 22, cursor: "pointer" }} onClick={() => deleteCandidateResume()} /> */}
-//                                 <Typography sx={{ fontSize: 16, fontWeight: 700, cursor: "pointer" }} onClick={() => deleteCandidateResume()}>X</Typography>
-//                             </Stack>
-//                         )
-//                     }
-//                 </Stack>
-//             </Stack>
-//             {/* <DownloadResumeButton id={user?._id} /> */}
-//         </Box>
-//     )
-// }
-
-// const dropzoneStyles = {
-//     border: '2px dashed #cccccc',
-//     borderRadius: '4px',
-//     padding: '20px',
-//     textAlign: 'center',
-//     cursor: 'pointer',
-// }

@@ -32,6 +32,16 @@ const updateJob = (data) => {
         })
 }
 
+const searchJob = (data) => {
+    return server.post(`/api/job/search`, data)
+        .then(res => {
+            return res.data
+        })
+        .catch(err => {
+            return null
+        })
+}
+
 const deleteJob = (id) => {
     return server.delete(`/api/job/delete/${id}`)
         .then(res => {
@@ -98,6 +108,6 @@ const adminCreateJob = (data) => {
 }
 
 const jobServices = {
-    createJob, updateJob, getAllJobs, savedJob, deleteSavedJob, deleteJob, getJobs, adminCreateJob
+    createJob, updateJob, getAllJobs, savedJob, deleteSavedJob, deleteJob, getJobs, adminCreateJob, searchJob
 }
 export default jobServices

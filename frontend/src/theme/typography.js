@@ -131,7 +131,7 @@ const typography = {
     color: "rgb(5, 12, 38)",
     fontWeight: 500,
     fontSize: pxToRem(14),
-    ...responsiveFontSizes({ xs: 10, sm: 12, md: 14, lg: 14 }),
+    ...responsiveFontSizes({ xs: 14, sm: 14, md: 14, lg: 14 }),
   },
   profilePageSubText: {
     color: "rgb(113, 117, 132)",
@@ -153,7 +153,7 @@ const typography = {
     lineHeight: "20px",
     fontSize: pxToRem(16),
     ...responsiveFontSizes({ xs: 10, sm: 12, md: 14, lg: 16 }),
-  },
+  }
 
 };
 

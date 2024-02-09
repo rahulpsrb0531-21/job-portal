@@ -27,7 +27,7 @@ export default function Profile() {
 
     return (
         <Box>
-            <Typography sx={{ fontSize: 32, fontWeight: 500, pl: 1, pt: 2 }} >Edit your MyBrand profile</Typography>
+            <Typography sx={{ fontSize: { xs: 26, lg: 32 }, fontWeight: 500, pl: 1, py: 2 }} >Edit your profile</Typography>
             <TabContext value={value}>
                 <Box sx={{ borderBottom: 1, borderColor: 'divider' }}>
                     <TabList onChange={handleChange} aria-label="lab API tabs example">

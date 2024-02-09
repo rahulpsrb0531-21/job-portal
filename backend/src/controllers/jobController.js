@@ -156,43 +156,39 @@ const getJob = async (req, res) => {
 // @access  public
 const getJobAll = async (req, res) => {
     try {
-        console.log('hldfh')
         // const job = await Job.find({})
-        const job = await Job.aggregate([
-            {
-                $group: {
-                    _id: "$company.companyName",
-                    jobs: { $push: "$$ROOT" }
-                }
-            },
-            // {
-            //     $unwind: "$jobs"
-            // },
-            // {
-            //     $lookup: {
-            //         from: "Recruiter",
-            //         localField: "_id",
-            //         foreignField: "jobs.recruiterId",
-            //         as: "recruiterDetails"
-            //     }
-            // },
-            {
-                $project: {
-                    _id: 0,
-                    companyName: "$_id",
-                    recruiterId: { $first: "$jobs.recruiterId" },
-                    companyDescription: { $first: "$jobs.company.oneLinePitch" },
-                    // recruiterDetails: { $first: "recruiterDetails" },
-                    jobs: 1
-                }
-            }
-        ])
-        console.log(job)
+        // const job = await Job.aggregate([
+        //     {
+        //         $group: {
+        //             _id: "$company.companyName",
+        //             jobs: { $push: "$$ROOT" }
+        //         }
+        //     },
+        //     {
+        //         $project: {
+        //             _id: 0,
+        //             companyName: "$_id",
+        //             recruiterId: { $first: "$jobs.recruiterId" },
+        //             companyDescription: { $first: "$jobs.company.oneLinePitch" },
+        //             // recruiterDetails: { $first: "recruiterDetails" },
+        //             jobs: 1
+        //         }
+        //     }
+        // ])
+        // console.log(job)
+        // res.status(200).json({
+        //     success: true,
+        //     job,
+        //     message: 'Get All Job  successfully',
+        // })
+
+        const jobs = await Job.find({})
         res.status(200).json({
             success: true,
-            job,
+            jobs,
             message: 'Get All Job  successfully',
         })
+
     } catch (error) {
         console.log(`***** ERROR: ${req.originalUrl, error} error`)
         res.status({
@@ -268,6 +264,59 @@ const deleteCandidateSaveJob = async (req, res) => {
     }
 }
 
+// @desc    Filter All Jobs
+// @route   POST /api/Job/search
+// @access  private
+const searchJob = async (req, res) => {
+    try {
+        const { designations, locations, experience } = req.body
+        console.log(designations, locations, experience)
+        // const title = designations
+        // Use the received data to filter job postings
+        // Example MongoDB query:
+        // const jobs = await Job.find({
+        //     title: { $in: designations },
+        //     location: { $in: locations }
+        //     , experience: { $in: experience }
+        // })
+
+        // Construct MongoDB query based on received data
+        const query = {};
+
+        if (designations && designations.length > 0) {
+            console.log('1')
+            query.title = { $in: designations };
+            console.log('2')
+        }
+
+        if (locations && locations.length > 0) {
+            query.location = { $in: locations };
+        }
+
+        if (experience) {
+            query.experience = { $in: experience };
+        }
+
+        // Execute the query
+        const jobs = await Job.find(query)
+
+        // console.log('jobs', jobs)
+
+        // Send back the search results
+        res.status(200).json({
+            success: true,
+            jobs,
+            message: 'Filter Jobs  successfully',
+        })
+    } catch (error) {
+        console.log(`***** ERROR: ${req.originalUrl, error} error`)
+        res.status({
+            success: false,
+            data: error
+        })
+    }
+}
+
 // ADMIN 
 // @desc    Get Job All
 // @route   GET /api/Job/get/all
@@ -289,4 +338,4 @@ const getAllJob = async (req, res) => {
     }
 }
 
-export { createJob, updateJob, deleteJob, getJob, getJobAll, candidateSaveJob, deleteCandidateSaveJob, getAllJob }
+export { createJob, updateJob, deleteJob, getJob, getJobAll, candidateSaveJob, deleteCandidateSaveJob, getAllJob, searchJob }
