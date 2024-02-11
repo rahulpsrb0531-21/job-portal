@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react'
-import { Box, Button, Tab, Stack, Typography } from "@mui/material"
+import { Box, Button, Tab, Stack, Typography, Divider } from "@mui/material"
 import { useSnackbar } from 'notistack'
 import Iconify from '../Iconify';
 import candidateServices from '../../services/candidateServices';
@@ -64,65 +64,54 @@ export default function SavedJobPage() {
     }
 
     return (
-        <Box sx={{ width: '100%', pt: 2 }}>
+        <Box sx={{ width: '100%', pt: 1 }}>
             <Stack spacing={1} >
                 {
                     candidateData?.jobsSaved?.map((data, idx) => (
                         <Stack sx={{
-                            width: "60%",
+                            width: { xs: "96%", lg: "60%" },
                             border: '1px solid #e0e0e0', borderRadius: "8px",
                             p: 2,
                             backgroundImage: "linear-gradient(178deg,#fafafa,#fff 35%)"
                         }} >
-                            <Stack direction={'row'} justifyContent={'space-between'} sx={{ px: 1 }} >
-                                <Stack direction={'row'} spacing={1} >
-                                    <Iconify icon={"mingcute:user-4-fill"} sx={{ width: 42, height: 42 }} />
-                                    <Box>
-                                        <Typography
-                                            sx={{ color: 'rgb(14, 17, 17)', fontSize: 18, fontWeight: 500 }}
-                                        >{data?.companyName}</Typography>
-                                        <Typography
-                                            sx={{ fontSize: 14 }}
-                                        >{data?.companyDescription}</Typography>
-                                        {/* <Typography
-                                                    sx={{ fontSize: 11, fontWeight: 500, color: 'rgb(158, 158, 158)' }}
-                                                >1-10 EMPLOYEES</Typography> */}
-                                    </Box>
-                                </Stack>
-                                <Iconify icon={"fluent:ios-arrow-24-regular"} sx={{ width: 16, height: 16, transform: "rotate(180deg)" }} />
+                            <Stack direction={"row"} alignItems={'center'}
+                                justifyContent={'space-between'}
+                            >
+                                <Box>
+                                    <Typography
+                                        // onClick={() => navigate(`/company/${data?.company?.companyName}`,
+                                        //     { state: data })}
+                                        sx={{ color: 'rgb(14, 17, 17)', fontSize: 18, fontWeight: 500, cursor: "pointer" }}
+                                    >{data?.company?.companyName}</Typography>
+                                    <Typography
+                                        sx={{ fontSize: 12 }}
+                                    >{data?.company?.oneLinePitch}</Typography>
+                                </Box>
                             </Stack>
-                            <Stack spacing={0.4} sx={{
-                                borderRadius: '4px', p: 2
-                            }} >
-                                <Stack direction={'row'} justifyContent={'space-between'} sx={{
-                                    p: 1, border: "1px solid rgb(238, 238, 238)", borderRadius: '4px',
-                                    ":hover": {
-                                        border: "1px solid rgb(5, 12, 38, 0.4)"
-                                    }
-                                }} >
-                                    <Box>
-                                        <Stack direction={'row'} spacing={2}>
-                                            <Typography
-                                                sx={{ fontSize: 14, fontWeight: 500, color: 'rgb(14, 17, 17)' }}
-                                            >{data?.title}</Typography>
-                                            <Typography
-                                                sx={{ fontSize: 14, color: 'rgb(82, 87, 105)' }}
-                                            >{data?.location}</Typography>
-                                            <Typography sx={{ fontSize: 14, color: 'rgb(82, 87, 105)' }}>{data?.salaryRange?.min}- {data?.salaryRange?.max}</Typography>
-                                        </Stack>
-                                        <Typography
-                                            sx={{ fontSize: 14, color: 'rgb(82, 87, 105)' }}
-                                        >{data?.salaryCurrency?.symbol}{data?.salaryRange?.minimum} - {data?.salaryCurrency?.symbol}{data?.salaryRange?.maximum}</Typography>
-                                    </Box>
-                                    <Stack direction={'row'} spacing={1} >
-                                        <Button size="small" variant="outlined"
-                                            sx={{ fontSize: 14, width: "58px", height: "30px", fontWeight: 500 }}
-                                            onClick={() => deleteSavedJob(data)}
-                                        >
-                                            Remove
-                                        </Button>
-                                    </Stack>
-                                </Stack>
+                            <Divider />
+                            <Typography sx={{ fontSize: 14 }} >{data?.title}</Typography>
+                            <Typography sx={{ fontSize: 14, fontWeight: 700 }} >{data?.salaryCurrency?.symbol}{data?.salaryRange?.minimum} - {data?.salaryCurrency?.symbol}{data?.salaryRange?.maximum}</Typography>
+                            <Stack direction={'row'} spacing={0.4} alignItems={'center'} >
+                                <Iconify icon={"carbon:location"} sx={{ width: 16 }} />
+                                {
+                                    data?.location?.map((data, idx, row) => (
+                                        <Typography sx={{ fontSize: 14, fontWeight: 700 }} >{data} {idx + 1 === row.length ? "" : ","}</Typography>
+                                    ))
+                                }
+                            </Stack>
+                            <Stack direction={'row'} spacing={1} sx={{ mt: 1 }} >
+                                {/* <Button variant="blackButton"
+                                    // onClick={() => navigate(`/jobs/${data?.title}`, { state: data })}
+                                    sx={{ fontSize: 12, width: "110px", height: "30px", bgcolor: 'black', fontWeight: 500, }}
+                                >
+                                    Apply
+                                </Button> */}
+                                <Button variant="outlined"
+                                    onClick={() => deleteSavedJob(data)}
+                                    sx={{ fontSize: 12, width: "110px", height: "30px", fontWeight: 500, }}
+                                >
+                                    Remove
+                                </Button>
                             </Stack>
                         </Stack>
                     ))

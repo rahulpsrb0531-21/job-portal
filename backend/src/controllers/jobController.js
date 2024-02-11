@@ -2,6 +2,7 @@ import mongoose from 'mongoose'
 import Candidate from '../model/candidateModal.js'
 import Job from '../model/jobModel.js'
 import Recruiter from '../model/recruiterModel.js'
+import customError from '../custom/customError.js'
 
 // @desc    Create new Job post
 // @route   POST /api/job/create
@@ -204,7 +205,23 @@ const getJobAll = async (req, res) => {
 const candidateSaveJob = async (req, res) => {
     try {
         const { candidateId, job } = req.body
-        console.log(job)
+        // var jobIdToFind = ObjectId("jobIdToFind")
+        const ObjectId = mongoose.Types.ObjectId
+        const jobId = job?._id
+        console.log(jobId)
+
+        const jobExits = await Candidate.findOne(
+            {
+                _id: candidateId,
+                // jobsSaved: {
+                //     $elemMatch: {
+                //         _id: jobId
+                //     }
+                // }
+                "jobsSaved._id": jobId
+            })
+        // console.log('jobExits', jobExits)
+        if (jobExits) throw customError.jobAlreadyExists
 
         Candidate.findByIdAndUpdate(
             { _id: candidateId },
@@ -224,9 +241,9 @@ const candidateSaveJob = async (req, res) => {
         })
     } catch (error) {
         console.log(`***** ERROR: ${req.originalUrl, error} error`)
-        res.status({
+        res.status(200).json({
             success: false,
-            data: error
+            data: error,
         })
     }
 }
@@ -270,7 +287,7 @@ const deleteCandidateSaveJob = async (req, res) => {
 const searchJob = async (req, res) => {
     try {
         const { designations, locations, experience } = req.body
-        console.log(designations, locations, experience)
+        // console.log(designations, locations, experience)
         // const title = designations
         // Use the received data to filter job postings
         // Example MongoDB query:

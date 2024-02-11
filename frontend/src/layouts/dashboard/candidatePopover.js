@@ -38,7 +38,8 @@ export default function CandidatePopover() {
                 ref={anchorRef}
                 onClick={handleOpen}
             >
-                <Iconify icon={"mingcute:user-4-fill"} sx={{ width: 32, height: 32 }} />
+                {/* <Iconify icon={"mingcute:user-4-fill"} sx={{ width: 32, height: 32 }} /> */}
+                <Typography>{user?.candidateName}</Typography>
                 <Iconify icon={"fluent:ios-arrow-24-regular"} sx={{ width: 18, height: 18, transform: "rotate(270deg)" }} />
             </IconButton>
 

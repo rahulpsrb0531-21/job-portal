@@ -10,6 +10,7 @@ import { useSnackbar } from "notistack";
 
 export default function JobDetails() {
     const { state } = useLocation()
+    console.log("state>>>>>>>>", state)
     const navigate = useNavigate()
     const { enqueueSnackbar } = useSnackbar()
     const { user } = useSelector((state) => state.auth)
@@ -86,6 +87,21 @@ export default function JobDetails() {
         },
     ]
 
+    const jobRegardingData = [
+        {
+            title: "Job Type",
+            value: state?.employmentType
+        },
+        {
+            title: "Visa sponsorship",
+            value: state?.visaSponsorship ? "Available" : "Not Available"
+        },
+        {
+            title: "Relocation",
+            value: state?.reLocation ? "Yes" : "No"
+        }
+    ]
+
     useEffect(() => {
         if (user?.role !== "CANDIDATE" && token) {
             navigate('/login')
@@ -94,28 +110,18 @@ export default function JobDetails() {
 
     return (
         <Stack mt={6} spacing={2} >
-            <Stack direction={'row'} alignItems={'center'} justifyContent={"space-between"} >
-                <Stack direction={'row'}>
-                    <Box
-                        component={'img'}
-                        src="https://photos.wellfound.com/startups/i/8360909-783a7fbc4f0ae14f7a0c656bce23c8fa-medium_jpg.jpg?buster=1622336656"
-                        alt='brand'
-                        sx={{ width: 80, objectFit: 'contain' }}
-                    />
-                    <Stack>
-                        <Typography variant="companyTitle" >{state?.company?.companyName}</Typography>
-                        <Typography variant="companySubText" >{state?.company?.oneLinePitch}</Typography>
-                    </Stack>
+            <Stack direction={{ xs: "column", lg: 'row' }} alignItems={'center'} justifyContent={"space-between"}>
+                <Stack sx={{ width: '100%' }} >
+                    <Typography variant="companyTitle" >{state?.company?.companyName}</Typography>
+                    <Typography variant="companySubText" >{state?.company?.oneLinePitch}</Typography>
+                    <Typography variant="companySubText" sx={{ color: "blue", textDecoration: "underline" }} >{state?.company?.website}</Typography>
                 </Stack>
-                <Button size="small" variant="outlined" type="submit"
-                    sx={{ fontSize: 14, width: "58px", height: "30px", fontWeight: 500 }}
-                >Save</Button>
             </Stack>
             <Divider />
             <Stack direction={'row'} >
                 {/* 1 */}
                 <Stack direction={'row'} sx={{ width: '78%' }} >
-                    <Box sx={{ width: '70%' }} >
+                    <Box sx={{ width: { xs: "100%", lg: '70%' } }} >
                         <Stack direction={'row'} alignItems={'center'} justifyContent={'space-between'} >
                             <Typography>{state?.title}</Typography>
                         </Stack>
@@ -150,32 +156,39 @@ export default function JobDetails() {
                                 }
                             </Stack>
                         </Box>
-                    </Box>
-                    <Box sx={{
-                        // bgcolor: 'blue', 
-                        width: '30%'
-                    }} >
-                        <Stack direction={'row'} alignItems={'center'} spacing={2} >
-                            <Button variant="outlined"
-                                sx={{ fontSize: 14, width: "58px", height: "30px", fontWeight: 500 }}
-                            >Save</Button>
-                            <Button variant="blackButton"
-                                onClick={() => navigate('/jobs/create/application', { state: state?._id })}
-                                sx={{ fontSize: 12, width: "110px", height: "30px", bgcolor: 'black', fontWeight: 500, }}
-                            >Apply</Button>
-                        </Stack>
-                        <Box>
-                            <Typography>Job Type</Typography>
-                            <Typography>{state?.employmentType}</Typography>
-                        </Box>
-                        <Box>
-                            <Typography>Visa sponsorship</Typography>
-                            <Typography>{state?.visaSponsorship ? "Available" : "Not Available"}</Typography>
-                        </Box>
-                        {/* <Box>
+                        <Box my={2} >
+                            <Stack direction={'row'} alignItems={'center'} spacing={2} >
+                                <Button variant="outlined"
+                                    sx={{ fontSize: 14, width: "58px", height: "30px", fontWeight: 500 }}
+                                >Save</Button>
+                                <Button variant="blackButton"
+                                    onClick={() => navigate('/jobs/create/application', { state: state?._id })}
+                                    sx={{ fontSize: 12, width: "110px", height: "30px", bgcolor: 'black', fontWeight: 500, }}
+                                >Apply</Button>
+                            </Stack>
+                            <Stack mt={1}>
+                                {
+                                    jobRegardingData?.map((data, idx) => (
+                                        <Stack direction={'row'} alignItems={'center'} spacing={1} >
+                                            <Typography sx={{ fontSize: 16, fontWeight: 700 }} >{data?.title}</Typography>
+                                            <Typography sx={{ fontSize: 14 }} >{data?.value}</Typography>
+                                        </Stack>
+                                    ))
+                                }
+                            </Stack>
+                            {/* <Box>
+                                <Typography>Job Type</Typography>
+                                <Typography>{state?.employmentType}</Typography>
+                            </Box>
+                            <Box>
+                                <Typography>Visa sponsorship</Typography>
+                                <Typography>{state?.visaSponsorship ? "Available" : "Not Available"}</Typography>
+                            </Box> */}
+                            {/* <Box>
                             <Typography>Relocation</Typography>
                             <Typography>{state?.employmentType}</Typography>
                         </Box> */}
+                        </Box>
                     </Box>
                 </Stack>
                 {/* 2 */}

@@ -47,15 +47,15 @@ export default function AppliedPage() {
                         <Tab label="Ongoing " value="1" />
                     </TabList>
                 </Box>
-                <TabPanel value="1">
-                    <Stack spacing={1} >
+                <TabPanel sx={{ "&.MuiTabPanel-root": { p: 0 } }} value="1">
+                    <Stack spacing={1} mt={1} >
                         {
                             appliedJob?.map((data, idx) => {
                                 console.log(data)
                                 return (
                                     <Stack direction={'row'} justifyContent={'space-between'} alignItems={"start"}
                                         sx={{
-                                            width: "60%",
+                                            width: { xs: "96%", lg: "60%" },
                                             border: '1px solid #e0e0e0', borderRadius: "4px", p: 1,
                                             ":hover": { boxShadow: 1 }
                                         }}
@@ -89,6 +89,6 @@ export default function AppliedPage() {
                     </Stack>
                 </TabPanel>
             </TabContext>
-        </Box>
+        </Box >
     )
 }

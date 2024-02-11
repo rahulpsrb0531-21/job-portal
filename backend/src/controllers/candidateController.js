@@ -126,7 +126,7 @@ const updateCandidate = async (req, res) => {
     try {
         const _id = req.params.id
         const { candidateName, email, password, location, primaryRole, yearsOfExperience,
-            website,
+            website, bio,
             linkedin,
             twitter,
             gitHub, workExperience, eduction, skills, achivements,
@@ -141,6 +141,7 @@ const updateCandidate = async (req, res) => {
                 candidate.password = candidate?.password,
                 candidate.location = location,
                 candidate.primaryRole = primaryRole,
+                candidate.bio = bio,
                 candidate.yearsOfExperience = yearsOfExperience,
                 candidate.website = website,
                 candidate.linkedin = linkedin,

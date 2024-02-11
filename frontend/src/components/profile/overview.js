@@ -27,8 +27,8 @@ export default function Overview() {
 
     return (
         <Box sx={{
-            bgcolor: 'rgb(255, 255, 255)', width: '60%',
-            borderRadius: 0.4, p: 2,
+            bgcolor: 'rgb(255, 255, 255)', width: { xs: "98%", lg: '60%' },
+            borderRadius: 0.4, p: 2, mt: 1,
             border: '1px solid #e0e0e0', borderRadius: "8px"
         }} >
             <Typography sx={{ fontSize: 24, fontWeight: 500 }} >What recruiter will see</Typography>

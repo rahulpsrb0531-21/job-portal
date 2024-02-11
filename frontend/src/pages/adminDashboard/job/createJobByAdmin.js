@@ -103,7 +103,7 @@ export default function CreateJobByAdmin() {
             const data = {
                 company: { racruiterName: v?.recruiter?.label, ...v?.recruiter },
                 recruiterId: v?.recruiter?._id,
-                title: v?.title,
+                title: (v?.title).charAt(0).toUpperCase() + (v?.title).substring(1),
                 experience: v?.experience,
                 jobOverview: v?.jobOverview,
                 qualifications: v?.qualifications,

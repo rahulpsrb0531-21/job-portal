@@ -78,7 +78,7 @@ export default function EditJob() {
                 id: state?._id,
                 company: user,
                 recruiterId: user?._id,
-                title: v?.title,
+                title: (v?.title).charAt(0).toUpperCase() + (v?.title).substring(1),
                 experience: v?.experience,
                 jobOverview: v?.jobOverview,
                 qualifications: v?.qualifications,

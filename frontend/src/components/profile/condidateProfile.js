@@ -25,6 +25,22 @@ export function CandidateProfile() {
     const [openGraduation, setOpenGraduation] = useState(false)
     // const [id, setId] = useState('')
 
+    const [skillValues, setSkillValues] = useState([])
+    const [newSkillValue, setNewSkillValue] = useState('')
+
+    const addSkill = () => {
+        // console.log('newSkillValue', newSkillValue?.length)
+        if (newSkillValue?.length !== 0) {
+            setSkillValues([...skillValues, newSkillValue])
+            setNewSkillValue('')
+        }
+    }
+
+    const removeSkill = (index) => {
+        const updatedSkills = skillValues.filter((_, i) => i !== index);
+        setSkillValues(updatedSkills);
+    }
+
     const candidateProfileSchema = Yup.object().shape({
         name: Yup.string().required("Name is required"),
         location: Yup.string().required("location is required"),
@@ -35,24 +51,6 @@ export function CandidateProfile() {
         twitterLink: Yup.string(),
         linkedinLink: Yup.string(),
         gitHubLink: Yup.string(),
-        // work: Yup.array().of(
-        //     Yup.object().shape({
-        //         company: Yup.string().required("Company is required"),
-        //         title: Yup.string().required("Title is required"),
-        //         startDate: Yup.date().required("Start Date is required"),
-        //         endDate: Yup.date().required("End Date is required"),
-        //         description: Yup.string()
-        //     })),
-        // education: Yup.array().of(
-        //     Yup.object().shape({
-        //         education: Yup.string().required("Education is required"),
-        //         // graduation: dayjs(Date.now()),
-        //         graduation: Yup.date().required("Graduation is required"),
-        //         degreeAndMajor: Yup.string().required("Degree And Major is required"),
-        //         // degree: Yup.string().required("Degree is required"),
-        //         gpa: Yup.string(),
-        //         gpaMax: Yup.string()
-        //     })),
         skills: Yup.array(),
         newSkill: Yup.string(),
         achivements: Yup.string().max(1000, 'Upto 1000 characters')
@@ -99,7 +97,8 @@ export function CandidateProfile() {
                 workExperience: v?.work,
                 // eduction: educationData,
                 eduction: v?.education,
-                skills: v?.skills,
+                skills: skillValues,
+                // skills: v?.skills,
                 achivements: v?.achivements,
                 role: "CONDIDATE"
             }
@@ -113,12 +112,12 @@ export function CandidateProfile() {
         const res = await candidateServices.updateCandidate({ data, id })
         setSubmitting(false)
         if (res && res.success) {
-            enqueueSnackbar(res?.message, {
-                variant: "success",
-                anchorOrigin: { horizontal: "right", vertical: "top" },
-                autoHideDuration: 1000
-            })
-            setFieldValue('newSkill', '')
+            // enqueueSnackbar(res?.message, {
+            //     variant: "success",
+            //     anchorOrigin: { horizontal: "right", vertical: "top" },
+            //     autoHideDuration: 1000
+            // })
+            // setFieldValue('newSkill', '')
         } else {
             enqueueSnackbar(res?.data, {
                 variant: "error",
@@ -137,12 +136,14 @@ export function CandidateProfile() {
             setFieldValue("experience", res?.candidate?.yearsOfExperience)
             setFieldValue("websiteLink", res?.candidate?.website)
             setFieldValue("twitterLink", res?.candidate?.twitter)
+            setFieldValue("bio", res?.candidate?.bio)
             setFieldValue("linkedinLink", res?.candidate?.linkedin)
             setFieldValue("gitHubLink", res?.candidate?.gitHub)
             setFieldValue("work", res?.candidate?.workExperience || [])
             setFieldValue("education", res?.candidate?.eduction || [])
             // skills
-            setFieldValue("skills", res?.candidate?.skills || [])
+            setSkillValues(res?.candidate?.skills || [])
+            // setFieldValue("skills", res?.candidate?.skills || [])
             setFieldValue("achivements", res?.candidate?.achivements)
         } else {
             enqueueSnackbar(res?.data, {
@@ -230,19 +231,11 @@ export function CandidateProfile() {
         "Associate's Degree", "Bachelor of Arts (BA)", "Bachelor of Business Administration (BBA)", "Bachelor of Engineering (BEng)", "Bachelor of Fine Arts (BFA)", "Bachlor of Science (BS)", "Bachelor's Degree", "Engineer's Degree", "Master of Arts (MA)", "Master of Business Administration (MBA)", "Master of Fine Arts (MFA)", "Master of Science (MS)", "Master's Degree", "Doctor of Philosophy (PhD)", "Doctor of Medicine (MD)", "juris Doctor (JD)", "High School Diploma", "Non-Degree Program (eg. Coursera certificate)", "Other"
     ]
 
-    // const onKeyDown = (e) => {
-    //     // e.preventDefault();
-    //     if (e.key === 'Enter') {
-    //         e.preventDefault();
-    //         setFieldValue("skills", [...values.skills, e.target.value]);
-    //         setFieldValue('newSkill', ''); // Clear the TextField after adding the skill
-    //         getCandidateById()
-    //     }
-    // }
-
     const deleteSkill = (idx) => {
         setFieldValue('skills', values.skills.filter((skill, i) => i !== idx))
     }
+
+
 
     return (
         <FormikProvider value={formik}>
@@ -253,7 +246,7 @@ export function CandidateProfile() {
                 <GraduationExperienceFormModal open={openGraduation} setOpen={setOpenGraduation}
                     candidateData={values} getCandidateById={getCandidateById} />
                 <Box>
-                    <Stack direction={'row'} justifyContent={'space-between'} >
+                    <Stack direction={{ xs: "column", lg: 'row' }} justifyContent={'space-between'} >
                         <Box>
                             <Stack>
                                 <Typography variant="profilePageTitle" >About</Typography>
@@ -261,7 +254,7 @@ export function CandidateProfile() {
                             </Stack>
                         </Box>
                         {/* about us  */}
-                        <Stack sx={{ width: "60%" }} spacing={1} >
+                        <Stack sx={{ width: { xs: "98%", lg: "60%" } }} spacing={1} >
                             <FormControl>
                                 <Typography variant="profilePageTitle">Your name*</Typography>
                                 <TextField sx={{ ".css-3ux5v-MuiInputBase-root-MuiOutlinedInput-root": { height: "40px" } }}
@@ -279,8 +272,8 @@ export function CandidateProfile() {
                                 />
                             </FormControl>
                             {/* select option */}
-                            <Stack direction={'row'} spacing={2} >
-                                <FormControl sx={{ width: '72%' }} >
+                            <Stack direction={{ xs: 'column', lg: 'row' }} spacing={2} >
+                                <FormControl sx={{ width: { xs: "100%", lg: '50%' } }} >
                                     <Typography variant="profilePageTitle" >Select your primary role*</Typography>
                                     <Select sx={{ ".css-k6dkf7-MuiSelect-select-MuiInputBase-input-MuiOutlinedInput-input": { p: 1 } }}
                                         value={values.primaryRole} {...getFieldProps('primaryRole')} >
@@ -292,8 +285,7 @@ export function CandidateProfile() {
                                     </Select>
                                     <FormHelperText>{touched.primaryRole && errors.primaryRole}</FormHelperText>
                                 </FormControl>
-                                {/* <FormControl > */}
-                                <Stack>
+                                <Stack sx={{ width: { xs: "100%", lg: '50%' } }} >
                                     <Typography variant="profilePageTitle" >Years of experience*</Typography>
                                     <Select
                                         sx={{ ".css-k6dkf7-MuiSelect-select-MuiInputBase-input-MuiOutlinedInput-input": { p: 1 } }}
@@ -307,7 +299,6 @@ export function CandidateProfile() {
                                     </Select>
                                     <FormHelperText>{touched.experience && errors.experience}</FormHelperText>
                                 </Stack>
-                                {/* </FormControl> */}
                             </Stack>
                             <FormControl>
                                 <Typography>Your Bio</Typography>
@@ -327,14 +318,14 @@ export function CandidateProfile() {
                     </Stack>
                     <Divider sx={{ py: 1 }} />
                     {/* SocialLink*/}
-                    <Stack direction={'row'} justifyContent={'space-between'} sx={{ pt: 2 }} >
+                    <Stack direction={{ xs: "column", lg: 'row' }} justifyContent={'space-between'} sx={{ pt: 2 }} >
                         <Box>
                             <Stack>
-                                <Typography variant="profilePageTitle" >Social Profiles</Typography>
+                                <Typography sx={{ fontSize: 16, fontWeight: 600 }} >Social Profiles</Typography>
                                 <Typography variant="profilePageSubText" >Where can people find you online?</Typography>
                             </Stack>
                         </Box>
-                        <Stack sx={{ width: "60%" }} spacing={1} >
+                        <Stack sx={{ width: { xs: "100%", lg: "60%" } }} spacing={1} >
                             <FormControlCompoment
                                 errors={errors} touched={touched} values={values} setFieldValue={setFieldValue} getFieldProps={getFieldProps}
                                 title="websiteLink" />
@@ -446,57 +437,76 @@ export function CandidateProfile() {
                         </Stack>
                     </Stack >
                     <Divider sx={{ py: 1 }} />
+
                     {/* <Skills /> */}
-                    <Stack direction={'row'} justifyContent={'space-between'} sx={{ pt: 2 }} >
+
+                    <Stack direction={{ xs: "column", lg: 'row' }} justifyContent={'space-between'} sx={{ pt: 2 }} spa >
                         <Box>
                             <Stack>
                                 <Typography variant="profilePageTitle" >Your Skills</Typography>
                                 <Typography variant="profilePageSubText" >This will help startups hone in on your strengths.</Typography>
                             </Stack>
                         </Box>
-                        <Stack sx={{ width: "60%" }} spacing={1} >
+                        <Stack sx={{ width: { xs: "100%", lg: "60%" } }} spacing={1} >
                             <Stack direction={'row'} flexWrap={'wrap'} spacing={1} useFlexGap >
                                 {
-                                    values?.skills.map((skill, idx) => (
+                                    skillValues.map((skill, idx) => (
                                         <Chip label={skill} key={idx} sx={{ borderRadius: "4px" }}
-                                            onDelete={() => deleteSkill(idx)}
+                                            onDelete={() => removeSkill(idx)}
                                         />
                                     ))
                                 }
                             </Stack>
                             <FormControl>
-                                <Field name="newSkill">
+                                <Typography variant="profilePageTitle" >Skills?*</Typography>
+                                <TextField sx={{ ".css-3ux5v-MuiInputBase-root-MuiOutlinedInput-root": { height: "40px" } }}
+                                    // {...getFieldProps("location")}
+                                    value={newSkillValue}
+                                    onChange={(e) => setNewSkillValue(e.target.value)}
+                                    error={Boolean(touched.location && errors.location)}
+                                    helperText={touched.location && errors.location}
+                                />
+
+                                {/* <Field name="newSkill">
                                     {({ field }) => (
                                         <TextField
                                             sx={{ ".css-3ux5v-MuiInputBase-root-MuiOutlinedInput-root": { height: "40px" } }}
                                             {...field}
-                                            onKeyDown={(e) => {
-                                                if (e.key === 'Enter') {
-                                                    e.preventDefault();
-                                                    setFieldValue("skills", [...values.skills, e.target.value]);
-                                                    setFieldValue('newSkill', ''); // Clear the TextField after adding the skill
-                                                    // getCandidateById()
-                                                    // updateCandidate()
-                                                }
+                                            // onKeyDown={(e) => {
+                                            //     if (e.key === 'Enter') {
+                                            //         e.preventDefault();
+                                            //         setFieldValue("skills", [...values.skills, e.target.value]);
+                                            //         setFieldValue('newSkill', '') // Clear the TextField after adding the skill
+                                            //         // getCandidateById()
+                                            //         // updateCandidate()
+                                            //     }
+                                            // }}
+                                            onChange={(e) => {
+                                                e.preventDefault();
+                                                setFieldValue("skills", [...values.skills, e.target.value]);
+                                                setFieldValue('newSkill', '')
                                             }}
                                         // onKeyDown={() => onKeyDown}
                                         />
                                     )}
-                                </Field>
-                                {/* <Button variant="blackButton" type="submit" sx={{ letterSpacing: 2, textAlign: "right", width: 100, mt: 0.6 }}  >Save</Button> */}
+                                </Field> */}
+
+                                <Button variant="blackButton" type="submit" sx={{ letterSpacing: 2, textAlign: "right", width: 122, mt: 0.6 }}
+                                    onClick={() => addSkill()}
+                                >Add Skill</Button>
                             </FormControl>
                         </Stack>
                     </Stack>
                     <Divider sx={{ py: 1 }} />
                     {/* <Achievements /> */}
-                    <Stack direction={'row'} justifyContent={'space-between'} sx={{ pt: 2 }} >
+                    <Stack direction={{ xs: 'column', lg: 'row' }} justifyContent={'space-between'} sx={{ pt: 2 }} >
                         <Box>
                             <Stack>
                                 <Typography variant="profilePageTitle" >Achievements</Typography>
                                 <Typography variant="profilePageSubText" >Sharing more details about yourself will help you stand out more.</Typography>
                             </Stack>
                         </Box>
-                        <Stack sx={{ width: "60%" }} spacing={1} >
+                        <Stack sx={{ width: { xs: "100%", lg: "60%" } }} spacing={1} >
                             <FormControl>
                                 <TextField multiline={true} rows={6}
                                     sx={{ ".css-3ux5v-MuiInputBase-root-MuiOutlinedInput-root": { height: "40px" } }}

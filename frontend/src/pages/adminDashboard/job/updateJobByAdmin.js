@@ -74,7 +74,7 @@ export default function UpdateJobByAdmin() {
                 id: state?._id,
                 company: state?.company,
                 recruiterId: state?.company?._id,
-                title: v?.title,
+                title: (v?.title).charAt(0).toUpperCase() + (v?.title).substring(1),
                 experience: v?.experience,
                 jobOverview: v?.jobOverview,
                 qualifications: v?.qualifications,
@@ -175,7 +175,7 @@ export default function UpdateJobByAdmin() {
                             </Stack> */}
                                 <Stack>
                                     <Typography variant="profilePageTitle" >title*</Typography>
-                                    <TextField sx={{ ".css-3ux5v-MuiInputBase-root-MuiOutlinedInput-root": { height: "32px", borderRadius: '4px' } }}
+                                    <TextField sx={{ ".css-3ux5v-MuiInputBase-root-MuiOutlinedInput-root": { height: "32px", borderRadius: '4px' }, textTransform: "capitalize" }}
                                         {...getFieldProps("title")}
                                         error={Boolean(touched.title && errors.title)}
                                         helperText={touched.title && errors.title}

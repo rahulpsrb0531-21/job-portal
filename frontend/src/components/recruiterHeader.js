@@ -68,7 +68,7 @@ const RecruiterHeader = () => {
         <Stack direction={'row'} alignItems={'center'}
             sx={{
                 // bgcolor: "rgba(255,255,255,0.6)",
-                bgcolor: "black",
+                bgcolor: "white",
                 borderBottom: '1px solid #e0e0e0',
                 position: "fixed",
                 left: 0,
@@ -80,7 +80,15 @@ const RecruiterHeader = () => {
             }}
             justifyContent={'space-between'}
         >
-            <Typography variant="logo" sx={{ color: "white" }} >Logo</Typography>
+            <Box
+                component={"img"}
+                src="/images/logo.png"
+                sx={{
+                    width: 100,
+                    objectFit: "cover"
+                }}
+            />
+
             <Stack direction={'row'} justifyContent={'space-between'} alignItems={'center'}
                 sx={{ width: '20%' }}
             >
@@ -89,7 +97,7 @@ const RecruiterHeader = () => {
                         <Typography
                             component={RouterLink}
                             to={data?.path}
-                            sx={{ fontSize: 12, fontWeight: 500, color: "white", textDecoration: "none" }} >{data?.linkName}</Typography>
+                            sx={{ fontSize: 12, fontWeight: 500, color: "black", textDecoration: "none" }} >{data?.linkName}</Typography>
                     ))
                 }
             </Stack>

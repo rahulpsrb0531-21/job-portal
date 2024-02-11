@@ -55,7 +55,7 @@ export default function JobPage() {
             job
         }
         const res = await jobServices.savedJob(data)
-        // console.log(res)
+        console.log(res)
         if (res && res.success) {
             enqueueSnackbar(res?.message, {
                 variant: "success",
@@ -65,7 +65,8 @@ export default function JobPage() {
             // navigate()
             setValue('2')
         } else {
-            enqueueSnackbar("error", {
+            // console.log('sdssdfas', res)
+            enqueueSnackbar(res?.data?.message, {
                 variant: "error",
                 anchorOrigin: { horizontal: "right", vertical: "top" }, autoHideDuration: 1300
             })
@@ -183,7 +184,8 @@ export default function JobPage() {
                     onClick={() => searchJob()}
                 >Search</Button>
             </Box> */}
-            <Box sx={{ mt: 0.8 }} >
+            {/* <Typography sx={{ fontSize: { xs: 18, lg: 24 }, fontWeight: 600, py: 1 }} >Jobs</Typography> */}
+            <Box >
                 <TabContext value={value}>
                     <Box sx={{ borderBottom: 1, borderColor: 'divider' }}>
                         <TabList onChange={handleChange} aria-label="lab API tabs example">
@@ -193,12 +195,12 @@ export default function JobPage() {
                     </Box>
                     <TabPanel sx={{ "&.MuiTabPanel-root": { p: 0 } }} value="1">
                         <Box sx={{
-                            width: { xs: '100%', lg: "90%" }, border: '1px solid #e0e0e0', borderRadius: "8px", p: 1,
+                            width: { xs: '98%', lg: "90%" }, border: '1px solid #e0e0e0', borderRadius: "8px", p: 1, mt: 1
                             // position: 'fixed', bgcolor: '#fff', zIndex: 9999
                         }} >
-                            <Typography sx={{ fontSize: { xs: 18, lg: 24 }, fontWeight: 600 }} >Search for jobs</Typography>
+                            <Typography sx={{ fontSize: { xs: 18, lg: 24 }, fontWeight: 600, py: 1 }} >Search for jobs</Typography>
                             <Stack direction={{ xs: 'column', lg: 'row' }} flexWrap={'wrap'} rowGap={1} columnGap={1} >
-                                <TextField sx={{ ".css-3ux5v-MuiInputBase-root-MuiOutlinedInput-root": { height: "40px" }, width: "81%" }}
+                                <TextField sx={{ ".css-3ux5v-MuiInputBase-root-MuiOutlinedInput-root": { height: "40px" }, width: { xs: "100%", lg: "81%" } }}
                                     onChange={(e) => setDesignations(e.target.value)}
                                     value={designations}
                                     placeholder='Desinagation'
@@ -227,13 +229,10 @@ export default function JobPage() {
                                     )}
                                 /> */}
                                 <Select
-                                    sx={{ ".css-k6dkf7-MuiSelect-select-MuiInputBase-input-MuiOutlinedInput-input": { p: 2 }, width: { xs: "90%", lg: "40%" } }}
+                                    sx={{ ".css-k6dkf7-MuiSelect-select-MuiInputBase-input-MuiOutlinedInput-input": { p: 1 }, width: { xs: "100%", lg: "40%" } }}
+
                                     value={experience}
-                                    placeholder='djls'
                                 >
-                                    <MenuItem disabled value="">
-                                        <em>Placeholder</em>
-                                    </MenuItem>
                                     {
                                         experienceData?.map((data, idx) => (
                                             <MenuItem key={idx} value={data}
@@ -242,35 +241,12 @@ export default function JobPage() {
                                         ))
                                     }
                                 </Select>
-                                <TextField sx={{ width: { lg: "40%" } }}
+                                <TextField
+                                    sx={{ ".css-3ux5v-MuiInputBase-root-MuiOutlinedInput-root": { height: "40px" }, width: { xs: "100%", lg: "40%" } }}
                                     value={locations}
                                     onChange={(e) => setLocations(e.target.value)}
                                     placeholder='Location'
                                 />
-                                {/* <Autocomplete
-                                    multiple
-                                    sx={{ width: { xs: "90%", lg: '40%' } }}
-                                    id="tags-filled"
-                                    // options={jobsData.map((option) => option.jobs[0]?.title)}
-                                    options={[]}
-                                    freeSolo
-                                    renderTags={(value, getTagProps) => {
-                                        setLocations(value)
-                                        return value.map((option, index) => (
-                                            <Chip variant="outlined" label={option} {...getTagProps({ index })} />
-                                        ))
-                                    }
-                                    }
-                                    renderInput={(params) => (
-                                        <TextField
-                                            {...params}
-                                            variant="outlined"
-                                            // label="freeSolo"
-                                            placeholder="Locations..."
-                                        />
-                                    )}
-                                /> */}
-
                             </Stack>
                             <Stack direction={'row'} spacing={1} mt={1} >
                                 <Button variant='outlined' sx={{ width: '40%' }}
@@ -285,7 +261,7 @@ export default function JobPage() {
                             {
                                 jobsData?.map((data, idx) => (
                                     <Stack sx={{
-                                        width: "60%",
+                                        width: { xs: "96%", lg: "60%" },
                                         border: '1px solid #e0e0e0', borderRadius: "8px",
                                         p: 2,
                                         backgroundImage: "linear-gradient(178deg,#fafafa,#fff 35%)"
@@ -300,10 +276,10 @@ export default function JobPage() {
                                                     sx={{ color: 'rgb(14, 17, 17)', fontSize: 18, fontWeight: 500, cursor: "pointer" }}
                                                 >{data?.company?.companyName}</Typography>
                                                 <Typography
-                                                    sx={{ fontSize: 14 }}
+                                                    sx={{ fontSize: 12 }}
                                                 >{data?.company?.oneLinePitch}</Typography>
                                             </Box>
-                                            <Stack direction={'row'} spacing={1} >
+                                            {/* <Stack direction={'row'} spacing={1} >
                                                 <Button size="small" variant="outlined"
                                                     sx={{ fontSize: 14, width: "58px", height: "30px", fontWeight: 500 }}
                                                     onClick={() => savedJob(data)}
@@ -316,11 +292,11 @@ export default function JobPage() {
                                                 >
                                                     Learn more
                                                 </Button>
-                                            </Stack>
+                                            </Stack> */}
                                         </Stack>
                                         <Divider />
-                                        <Typography>{data?.title}</Typography>
-                                        <Typography>{data?.salaryCurrency?.symbol}{data?.salaryRange?.minimum} - {data?.salaryCurrency?.symbol}{data?.salaryRange?.maximum}</Typography>
+                                        <Typography sx={{ fontSize: 14 }} >{data?.title}</Typography>
+                                        <Typography sx={{ fontSize: 14, fontWeight: 700 }} >{data?.salaryCurrency?.symbol}{data?.salaryRange?.minimum} - {data?.salaryCurrency?.symbol}{data?.salaryRange?.maximum}</Typography>
                                         <Stack direction={'row'} spacing={0.4} alignItems={'center'} >
                                             <Iconify icon={"carbon:location"} sx={{ width: 16 }} />
                                             {
@@ -329,17 +305,31 @@ export default function JobPage() {
                                                 ))
                                             }
                                         </Stack>
+                                        <Stack direction={'row'} spacing={1} sx={{ mt: 1 }} >
+                                            <Button size="small" variant="outlined"
+                                                sx={{ fontSize: 14, width: "58px", height: "30px", fontWeight: 500 }}
+                                                onClick={() => savedJob(data)}
+                                            >
+                                                Save
+                                            </Button>
+                                            <Button variant="blackButton"
+                                                onClick={() => navigate(`/jobs/${data?.title}`, { state: data })}
+                                                sx={{ fontSize: 12, width: "110px", height: "30px", bgcolor: 'black', fontWeight: 500, }}
+                                            >
+                                                Learn more
+                                            </Button>
+                                        </Stack>
                                     </Stack>
                                 ))
                             }
                         </Stack>
                     </TabPanel>
-                    <TabPanel value="2" >
+                    <TabPanel sx={{ "&.MuiTabPanel-root": { p: 0 } }} value="2" >
                         <SavedJobPage />
                     </TabPanel>
                 </TabContext>
             </Box>
-        </Box>
+        </Box >
     );
 }
 

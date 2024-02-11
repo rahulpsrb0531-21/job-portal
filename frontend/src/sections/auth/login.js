@@ -49,6 +49,9 @@ export default function Login() {
         if (token && user?.role === 'CANDIDATE') {
             navigate("/jobs/profile", { replace: true })
         }
+        if (user && user?.role === "RECRUITER") {
+            navigate("/recruiter/dashboard", { replace: true })
+        }
     }, [token])
 
     async function loginCandidate(data) {
@@ -78,7 +81,7 @@ export default function Login() {
                     direction={{ xs: "column", lg: 'row' }}
                     alignItems={'center'}
                     justifyContent={'space-evenly'}
-                    sx={{ width: "100%", pt: 10 }}
+                    sx={{ width: "100%", pt: { xs: 4, lg: 10 } }}
                     spacing={4}
                 >
                     <Stack sx={{ width: { xs: '90%', lg: '22%' } }} spacing={2}>

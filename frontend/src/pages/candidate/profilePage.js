@@ -36,7 +36,7 @@ export default function Profile() {
                         <Tab label="Upload Document/CV" value="3" />
                     </TabList>
                 </Box>
-                <TabPanel value="1"><Overview /></TabPanel>
+                <TabPanel sx={{ "&.MuiTabPanel-root": { p: 0 } }} value="1"><Overview /></TabPanel>
                 <TabPanel value="2"><CandidateProfile /></TabPanel>
                 <TabPanel value="3"><DocumentUpload /></TabPanel>
             </TabContext>

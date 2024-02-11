@@ -16,6 +16,7 @@ export function MainPage() {
     return (
         <Box>
             <MainHeader />
+            {/* <Header /> */}
             <Box>
                 {
                     isDesktop === true ? (

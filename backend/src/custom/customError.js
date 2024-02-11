@@ -20,6 +20,12 @@ const applicationExists = new CustomError(
     409
 )
 
+const jobAlreadyExists = new CustomError(
+    'Em Exists!',
+    `The job is already saved`,
+    409
+)
+
 export default {
-    dataInvalid, userExists, applicationExists
+    dataInvalid, userExists, applicationExists, jobAlreadyExists
 }

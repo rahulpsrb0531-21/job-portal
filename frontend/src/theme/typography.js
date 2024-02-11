@@ -138,21 +138,21 @@ const typography = {
     // letterSpacing: 2,
     // lineHeight: "10px",
     fontSize: pxToRem(14),
-    ...responsiveFontSizes({ xs: 10, sm: 12, md: 14, lg: 14 }),
+    ...responsiveFontSizes({ xs: 12, sm: 12, md: 14, lg: 14 }),
   },
   companyTitle: {
     color: "rgb(5, 12, 38)",
     fontWeight: 500,
     lineHeight: "30px",
     fontSize: pxToRem(24),
-    ...responsiveFontSizes({ xs: 12, sm: 14, md: 18, lg: 24 }),
+    ...responsiveFontSizes({ xs: 24, sm: 24, md: 24, lg: 24 }),
   },
   companySubText: {
     color: "rgb(97, 97, 97)",
     fontWeight: 400,
     lineHeight: "20px",
     fontSize: pxToRem(16),
-    ...responsiveFontSizes({ xs: 10, sm: 12, md: 14, lg: 16 }),
+    ...responsiveFontSizes({ xs: 14, sm: 14, md: 16, lg: 16 }),
   }
 
 };
