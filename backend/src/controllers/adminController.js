@@ -14,7 +14,7 @@ const loginAdmin = async (req, res) => {
         if (!email || !password) throw customError.dataInvalid
         console.log('1')
         let foundAdmin = await Recruiter.findOne({ email })
-        console.log('sdfsd', foundAdmin)
+        // console.log('sdfsd', foundAdmin)
 
         if (foundAdmin && foundAdmin.role === "ADMIN" && (await foundAdmin.matchPassword(password))) {
             let admin = await Recruiter.findOne({ email }).select('-password')

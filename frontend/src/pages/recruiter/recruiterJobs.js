@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
+import axios from "axios";
 import { Button, Chip, Container, Stack, Typography } from "@mui/material";
 import recruiterServices from "../../services/recruiterServices";
 import DeleteJobModal from "../../components/deleteJobModal";
@@ -12,6 +13,22 @@ export default function RecruiterJobs() {
     const [jobId, setJobId] = useState('')
     const [jobs, setJobs] = useState([])
     const token = localStorage.getItem('access')
+
+    // const [ipAddress, setIpAddress] = useState('')
+    // console.log("ipAddress", ipAddress)
+
+    // useEffect(() => {
+    //     const fetchIpAddress = async () => {
+    //         try {
+    //             const response = await axios.get('https://api.ipify.org?format=json');
+    //             setIpAddress(response.data.ip);
+    //         } catch (error) {
+    //             console.error('Error fetching IP address:', error);
+    //         }
+    //     };
+
+    //     fetchIpAddress();
+    // }, [])
 
     useEffect(() => {
         if (user?.role !== "RECRUITER" && token) {
@@ -90,7 +107,7 @@ export default function RecruiterJobs() {
                                             color: "rgb(20, 63, 205)", fontSize: 14,
                                             fontWeight: 500,
                                             "&:hover": {
-                                                textDecoration: 'underline'
+                                                textDecoration: 'underline', cursor: "pointer"
                                             }
                                         }}>Edit</Typography>
                                     <Typography
@@ -99,7 +116,7 @@ export default function RecruiterJobs() {
                                             color: "Red", fontSize: 14,
                                             fontWeight: 500,
                                             "&:hover": {
-                                                textDecoration: 'underline'
+                                                textDecoration: 'underline', cursor: "pointer"
                                             }
                                         }}>Remove</Typography>
                                 </Stack>

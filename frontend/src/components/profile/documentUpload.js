@@ -97,7 +97,7 @@ export default function DocumentUpload({ open, setOpen, candidateData }) {
                 anchorOrigin: { horizontal: "right", vertical: "top" },
                 autoHideDuration: 1000
             })
-            navigate('/jobs/applications')
+            navigate('/candidate/applications')
         } else {
             enqueueSnackbar(res?.data, {
                 variant: "error",

@@ -2,7 +2,7 @@
 .parallax-container {
     position: relative;
     width: 100%;
-    height: 60vh;
+    height: 86vh;
     overflow: hidden;
     justify-content: center;
     align-items: center;
@@ -13,7 +13,7 @@
     font-size: 1.2rem;
     color: black;
     /* font-weight: bold; */
-    transition: transform 0.1s ease-out;
+    transition: transform 0.1s ease-in-out;
     border: '1px solid black';
     background-color: 'red';
 }

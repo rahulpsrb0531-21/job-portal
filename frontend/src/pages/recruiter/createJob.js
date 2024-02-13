@@ -11,6 +11,7 @@ import { useNavigate } from "react-router-dom"
 import CustomDescription from "../../components/customDescription"
 import 'react-quill/dist/quill.snow.css'
 import jobServices from "../../services/jobServices"
+import { employmentTypeData, experienceData } from "../../utils/basicData"
 
 
 export default function CreateJob() {
@@ -259,11 +260,7 @@ export default function CreateJob() {
         }
     ]
 
-    const experienceData = [
-        "< 1 Year", "1 Year", "2 Year", "3 Year", "4 Year", "5 Year", "6 Year", "7 Year", "8 Year", "9 Year", "10+ Year",
-    ]
 
-    const employmentTypeData = ["Full-Time", "Part-Time", "Contract"]
     return (
         <Box>
             <FormikProvider value={formik}>

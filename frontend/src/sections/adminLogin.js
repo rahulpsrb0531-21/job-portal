@@ -65,7 +65,7 @@ export default function AdminLogin() {
             navigate("/admin/candidates", { replace: true })
             // navigate("/recruiter", { replace: true })
         } else {
-            enqueueSnackbar(res?.data, {
+            enqueueSnackbar(res?.data || "server error", {
                 variant: "error",
                 anchorOrigin: { horizontal: "right", vertical: "top" }, autoHideDuration: 1000
             })

@@ -50,7 +50,7 @@ export default function RecruiterLogin() {
             navigate("/recruiter/dashboard", { replace: true })
         }
         if (user && user?.role === "CANDIDATE") {
-            navigate("/jobs/profile", { replace: true })
+            navigate("/candidate/profile", { replace: true })
         }
     }, [token])
 
@@ -67,7 +67,7 @@ export default function RecruiterLogin() {
             localStorage.setItem("access", res.accessToken)
             navigate("/recruiter/dashboard", { replace: true })
         } else {
-            enqueueSnackbar(res?.data, {
+            enqueueSnackbar(res?.data || "server error", {
                 variant: "error",
                 anchorOrigin: { horizontal: "right", vertical: "top" }, autoHideDuration: 1000
             })

@@ -86,8 +86,9 @@ const Header = () => {
                 src="/images/logo.png"
                 sx={{
                     width: 100,
-                    objectFit: "cover"
+                    objectFit: "cover", cursor: "pointer"
                 }}
+                onClick={() => navigate('/')}
             />
 
             {/* <Typography>{user?.role}</Typography> */}

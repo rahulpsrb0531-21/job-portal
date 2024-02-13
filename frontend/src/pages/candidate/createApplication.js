@@ -1,7 +1,7 @@
 import React, { useCallback, useState, useEffect } from 'react';
 import * as Yup from "yup"
 import Dialog from '@mui/material/Dialog';
-import { Box, Button, CardContent, Divider, FormControl, FormHelperText, FormLabel, MenuItem, Select, Stack, TextField, Typography } from '@mui/material';
+import { Box, Button, CardContent, Divider, FormControl, FormControlLabel, FormHelperText, FormLabel, MenuItem, Radio, RadioGroup, Select, Stack, TextField, Typography } from '@mui/material';
 import Iconify from "../../components/Iconify";
 import { useSnackbar } from "notistack"
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
@@ -26,23 +26,28 @@ export default function CreateApplication({ open, setOpen, candidateData }) {
     const { enqueueSnackbar } = useSnackbar();
     const experienceSchema = Yup.object().shape({
         totalYearExp: Yup.string().required("Total Years Experience"),
-        relavantWork: Yup.string().required("Write relevant work experience")
+        relavantWork: Yup.string(),
+        rightToWork: Yup.boolean().required("Right to Work is required"),
+        sponsorshipToWork: Yup.boolean().required("Sponsorship to Work is required")
     })
     const formik = useFormik({
         initialValues: {
             totalYearExp: "",
-            relavantWork: ""
+            relavantWork: "",
+            rightToWork: null,
+            sponsorshipToWork: null
         },
         validationSchema: experienceSchema,
         onSubmit: (v) => {
             const data = {
                 totalYearExp: v?.totalYearExp,
                 relavantWork: v?.relavantWork,
+                rightToWork: v?.rightToWork,
+                sponsorshipToWork: v?.sponsorshipToWork,
                 candidateId: user?._id,
                 jobId: state,
                 resume: candidate?.resume
             }
-            // console.log('data>>>>>', data)
             if (candidate?.resume?.length !== 0) {
                 createApplication(data)
                 // console.log("fine")
@@ -69,7 +74,7 @@ export default function CreateApplication({ open, setOpen, candidateData }) {
                 anchorOrigin: { horizontal: "right", vertical: "top" },
                 autoHideDuration: 1000
             })
-            navigate('/jobs/applications')
+            navigate('/candidate/applications')
         } else {
             enqueueSnackbar(res?.data?.message, {
                 variant: "error",
@@ -127,8 +132,46 @@ export default function CreateApplication({ open, setOpen, candidateData }) {
                             </Select>
                             <FormHelperText>{touched.totalYearExp && errors.totalYearExp}</FormHelperText>
                         </Stack>
+                        <Stack>
+                            <FormControl>
+                                <Typography variant="profilePageTitle" > Do you have a Right to Work in the United Kingdom?*</Typography>
+                                <RadioGroup
+                                    row
+                                    aria-labelledby="demo-controlled-radio-buttons-group"
+                                    name="controlled-radio-buttons-group"
+                                    value={values?.rightToWork}
+                                    onChange={(e) => setFieldValue("rightToWork", e.target.value)}
+                                >
+                                    <FormControlLabel
+                                        value={true} control={<Radio size="sm" />}
+                                        label={<Typography sx={{ fontSize: 14, fontWeight: 600, ml: -0.6 }} >Yes</Typography>}
+                                    />
+                                    <FormControlLabel value={false} control={<Radio size="sm" />}
+                                        label={<Typography sx={{ fontSize: 14, fontWeight: 600, ml: -0.6 }} >No</Typography>}
+                                    />
+                                </RadioGroup>
+                            </FormControl>
+                            <FormControl>
+                                <Typography variant="profilePageTitle" > Will you now or in future require a sponsorship to work in the United Kingdom?*</Typography>
+                                <RadioGroup
+                                    row
+                                    aria-labelledby="demo-controlled-radio-buttons-group"
+                                    name="controlled-radio-buttons-group"
+                                    value={values?.sponsorshipToWork}
+                                    onChange={(e) => setFieldValue("sponsorshipToWork", e.target.value)}
+                                >
+                                    <FormControlLabel
+                                        value={true} control={<Radio size="sm" />}
+                                        label={<Typography sx={{ fontSize: 14, fontWeight: 600, ml: -0.6 }} >Yes</Typography>}
+                                    />
+                                    <FormControlLabel value={false} control={<Radio size="sm" />}
+                                        label={<Typography sx={{ fontSize: 14, fontWeight: 600, ml: -0.6 }} >No</Typography>}
+                                    />
+                                </RadioGroup>
+                            </FormControl>
+                        </Stack>
                         <Stack spacing={0.6}>
-                            <Typography variant="profilePageTitle" >Write relevant work experience?*</Typography>
+                            <Typography variant="profilePageTitle" >Please mention your most relevant experience.</Typography>
                             <TextField
                                 multiline={true}
                                 rows={4}
@@ -146,12 +189,14 @@ export default function CreateApplication({ open, setOpen, candidateData }) {
                         </Stack>
                         <Divider />
                         <Stack direction={'row'} justifyContent={'end'} alignItems={'center'} spacing={1} >
-                            <Button variant="outlined" sx={{ width: 80 }}
+                            {/* <Button variant="outlined" sx={{ width: 80 }}
                             // onClick={() => onClose()}
-                            >Cancel</Button>
-                            <Button variant="blackButton" sx={{ letterSpacing: 2 }} type="submit"
-                                onClick={() => console.log(values)}
-                            >Save</Button>
+                            >Cancel</Button> */}
+                            <Button variant="blackButton"
+                                // onClick={() => console.log(errors)}
+                                type="submit"
+                                sx={{ fontSize: 12, width: "110px", height: "30px", bgcolor: 'black', fontWeight: 500, }}
+                            >Apply</Button>
                         </Stack>
                     </Stack>
                 </Form>

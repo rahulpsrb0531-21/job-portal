@@ -17,7 +17,10 @@ export default function CategoryCard({ data }) {
                 component={'img'}
                 src={data?.img}
                 sx={{
-                    aspectRatio: 3 / 2, width: { xs: "100%", lg: 300 }, objectFit: "contain", borderRadius: "4px"
+                    aspectRatio: 3 / 2,
+                    width: { xs: "100%", lg: 300 },
+                    objectFit: "cover",
+                    borderRadius: "4px"
                 }}
             />
             <Box

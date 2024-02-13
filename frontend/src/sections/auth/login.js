@@ -47,7 +47,7 @@ export default function Login() {
 
     useEffect(() => {
         if (token && user?.role === 'CANDIDATE') {
-            navigate("/jobs/profile", { replace: true })
+            navigate("/candidate/profile", { replace: true })
         }
         if (user && user?.role === "RECRUITER") {
             navigate("/recruiter/dashboard", { replace: true })
@@ -56,6 +56,7 @@ export default function Login() {
 
     async function loginCandidate(data) {
         const res = await authServices.login(data)
+        // console.log("res>>>>>>>>", res)
         setSubmitting(false)
         if (res && res.success) {
             enqueueSnackbar(res?.message, {
@@ -65,9 +66,9 @@ export default function Login() {
             })
             dispatch(setCredentials({ ...res }))
             localStorage.setItem("access", res.accessToken)
-            navigate("/jobs/profile", { replace: true })
+            navigate("/candidate/profile", { replace: true })
         } else {
-            enqueueSnackbar(res?.data, {
+            enqueueSnackbar(res?.data || "server error", {
                 variant: "error",
                 anchorOrigin: { horizontal: "right", vertical: "top" }, autoHideDuration: 1000
             })

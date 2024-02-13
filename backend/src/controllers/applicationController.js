@@ -9,9 +9,9 @@ import Job from "../model/jobModel.js";
 // @access  public 
 const applyApplication = async (req, res) => {
     try {
-        const { totalYearExp, relavantWork, candidateId, jobId } = req.body
+        const { totalYearExp, relavantWork, candidateId, jobId, sponsorshipToWork, rightToWork } = req.body
         if (
-            !totalYearExp || !relavantWork || !candidateId || !jobId) throw customError.dataInvalid
+            !totalYearExp || !candidateId || !jobId) throw customError.dataInvalid
 
         // if job not exits throw error 
         let jobExists = await Job.findById({ _id: jobId })
@@ -31,6 +31,8 @@ const applyApplication = async (req, res) => {
         const newApplication = await Application.create({
             totalYearExp: totalYearExp,
             relavantWork: relavantWork,
+            sponsorshipToWork: sponsorshipToWork,
+            rightToWork: rightToWork,
             candidate: candidateExists,
             job: jobExists,
             name: candidateExists.candidateName,

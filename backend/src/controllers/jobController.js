@@ -213,14 +213,8 @@ const candidateSaveJob = async (req, res) => {
         const jobExits = await Candidate.findOne(
             {
                 _id: candidateId,
-                // jobsSaved: {
-                //     $elemMatch: {
-                //         _id: jobId
-                //     }
-                // }
                 "jobsSaved._id": jobId
             })
-        // console.log('jobExits', jobExits)
         if (jobExits) throw customError.jobAlreadyExists
 
         Candidate.findByIdAndUpdate(
@@ -286,32 +280,24 @@ const deleteCandidateSaveJob = async (req, res) => {
 // @access  private
 const searchJob = async (req, res) => {
     try {
-        const { designations, locations, experience } = req.body
-        // console.log(designations, locations, experience)
-        // const title = designations
-        // Use the received data to filter job postings
-        // Example MongoDB query:
-        // const jobs = await Job.find({
-        //     title: { $in: designations },
-        //     location: { $in: locations }
-        //     , experience: { $in: experience }
-        // })
-
-        // Construct MongoDB query based on received data
+        const { designations, locations, experience, jobType } = req.body
         const query = {};
 
         if (designations && designations.length > 0) {
-            console.log('1')
-            query.title = { $in: designations };
-            console.log('2')
+            // query.title = { $in: designations }
+            query.title = { $regex: new RegExp(`^${designations}$`, 'i') }
         }
 
         if (locations && locations.length > 0) {
-            query.location = { $in: locations };
+            query.location = { $regex: new RegExp(`^${locations}$`, 'i') }
         }
 
         if (experience) {
             query.experience = { $in: experience };
+        }
+
+        if (jobType && jobType.length > 0) {
+            query.employmentType = { $regex: new RegExp(`^${jobType}$`, 'i') }
         }
 
         // Execute the query

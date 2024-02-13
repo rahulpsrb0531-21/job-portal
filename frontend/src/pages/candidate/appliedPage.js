@@ -44,7 +44,7 @@ export default function AppliedPage() {
             <TabContext value={value}>
                 <Box sx={{ borderBottom: 1, borderColor: 'divider' }}>
                     <TabList onChange={handleChange} aria-label="lab API tabs example">
-                        <Tab label="Ongoing " value="1" />
+                        <Tab label="Applied Jobs" value="1" />
                     </TabList>
                 </Box>
                 <TabPanel sx={{ "&.MuiTabPanel-root": { p: 0 } }} value="1">
@@ -56,19 +56,12 @@ export default function AppliedPage() {
                                     <Stack direction={'row'} justifyContent={'space-between'} alignItems={"start"}
                                         sx={{
                                             width: { xs: "96%", lg: "60%" },
-                                            border: '1px solid #e0e0e0', borderRadius: "4px", p: 1,
+                                            border: '1px solid #e0e0e0', borderRadius: "4px", p: 1, cursor: "pointer",
                                             ":hover": { boxShadow: 1 }
                                         }}
+                                        onClick={() => navigate(`/candidate/applied/${data?.job?.title}`, { state: data?.job })}
                                     >
                                         <Stack direction={'row'} spacing={1} >
-                                            {/* <Typography>Logo</Typography> */}
-                                            {/* <Box
-                                            component={'img'}
-                                            src={data?.job?.company?.companyLogo}
-                                            alt={data?.job?.company?.companyName}
-                                            width={100}
-                                            height={100}
-                                        /> */}
                                             <Box>
                                                 <Typography
                                                     sx={{ fontSize: 20, fontWeight: 500 }}
@@ -81,7 +74,9 @@ export default function AppliedPage() {
                                                 >{data?.status}</Typography>
                                             </Box>
                                         </Stack>
+                                        {/* <Box onClick={() => navigate(`/candidate/applied/${data?.job?.title}`, { state: data?.job })} > */}
                                         <Iconify icon={"fluent:ios-arrow-24-regular"} sx={{ width: 16, height: 16, transform: "rotate(180deg)" }} />
+                                        {/* </Box> */}
                                     </Stack>
                                 )
                             })

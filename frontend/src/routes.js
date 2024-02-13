@@ -30,6 +30,7 @@ import EditJob from './pages/recruiter/editJobPage'
 import CreateRecruiter from './pages/adminDashboard/recruiter/createRecruiter'
 import UpdateJobByAdmin from './pages/adminDashboard/job/updateJobByAdmin'
 import UpdateRecruiterByAdmin from './pages/adminDashboard/recruiter/updateRecruiterByAdmin'
+import AppliedJobDetails from './pages/candidate/appliedJobDetails'
 
 export default function Router() {
     const { user } = useSelector((state) => state.auth)
@@ -48,14 +49,15 @@ export default function Router() {
             },
 
         user === 'RECRUITER' ? " " : {
-            path: '/jobs',
+            path: '/candidate',
             element: <MainLayout />,
             children: [
-                { path: "home", element: <HomePage /> },
+                { path: "dashboard", element: <HomePage /> },
                 { path: "profile", element: <ProfilePage /> },
                 { path: "lists", element: <JobPage /> },
                 { path: ":jobName", element: <JobDetails /> },
                 { path: "applications", element: <AppliedPage /> },
+                { path: "applied/:JobName", element: <AppliedJobDetails /> },
                 { path: "create/application", element: <CreateApplication /> },
             ]
         },

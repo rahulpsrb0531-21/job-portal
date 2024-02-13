@@ -45,9 +45,9 @@ export default function Register() {
             })
             dispatch(setCredentials({ ...res }))
             localStorage.setItem("access", res.accessToken)
-            navigate("/jobs/profile", { replace: true })
+            navigate("/candidate/profile", { replace: true })
         } else {
-            enqueueSnackbar(res?.data, {
+            enqueueSnackbar(res?.data?.message || "server error", {
                 variant: "error",
                 anchorOrigin: { horizontal: "right", vertical: "top" }, autoHideDuration: 1000
             })
@@ -56,7 +56,7 @@ export default function Register() {
 
     useEffect(() => {
         if (token && user?.role === 'CANDIDATE') {
-            navigate("/jobs/profile", { replace: true })
+            navigate("/candidate/profile", { replace: true })
         }
         if (user && user?.role === "RECRUITER") {
             navigate("/recruiter/dashboard", { replace: true })

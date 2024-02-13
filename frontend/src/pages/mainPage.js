@@ -9,6 +9,7 @@ import CardCarousel from '../components/company/cardCarousel'
 import { companyServiceData } from '../utils/basicData'
 import OurServices from '../components/company/ourServices.js'
 import Footer from '../components/footer.js'
+import AboutSection from '../components/company/aboutSection.js'
 
 
 export function MainPage() {
@@ -21,7 +22,7 @@ export function MainPage() {
                 {
                     isDesktop === true ? (
                         <Stack alignItems={'center'}
-                            sx={{ pt: 10, height: "86vh" }}
+                            sx={{ height: "86vh" }}
                         >
                             <ParallaxMousemove />
                         </Stack>
@@ -53,6 +54,7 @@ export function MainPage() {
                 )
             }
             <OurServices />
+            <AboutSection />
             <Footer />
         </Box>
     )

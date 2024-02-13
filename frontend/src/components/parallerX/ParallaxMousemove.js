@@ -45,16 +45,30 @@ const ParallaxMousemove = () => {
     }, []);
 
     return (
-        <Box sx={{ width: '100%' }} >
+        <Box sx={{
+            width: '100%',
+            // bgcolor: "red",
+            height: "100%"
+        }} >
             <div className="parallax-container">
-                <Stack alignItems={'center'} justifyContent={'center'} >
+                <Stack alignItems={'center'} justifyContent={'center'}
+                    sx={{
+                        backgroundImage: `url(/images/blur-background.png)`,
+                        // backgroundImage: 'linear-gradient(#fff,#fff 0%,rgba(255,255,255,0))',
+                        backgroundSize: "cover",
+                        // zIndex: 19999,
+                    }}
+                >
                     <Typography
                         sx={{
                             border: "2px dashed black",
-                            borderRadius: '4px',
+                            borderRadius: '1vw',
                             fontSize: { xs: 22, lg: 52 }, fontWeight: 600,
                             textAlign: 'center',
-                            width: '44%'
+                            width: '44%',
+                            bgcolor: 'white',
+                            zIndex: 19999,
+                            mt: 10,
                         }}
                     >Welcome to DKRIN</Typography>
                 </Stack>
@@ -65,7 +79,9 @@ const ParallaxMousemove = () => {
                         style={{
                             top: element.top,
                             left: element.left,
-                            transform: `translate(-${mousePosition.x / (20 * element.id)}px, -${mousePosition.y / (20 * element.id)}px)`,
+                            transform:
+                                `translate(-${mousePosition.x / (20 * element.id)}px, -${mousePosition.y / (20 * element.id)}px)`,
+
                         }}
                     >
                         {element.text}

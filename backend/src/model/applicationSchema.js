@@ -18,8 +18,9 @@ const applicationSchema = mongoose.Schema(
         },
         relavantWork: {
             type: String,
-            required: true,
         },
+        rightToWork: { type: Boolean, default: false },
+        sponsorshipToWork: { type: Boolean, default: false },
         resume: { type: String, required: true },
         status: {
             type: String,

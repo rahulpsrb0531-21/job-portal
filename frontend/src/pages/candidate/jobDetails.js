@@ -162,7 +162,7 @@ export default function JobDetails() {
                                     sx={{ fontSize: 14, width: "58px", height: "30px", fontWeight: 500 }}
                                 >Save</Button>
                                 <Button variant="blackButton"
-                                    onClick={() => navigate('/jobs/create/application', { state: state?._id })}
+                                    onClick={() => navigate('/candidate/create/application', { state: state?._id })}
                                     sx={{ fontSize: 12, width: "110px", height: "30px", bgcolor: 'black', fontWeight: 500, }}
                                 >Apply</Button>
                             </Stack>
@@ -176,27 +176,9 @@ export default function JobDetails() {
                                     ))
                                 }
                             </Stack>
-                            {/* <Box>
-                                <Typography>Job Type</Typography>
-                                <Typography>{state?.employmentType}</Typography>
-                            </Box>
-                            <Box>
-                                <Typography>Visa sponsorship</Typography>
-                                <Typography>{state?.visaSponsorship ? "Available" : "Not Available"}</Typography>
-                            </Box> */}
-                            {/* <Box>
-                            <Typography>Relocation</Typography>
-                            <Typography>{state?.employmentType}</Typography>
-                        </Box> */}
                         </Box>
                     </Box>
                 </Stack>
-                {/* 2 */}
-                {/* 
-                <Stack sx={{ width: '22%', bgcolor: 'gold' }} >
-                    <Typography>lfhdss</Typography>
-                </Stack> */}
-
             </Stack>
         </Stack>
     )
