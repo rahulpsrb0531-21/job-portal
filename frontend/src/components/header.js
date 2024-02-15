@@ -91,7 +91,6 @@ const Header = () => {
                 onClick={() => navigate('/')}
             />
 
-            {/* <Typography>{user?.role}</Typography> */}
             {
                 token && (
 

@@ -23,8 +23,8 @@ export default function EditJob() {
     const token = localStorage.getItem('access')
 
     useEffect(() => {
-        if (user?.role !== "RECRUITER" && token) {
-            navigate('/login')
+        if (user?.role !== "RECRUITER" || !token) {
+            navigate('/')
         }
     }, [])
 

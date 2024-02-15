@@ -22,10 +22,12 @@ const applicationSchema = mongoose.Schema(
         rightToWork: { type: Boolean, default: false },
         sponsorshipToWork: { type: Boolean, default: false },
         resume: { type: String, required: true },
+        candidateProfileApproveRequest: { type: Boolean, default: false },
+        sentApproveRequest: { type: Boolean, default: false },
         status: {
             type: String,
             default: 'pending',
-            enum: ['pending', 'accepted', 'rejected']
+            enum: ['pending', 'approve', 'rejected']
         }
     }
 )

@@ -21,7 +21,7 @@ export default function Profile() {
 
     useEffect(() => {
         if (user?.role !== "CANDIDATE" && token) {
-            navigate('/login')
+            navigate('/')
         }
     }, [])
 

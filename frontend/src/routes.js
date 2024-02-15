@@ -31,6 +31,7 @@ import CreateRecruiter from './pages/adminDashboard/recruiter/createRecruiter'
 import UpdateJobByAdmin from './pages/adminDashboard/job/updateJobByAdmin'
 import UpdateRecruiterByAdmin from './pages/adminDashboard/recruiter/updateRecruiterByAdmin'
 import AppliedJobDetails from './pages/candidate/appliedJobDetails'
+import NotificationList from './pages/adminDashboard/notification/notificationList'
 
 export default function Router() {
     const { user } = useSelector((state) => state.auth)
@@ -45,6 +46,7 @@ export default function Router() {
                     { path: "create/job", element: <CreateJob /> },
                     { path: "edit/job", element: <EditJob /> },
                     { path: "applicant", element: <ApplicantPage /> },
+                    { path: "profile", element: <EditRecruiterProfile /> },
                 ]
             },
 
@@ -73,7 +75,8 @@ export default function Router() {
                     { path: 'edit/recruiter', element: <UpdateRecruiterByAdmin /> },
                     { path: 'jobs', element: <JobList /> },
                     { path: 'job/create', element: <CreateJobByAdmin /> },
-                    { path: 'edit/job', element: <UpdateJobByAdmin /> }
+                    { path: 'edit/job', element: <UpdateJobByAdmin /> },
+                    { path: 'notification', element: <NotificationList /> }
                 ]
             },
         {

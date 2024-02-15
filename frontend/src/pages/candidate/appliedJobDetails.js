@@ -1,11 +1,22 @@
 import { Stack, Typography } from "@mui/material";
-import { useLocation } from "react-router-dom";
+import { useEffect } from "react";
+import { useSelector } from "react-redux";
+import { useLocation, useNavigate } from "react-router-dom";
 
 
 
 export default function AppliedJobDetails() {
+    const navigate = useNavigate()
     const { state } = useLocation()
-    console.log('state>>>', state)
+    const token = localStorage.getItem('access')
+    const { user } = useSelector((state) => state.auth)
+
+    useEffect(() => {
+        if (user?.role !== "CANDIDATE" && !token) {
+            navigate('/')
+        }
+    }, [])
+
     const data = [
         {
             title: "Job Overview",

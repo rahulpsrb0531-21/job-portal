@@ -73,7 +73,6 @@ export default function AdminNavbar({ onOpenSidebar }) {
                     <Iconify icon="eva:menu-2-fill" />
                 </IconButton>
 
-                {/* <Searchbar /> */}
                 <Box sx={{ flexGrow: 1 }} />
                 <Box width={'0.16rem'} height={'1.5rem'} bgcolor='#BCBCCB ' mr={'1rem'} />
                 <Stack direction={'row'} alignItems='center'  >

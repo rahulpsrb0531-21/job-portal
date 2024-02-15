@@ -1,54 +1,17 @@
 import { useState } from "react"
-import { NavLink as RouterLink } from 'react-router-dom'
+import { NavLink as RouterLink, useNavigate } from 'react-router-dom'
 import { styled, alpha } from '@mui/material/styles'
 import { Box, Typography, Stack, InputBase } from "@mui/material"
 import SearchIcon from '@mui/icons-material/Search';
 import Iconify from "./Iconify";
 import RecruiterPopover from "../layouts/recruiter/recruiterPopover";
+import DrawerMenu from "./drawerMenu";
 
-const Search = styled('div')(({ theme }) => ({
-    position: 'relative',
-    borderRadius: theme.shape.borderRadius,
-    backgroundColor: alpha(theme.palette.common.black, 0.15),
-    '&:hover': {
-        backgroundColor: alpha(theme.palette.common.black, 0.25),
-    },
-    marginLeft: 0,
-    width: '100%',
-    [theme.breakpoints.up('sm')]: {
-        marginLeft: theme.spacing(1),
-        width: 'auto',
-    },
-}));
-
-const SearchIconWrapper = styled('div')(({ theme }) => ({
-    padding: theme.spacing(0, 2),
-    height: '100%',
-    position: 'absolute',
-    pointerEvents: 'none',
-    display: 'flex',
-    alignItems: 'center',
-    justifyContent: 'center',
-}));
-
-const StyledInputBase = styled(InputBase)(({ theme }) => ({
-    color: 'inherit',
-    width: '100%',
-    '& .MuiInputBase-input': {
-        padding: theme.spacing(1, 1, 1, 0),
-        // vertical padding + font size from searchIcon
-        paddingLeft: `calc(1em + ${theme.spacing(4)})`,
-        // transition: theme.transitions.create('width'),
-        // [theme.breakpoints.up('sm')]: {
-        //     width: '12ch',
-        //     '&:focus': {
-        //         width: '20ch',
-        //     },
-        // },
-    },
-}));
 
 const RecruiterHeader = () => {
+    const navigate = useNavigate()
+    const token = localStorage.getItem('access')
+
     const linkData = [
         {
             linkName: "Dashboard",
@@ -85,45 +48,55 @@ const RecruiterHeader = () => {
                 src="/images/logo.png"
                 sx={{
                     width: 100,
-                    objectFit: "cover"
+                    objectFit: "cover",
+                    cursor: "pointer"
                 }}
+                onClick={() => navigate("/")}
             />
 
             <Stack direction={'row'} justifyContent={'space-between'} alignItems={'center'}
-                sx={{ width: '20%' }}
+                sx={{
+                    width: '20%',
+                    display: { xs: 'none', md: 'flex', lg: "flex" }
+                }}
             >
                 {
                     linkData?.map((data, idx) => (
                         <Typography
                             component={RouterLink}
                             to={data?.path}
-                            sx={{ fontSize: 12, fontWeight: 500, color: "black", textDecoration: "none" }} >{data?.linkName}</Typography>
+                            sx={{ fontSize: 14, fontWeight: 500, color: "black", textDecoration: "none" }} >{data?.linkName}</Typography>
                     ))
                 }
             </Stack>
             <Stack direction={'row'} alignItems={'center'}
                 justifyContent={'space-around'}
-                sx={{ width: "4%" }}
+            // sx={{ width: "4%" }}
             >
-                {/* <Search>
-                    <SearchIconWrapper>
-                        <SearchIcon />
-                    </SearchIconWrapper>
-                    <StyledInputBase
-                        placeholder="Search…"
-                        inputProps={{ 'aria-label': 'search' }}
-                    />
-                </Search> */}
-                {/* <Iconify icon={"iconamoon:notification-fill"} sx={{ width: 24, height: 24, color: "white" }} /> */}
-                <Stack direction={'row'} alignItems={'center'}>
-                    {/* <Iconify icon={"mingcute:user-4-fill"} sx={{ width: 32, height: 32, color: "white" }} />
-                    <Stack sx={{ color: "white" }} >
-                        <Typography sx={{ fontSize: 14 }} >Rakesh</Typography>
-                        <Typography sx={{ fontSize: 14 }} >thea trands</Typography>
-                    </Stack> */}
-                    {/* <Iconify icon={"fluent:ios-arrow-24-regular"} sx={{ width: 18, height: 18, transform: "rotate(270deg)", color: "white" }} /> */}
+                {/* <Stack direction={'row'} alignItems={'center'}>
                     <RecruiterPopover />
-                </Stack>
+                </Stack> */}
+                {
+                    token && (
+
+                        <Box
+                            sx={{ display: { xs: 'block', md: 'none', lg: "none" } }}
+                        >
+                            <DrawerMenu />
+                        </Box>
+                    )
+                }
+
+                {
+                    token && (
+
+                        <Box
+                            sx={{ display: { xs: 'none', md: 'block', lg: "block" } }}
+                        >
+                            <RecruiterPopover />
+                        </Box>
+                    )
+                }
             </Stack>
         </Stack>
     )

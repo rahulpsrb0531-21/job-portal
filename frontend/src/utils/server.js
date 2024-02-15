@@ -1,7 +1,7 @@
 import axios from 'axios'
 
 export const server = axios.create({
-    baseURL: 'http://192.168.0.101:5000/',
+    baseURL: 'http://192.168.0.100:5000/',
     // baseURL: 'http://localhost:5000/',
     responseType: 'json',
     headers: {

@@ -17,7 +17,6 @@ export function MainPage() {
     return (
         <Box>
             <MainHeader />
-            {/* <Header /> */}
             <Box>
                 {
                     isDesktop === true ? (
@@ -28,7 +27,6 @@ export function MainPage() {
                         </Stack>
                     ) : (
                         <Stack alignItems={'center'}
-                            // sx={{ position: 'absolute', top: "50%", left: '5%' }}
                             justifyContent={'center'}
                             sx={{ height: '400px' }}
                         >

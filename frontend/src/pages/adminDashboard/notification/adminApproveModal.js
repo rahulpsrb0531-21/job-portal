@@ -1,18 +1,19 @@
-import React from "react";
+import React from "react"
 import { Box, Button, Dialog, DialogActions, DialogTitle, Stack, TextField, Typography } from "@mui/material";
-import { useSnackbar } from "notistack";
-import recruiterServices from "../services/recruiterServices";
-import jobServices from "../services/jobServices";
+import { useSnackbar } from "notistack"
+import notificationServices from "../../../services/notificationServices";
 
-export default function DeleteJobModal({ open, setOpen, jobId, getRecruiterJobs }) {
-    // const navigate = useNavigate()
+export default function AdminApproveModal({ open, setOpen, getAllNotification, notificationId }) {
     const { enqueueSnackbar } = useSnackbar();
     const onClose = () => {
-        setOpen(false);
+        setOpen(false)
     }
-
-    async function jobDelete(jobId) {
-        const res = await jobServices.deleteJob(jobId);
+    async function requestApprove() {
+        const data = {
+            notificationId
+        }
+        // console.log(data)
+        const res = await notificationServices.updateNotification(data)
         if (res && res.success) {
             enqueueSnackbar(res?.message, {
                 variant: "success",
@@ -20,7 +21,7 @@ export default function DeleteJobModal({ open, setOpen, jobId, getRecruiterJobs 
                 autoHideDuration: 1000
             })
             onClose()
-            getRecruiterJobs()
+            getAllNotification()
         }
         else {
             enqueueSnackbar(res?.data?.message || "Something went wrong!!!", { variant: "error", anchorOrigin: { horizontal: "right", vertical: "top", autoHideDuration: 800 } })
@@ -32,7 +33,7 @@ export default function DeleteJobModal({ open, setOpen, jobId, getRecruiterJobs 
         <Dialog open={open} onClose={onClose} aria-labelledby="responsive-dialog-title" >
 
             <DialogTitle id="responsive-dialog-title">
-                {"Are you sure you want to delete this job ?"}
+                {"Request approval for the recruiter application from the admin."}
             </DialogTitle>
             <DialogActions>
                 <Stack direction={'row'} spacing={2} >
@@ -44,7 +45,7 @@ export default function DeleteJobModal({ open, setOpen, jobId, getRecruiterJobs 
                         No
                     </Button>
                     <Button
-                        onClick={() => jobDelete(jobId)}
+                        onClick={() => requestApprove()}
                         variant="blackButton" autoFocus>
                         Yes
                     </Button>

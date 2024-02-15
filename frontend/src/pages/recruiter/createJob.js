@@ -21,8 +21,8 @@ export default function CreateJob() {
     const { user } = useSelector((state) => state.auth)
     const token = localStorage.getItem('access')
     useEffect(() => {
-        if (user?.role !== "RECRUITER" && token) {
-            navigate('/login')
+        if (user?.role !== "RECRUITER" && !token) {
+            navigate('/')
         }
     }, [])
 

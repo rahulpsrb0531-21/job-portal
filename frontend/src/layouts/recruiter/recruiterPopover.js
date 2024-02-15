@@ -1,4 +1,4 @@
-import { useRef, useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
 // material
 import { alpha } from '@mui/material/styles'
 import { useNavigate } from 'react-router-dom'
@@ -32,6 +32,8 @@ export default function RecruiterPopover() {
         navigate("/")
     }
 
+    // useEffect(() => { }, [user])
+
     return (
         <>
             <IconButton
@@ -62,6 +64,15 @@ export default function RecruiterPopover() {
                     <Stack spacing={0.7} >
                         <Typography sx={{ fontSize: 10, fontWeight: 400 }} >support</Typography>
                         <Typography sx={{ fontSize: 12, fontWeight: 500 }} >Help</Typography>
+                        <Typography sx={{
+                            fontSize: 12, fontWeight: 500,
+                            ":hover": {
+                                bgcolor: (theme) => alpha(theme.palette.primary.main, theme.palette.action.focusOpacity),
+                                cursor: "pointer"
+                            }
+                        }}
+                            onClick={() => { navigate("/recruiter/profile"); handleClose() }}
+                        >Edit Profile</Typography>
                         <Typography
                             onClick={() => logout()}
                             sx={{

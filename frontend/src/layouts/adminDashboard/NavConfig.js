@@ -26,6 +26,11 @@ const navConfig = [
     path: '/admin/jobs',
     icon: 'octicon:checklist-24'
   },
+  {
+    title: 'Notification',
+    path: '/admin/notification',
+    icon: 'fluent:alert-20-regular'
+  },
 ]
 
 export default navConfig

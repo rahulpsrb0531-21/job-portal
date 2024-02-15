@@ -14,25 +14,9 @@ export default function RecruiterJobs() {
     const [jobs, setJobs] = useState([])
     const token = localStorage.getItem('access')
 
-    // const [ipAddress, setIpAddress] = useState('')
-    // console.log("ipAddress", ipAddress)
-
-    // useEffect(() => {
-    //     const fetchIpAddress = async () => {
-    //         try {
-    //             const response = await axios.get('https://api.ipify.org?format=json');
-    //             setIpAddress(response.data.ip);
-    //         } catch (error) {
-    //             console.error('Error fetching IP address:', error);
-    //         }
-    //     };
-
-    //     fetchIpAddress();
-    // }, [])
-
     useEffect(() => {
-        if (user?.role !== "RECRUITER" && token) {
-            navigate('/login')
+        if (user?.role !== "RECRUITER" || !token) {
+            navigate('/')
         }
     }, [])
 

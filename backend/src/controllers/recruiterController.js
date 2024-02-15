@@ -71,23 +71,47 @@ const registerRecruiter = async (req, res) => {
     }
 }
 
+// @desc    Get Recruiter By Id
+// @route   GET /api/recruiter/:id
+// @access  private
+const getRecruiterByid = async (req, res) => {
+    try {
+        const _id = req.params.id
+        // Find the candidate by their ID
+        let recruiter = await Recruiter.findOne({ _id })
+
+        res.status(200).json({
+            success: true,
+            user: recruiter,
+            message: `Get Recruiter Successfully`,
+        })
+
+    } catch (error) {
+        console.log(`***** ERROR : ${req.originalUrl, error} error`);
+        res.status(200).json({
+            success: false,
+            data: error,
+        });
+    }
+}
+
 // @desc   Update Recruiter
 // @route   UPDATE /api/recruiter/update
 // @access  private
 const updateRecruiter = async (req, res) => {
     try {
-        const { companyLogo, companyName, companyDescription, oneLinePitch,
+        const { oneLinePitch,
             companySize, companyType, markets, location, phone, workEmail,
             website, twitter, linkedIn, facebook, blogUrl, recruiterName, email } = req.body
         // console.log('1')
         const recruiterExists = await Recruiter.findOne({ email })
         // console.log('2')
         if (recruiterExists) {
-            recruiterExists.companyLogo = companyLogo
-            recruiterExists.companyName = companyName
+            // recruiterExists.companyLogo = companyLogo
+            // recruiterExists.companyName = companyName
             recruiterExists.recruiterName = recruiterName
             recruiterExists.email = email
-            recruiterExists.companyDescription = companyDescription
+            // recruiterExists.companyDescription = companyDescription
             recruiterExists.oneLinePitch = oneLinePitch
             recruiterExists.companySize = companySize
             recruiterExists.companyType = companyType
@@ -106,7 +130,7 @@ const updateRecruiter = async (req, res) => {
         // console.log('4')
         res.status(200).json({
             success: true,
-            recruiter: recruiterUpdate,
+            user: recruiterUpdate,
             message: `Update Recruiter Successfully`,
         })
 
@@ -213,4 +237,4 @@ const getAllRecruiter = async (req, res) => {
 }
 
 
-export { registerRecruiter, loginRecruiter, updateRecruiter, deleteRecruiter, getAllJobByRecruiterId, getRecruiterApplicants, getAllRecruiter }
+export { registerRecruiter, loginRecruiter, getRecruiterByid, updateRecruiter, deleteRecruiter, getAllJobByRecruiterId, getRecruiterApplicants, getAllRecruiter }

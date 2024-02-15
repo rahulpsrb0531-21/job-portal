@@ -460,37 +460,11 @@ export function CandidateProfile() {
                             <FormControl>
                                 <Typography variant="profilePageTitle" >Skills?*</Typography>
                                 <TextField sx={{ ".css-3ux5v-MuiInputBase-root-MuiOutlinedInput-root": { height: "40px" } }}
-                                    // {...getFieldProps("location")}
                                     value={newSkillValue}
                                     onChange={(e) => setNewSkillValue(e.target.value)}
-                                    error={Boolean(touched.location && errors.location)}
-                                    helperText={touched.location && errors.location}
+                                    error={Boolean(touched.skills && errors.skills)}
+                                    helperText={touched.skills && errors.skills}
                                 />
-
-                                {/* <Field name="newSkill">
-                                    {({ field }) => (
-                                        <TextField
-                                            sx={{ ".css-3ux5v-MuiInputBase-root-MuiOutlinedInput-root": { height: "40px" } }}
-                                            {...field}
-                                            // onKeyDown={(e) => {
-                                            //     if (e.key === 'Enter') {
-                                            //         e.preventDefault();
-                                            //         setFieldValue("skills", [...values.skills, e.target.value]);
-                                            //         setFieldValue('newSkill', '') // Clear the TextField after adding the skill
-                                            //         // getCandidateById()
-                                            //         // updateCandidate()
-                                            //     }
-                                            // }}
-                                            onChange={(e) => {
-                                                e.preventDefault();
-                                                setFieldValue("skills", [...values.skills, e.target.value]);
-                                                setFieldValue('newSkill', '')
-                                            }}
-                                        // onKeyDown={() => onKeyDown}
-                                        />
-                                    )}
-                                </Field> */}
-
                                 <Button variant="blackButton" type="submit" sx={{ letterSpacing: 2, textAlign: "right", width: 122, mt: 0.6 }}
                                     onClick={() => addSkill()}
                                 >Add Skill</Button>

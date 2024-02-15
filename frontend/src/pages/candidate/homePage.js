@@ -19,10 +19,10 @@ const HomePage = () => {
     }, [])
 
     useEffect(() => {
-        if (user?.role !== "CANDIDATE" && token) {
-            navigate('/login')
+        if (user?.role !== "CANDIDATE" && !token) {
+            navigate('/')
         }
-    }, [])
+    }, [token])
 
     async function getCandidateById(data) {
         const id = user?._id

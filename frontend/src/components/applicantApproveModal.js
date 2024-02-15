@@ -1,18 +1,24 @@
-import React from "react";
+import React from "react"
 import { Box, Button, Dialog, DialogActions, DialogTitle, Stack, TextField, Typography } from "@mui/material";
-import { useSnackbar } from "notistack";
-import recruiterServices from "../services/recruiterServices";
-import jobServices from "../services/jobServices";
+import { useSnackbar } from "notistack"
+import notificationServices from "../services/notificationServices"
 
-export default function DeleteJobModal({ open, setOpen, jobId, getRecruiterJobs }) {
-    // const navigate = useNavigate()
+export default function ApplicantApproveModal({ open, setOpen, candidate, job, applicationId, getapplicantJob }) {
     const { enqueueSnackbar } = useSnackbar();
     const onClose = () => {
         setOpen(false);
     }
-
-    async function jobDelete(jobId) {
-        const res = await jobServices.deleteJob(jobId);
+    // console.log("candidate", candidate)
+    // console.log("recruiter", recruiter)
+    // console.log("application", applicationId)
+    async function sendRequest() {
+        const data = {
+            candidate,
+            job,
+            applicationId
+        }
+        // console.log(data)
+        const res = await notificationServices.createNotification(data)
         if (res && res.success) {
             enqueueSnackbar(res?.message, {
                 variant: "success",
@@ -20,7 +26,7 @@ export default function DeleteJobModal({ open, setOpen, jobId, getRecruiterJobs 
                 autoHideDuration: 1000
             })
             onClose()
-            getRecruiterJobs()
+            getapplicantJob()
         }
         else {
             enqueueSnackbar(res?.data?.message || "Something went wrong!!!", { variant: "error", anchorOrigin: { horizontal: "right", vertical: "top", autoHideDuration: 800 } })
@@ -32,7 +38,7 @@ export default function DeleteJobModal({ open, setOpen, jobId, getRecruiterJobs 
         <Dialog open={open} onClose={onClose} aria-labelledby="responsive-dialog-title" >
 
             <DialogTitle id="responsive-dialog-title">
-                {"Are you sure you want to delete this job ?"}
+                {"Submit a request to the admin for application approval."}
             </DialogTitle>
             <DialogActions>
                 <Stack direction={'row'} spacing={2} >
@@ -44,7 +50,7 @@ export default function DeleteJobModal({ open, setOpen, jobId, getRecruiterJobs 
                         No
                     </Button>
                     <Button
-                        onClick={() => jobDelete(jobId)}
+                        onClick={() => sendRequest()}
                         variant="blackButton" autoFocus>
                         Yes
                     </Button>

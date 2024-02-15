@@ -1,6 +1,5 @@
 import { useEffect, useState } from "react"
-import { filter } from 'lodash';
-import candidateServices from "../../../services/candidateServices";
+import { filter } from 'lodash'
 // @mui
 import {
     Card, Table, Stack, Paper, Button, Popover, TableRow, MenuItem, TableBody, TableCell, Container, Typography, IconButton,
@@ -10,12 +9,16 @@ import { useNavigate } from "react-router-dom";
 import TableHeadComponent from "../../../sections/adminDashboard/TableHead";
 import { AdminListToolbar } from "../../../sections/adminDashboard";
 import SearchNotFound from "../../../components/SearchNotFound";
+import notificationServices from "../../../services/notificationServices";
+import Iconify from "../../../components/Iconify";
+import AdminApproveModal from "./adminApproveModal";
 
 const TABLE_HEAD = [
-    { id: 'name', label: 'Name', alignRight: false },
-    { id: 'email', label: 'Email', alignRight: false },
-    { id: 'primaryRole', label: 'Primary Role', alignRight: false },
+    { id: 'recruiterName', label: 'Recruiter Name', alignRight: false },
+    { id: 'job', label: 'Job', alignRight: false },
+    { id: 'candidateName', label: 'Candidate Name', alignRight: false },
     { id: 'status', label: 'Status', alignRight: false },
+    { id: '', label: '', alignRight: false },
 ]
 
 // ----------------------------------------------------------------------
@@ -51,9 +54,14 @@ function applySortFilter(array, comparator, query) {
 }
 
 
-export default function CandidateList() {
+export default function NotificationList() {
     const navigate = useNavigate()
-    const [candidates, setCandidates] = useState([])
+    const [notification, setNotification] = useState([])
+    const [open, setOpen] = useState(false)
+    const [approve, setApprove] = useState(false)
+    const [reject, setReject] = useState(false)
+    const [notificationId, setNotificationId] = useState('')
+    // console.log(notification)
 
     const [page, setPage] = useState(0)
 
@@ -71,13 +79,13 @@ export default function CandidateList() {
     const [openModal, setOpenModal] = useState(false)
 
     useEffect(() => {
-        getAllCandidate()
+        getAllNotification()
     }, [])
 
-    async function getAllCandidate() {
-        const res = await candidateServices.getAllCandidate()
+    async function getAllNotification() {
+        const res = await notificationServices.getAllNotification()
         if (res && res.success) {
-            setCandidates(res?.data)
+            setNotification(res?.notifications)
         }
     }
 
@@ -89,7 +97,7 @@ export default function CandidateList() {
 
     const handleSelectAllClick = (event) => {
         if (event.target.checked) {
-            const newSelecteds = candidates.map((n) => n.candidateName);
+            const newSelecteds = notification?.map((n) => n.candidateName);
             setSelected(newSelecteds);
             return;
         }
@@ -125,24 +133,23 @@ export default function CandidateList() {
         setFilterName(event.target.value);
     };
 
-    const emptyRows = page > 0 ? Math.max(0, (1 + page) * rowsPerPage - candidates.length) : 0
+    const emptyRows = page > 0 ? Math.max(0, (1 + page) * rowsPerPage - notification.length) : 0
 
-    const filteredCandidates = applySortFilter(candidates, getComparator(order, orderBy), filterName)
+    const filteredNotification = applySortFilter(notification, getComparator(order, orderBy), filterName)
 
-    const isUserNotFound = filteredCandidates.length === 0;
+    const isUserNotFound = filteredNotification.length === 0;
 
     return (
         <Container sx={{ m: 0, mt: 2.3 }} maxWidth="xl">
+            <AdminApproveModal open={open} setOpen={setOpen}
+                getAllNotification={getAllNotification}
+                notificationId={notificationId}
+
+            />
             <Stack direction="row" alignItems="center" justifyContent="space-between" mb={1.5}>
                 <Typography variant="h3" sx={{ color: "#43425D" }}>
-                    Candidates
+                    Notifications
                 </Typography>
-                {/* <Button
-                    variant="blackButton"
-                // onClick={()=>{setOpenModal(true)}}
-                >
-                    Add New Candidate
-                </Button> */}
             </Stack>
             <Grid container>
                 <Grid item xs={12} md={12} lg={12}>
@@ -158,7 +165,7 @@ export default function CandidateList() {
                             numSelected={selected.length}
                             filterName={filterName}
                             onFilterName={handleFilterByName}
-                            placeholder={"Search candidates name"}
+                            placeholder={"Search Recruiter name"}
                         />
                         <CardContent sx={{ padding: 0 }}>
                             <TableContainer>
@@ -167,35 +174,62 @@ export default function CandidateList() {
                                         order={order}
                                         orderBy={orderBy}
                                         headLabel={TABLE_HEAD}
-                                        rowCount={candidates.length}
+                                        rowCount={notification.length}
                                         numSelected={selected.length}
                                         onRequestSort={handleRequestSort}
                                         onSelectAllClick={handleSelectAllClick}
                                     />
                                     <TableBody>
-                                        {filteredCandidates
+                                        {filteredNotification
                                             .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
                                             .map((row, i) => {
-                                                // console.log(row)
-                                                const { candidateName, email, primaryRole } = row
+                                                console.log(row)
+                                                const { candidate, job, status } = row
                                                 return (
                                                     <TableRow hover sx={{ cursor: 'pointer' }} tabIndex={-1}
-                                                    //   onClick={() =>
-                                                    //     navigate("referral-detail", { state: row })
-                                                    //   }
                                                     >
                                                         <TableCell align="left">
-                                                            {candidateName}
+                                                            {job?.company?.recruiterName}
                                                         </TableCell>
                                                         <TableCell align="left">
-                                                            {email}
+                                                            {job?.title}
                                                         </TableCell>
                                                         <TableCell align="left">
-                                                            {primaryRole}
+                                                            {candidate?.candidateName}
                                                         </TableCell>
                                                         <TableCell align="left">
-                                                            Resume
+                                                            {status}
                                                         </TableCell>
+                                                        {
+                                                            status === "pending" && (
+                                                                <>
+                                                                    <TableCell align="left">
+                                                                        <Box
+                                                                        // onClick={() => {
+                                                                        //     setId(row?._id);
+                                                                        //     setOpen(true)
+                                                                        // }} 
+                                                                        >
+                                                                            <Iconify icon={"bi:trash-fill"}
+                                                                                sx={{ bgColor: "red", width: 24, height: 24 }}
+                                                                            />
+                                                                        </Box>
+                                                                    </TableCell>
+                                                                    <TableCell align="left">
+                                                                        <Box
+                                                                            onClick={() => {
+                                                                                setNotificationId(row?._id);
+                                                                                setOpen(true)
+                                                                            }}
+                                                                        >
+                                                                            <Iconify icon={"mdi:pencil-box"}
+                                                                                sx={{ bgColor: "red", width: 24, height: 24 }}
+                                                                            />
+                                                                        </Box>
+                                                                    </TableCell>
+                                                                </>
+                                                            )
+                                                        }
                                                     </TableRow>
                                                 )
                                             })}
@@ -221,7 +255,7 @@ export default function CandidateList() {
                         <TablePagination
                             rowsPerPageOptions={[5, 10, 25]}
                             component="div"
-                            count={candidates.length}
+                            count={notification.length}
                             rowsPerPage={rowsPerPage}
                             page={page}
                             onPageChange={handleChangePage}

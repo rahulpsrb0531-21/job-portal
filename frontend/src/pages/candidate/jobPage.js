@@ -37,7 +37,6 @@ export default function JobPage() {
     async function getJobs() {
         const res = await jobServices.getAllJobs()
         if (res && res.success) {
-            // console.log("res>>>>>>>>>>", res)
             setJobsData(res?.jobs)
         } else {
             enqueueSnackbar(
@@ -63,10 +62,8 @@ export default function JobPage() {
                 anchorOrigin: { horizontal: "right", vertical: "top" },
                 autoHideDuration: 1300
             })
-            // navigate()
             setValue('2')
         } else {
-            // console.log('sdssdfas', res)
             enqueueSnackbar(res?.data?.message, {
                 variant: "error",
                 anchorOrigin: { horizontal: "right", vertical: "top" }, autoHideDuration: 1300
@@ -82,11 +79,11 @@ export default function JobPage() {
                 experience: experience?.length !== 0 ? experience : "",
                 jobType: jobType
             }
-            console.log('datra', data)
+            // console.log('datra', data)
             const res = await jobServices.searchJob(data)
             // console.log(res)
             if (res && res.success) {
-                console.log("res>>>>", res)
+                // console.log("res>>>>", res)
                 setJobsData(res?.jobs)
             } else {
                 enqueueSnackbar("error", {
@@ -103,8 +100,8 @@ export default function JobPage() {
     }
 
     useEffect(() => {
-        if (user?.role !== "CANDIDATE" && token) {
-            navigate('/login')
+        if (user?.role !== "CANDIDATE" && !token) {
+            navigate('/')
         }
     }, [])
 
@@ -195,21 +192,6 @@ export default function JobPage() {
                                         p: 2,
                                         backgroundImage: "linear-gradient(178deg,#fafafa,#fff 35%)"
                                     }} >
-                                        {/* <Stack direction={"row"} alignItems={'center'}
-                                            justifyContent={'space-between'}
-                                        >
-                                            <Box>
-                                                <Typography
-                                                    onClick={() => navigate(`/company/${data?.company?.companyName}`,
-                                                        { state: data })}
-                                                    sx={{ color: 'rgb(14, 17, 17)', fontSize: 18, fontWeight: 500, cursor: "pointer" }}
-                                                >{data?.company?.companyName}</Typography>
-                                                <Typography
-                                                    sx={{ fontSize: 12 }}
-                                                >{data?.company?.oneLinePitch}</Typography>
-                                            </Box>
-                                        </Stack>
-                                        <Divider /> */}
                                         <Typography sx={{ fontSize: 14, fontWeight: 600 }} >{data?.title}</Typography>
                                         <Typography sx={{ fontSize: 14, fontWeight: 600 }} >Job Type - {data?.employmentType}</Typography>
                                         <Typography sx={{ fontSize: 14, fontWeight: 600 }} >{data?.salaryCurrency?.symbol}{data?.salaryRange?.minimum} - {data?.salaryCurrency?.symbol}{data?.salaryRange?.maximum}</Typography>

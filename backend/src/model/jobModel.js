@@ -45,7 +45,7 @@ const jobSchema = mongoose.Schema(
         skills: [{ type: String, required: true }],
         employmentType: {
             type: String,
-            enum: ["Full-Time", "Part-Time", "Contract"]
+            enum: ["Full-Time", "Part-Time", "Permanent", "Temporary", "Contract"]
         },
         visaSponsorship: {
             type: Boolean,

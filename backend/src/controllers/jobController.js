@@ -1,8 +1,8 @@
 import mongoose from 'mongoose'
-import Candidate from '../model/candidateModal.js'
-import Job from '../model/jobModel.js'
-import Recruiter from '../model/recruiterModel.js'
 import customError from '../custom/customError.js'
+import Candidate from '../model/candidateModal.js'
+import Recruiter from '../model/recruiterModel.js'
+import Job from '../model/jobModel.js'
 
 // @desc    Create new Job post
 // @route   POST /api/job/create

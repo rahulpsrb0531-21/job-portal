@@ -19,11 +19,14 @@ import applicationServices from '../../services/applicationServices';
 import { experienceData } from '../../utils/basicData';
 
 export default function CreateApplication({ open, setOpen, candidateData }) {
-    const { state } = useLocation()
     const navigate = useNavigate()
+    const { enqueueSnackbar } = useSnackbar()
+    const { state } = useLocation()
     const [candidate, setCandidate] = useState({})
     const { user } = useSelector((state) => state.auth)
-    const { enqueueSnackbar } = useSnackbar();
+    const token = localStorage.getItem('access')
+
+
     const experienceSchema = Yup.object().shape({
         totalYearExp: Yup.string().required("Total Years Experience"),
         relavantWork: Yup.string(),
@@ -100,6 +103,13 @@ export default function CreateApplication({ open, setOpen, candidateData }) {
             })
         }
     }
+
+
+    useEffect(() => {
+        if (user?.role !== "CANDIDATE" && !token) {
+            navigate('/')
+        }
+    }, [token])
 
 
     return (

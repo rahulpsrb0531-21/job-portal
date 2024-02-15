@@ -35,8 +35,8 @@ export default function AppliedPage() {
     }, [user])
 
     useEffect(() => {
-        if (user?.role !== "CANDIDATE" && token) {
-            navigate('/login')
+        if (user?.role !== "CANDIDATE" && !token) {
+            navigate('/')
         }
     }, [])
     return (
@@ -63,9 +63,9 @@ export default function AppliedPage() {
                                     >
                                         <Stack direction={'row'} spacing={1} >
                                             <Box>
-                                                <Typography
+                                                {/* <Typography
                                                     sx={{ fontSize: 20, fontWeight: 500 }}
-                                                >{data?.job?.company?.companyName}</Typography>
+                                                >{data?.job?.company?.companyName}</Typography> */}
                                                 <Typography
                                                     sx={{ fontSize: 16, color: 'rgb(97, 97, 97)' }}
                                                 >{data?.job?.title}</Typography>

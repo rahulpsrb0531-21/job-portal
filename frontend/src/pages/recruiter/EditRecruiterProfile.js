@@ -3,26 +3,57 @@ import { server } from "../../utils/server"
 import { useDropzone } from 'react-dropzone'
 import * as Yup from "yup"
 import { useFormik, Form, FormikProvider, FieldArray, Field, getIn } from "formik"
-import { Box, Button, MenuItem, Stack, TextField, Typography, Select, Chip } from "@mui/material";
+import { Box, Button, MenuItem, Stack, TextField, Typography, Select, Chip, FormControl } from "@mui/material";
 import recruiterServices from "../../services/recruiterServices"
 import { useSnackbar } from "notistack"
-import { useSelector } from "react-redux"
+import { useDispatch, useSelector } from "react-redux"
 import { useNavigate } from "react-router-dom"
+import { setCredentials } from "../../redux/reducers/authSlice"
 
 
 export default function EditRecruiterProfile() {
     const navigate = useNavigate()
+    const dispatch = useDispatch()
     const { enqueueSnackbar } = useSnackbar()
     const [uploadedImage, setUploadedImage] = useState(null)
     const { user } = useSelector((state) => state.auth)
     const token = localStorage.getItem('access')
+    const [locations, setLocations] = useState([])
+    const [newLocation, setNewLocation] = useState('')
+    const [markets, setMarkets] = useState([])
+    const [newMarket, setNewMarket] = useState('')
+    const [resData, setResData] = useState({})
+
+    const addLocation = () => {
+        if (newLocation?.length !== 0) {
+            setLocations([...locations, newLocation])
+            setNewLocation('')
+        }
+    }
+
+    const removeLocation = (index) => {
+        const updatedLocation = locations.filter((_, i) => i !== index);
+        setLocations(updatedLocation);
+    }
+
+    const addMarket = () => {
+        if (newMarket?.length !== 0) {
+            setMarkets([...markets, newMarket])
+            setNewMarket('')
+        }
+    }
+
+    const removeMarket = (index) => {
+        const updatedMarket = markets.filter((_, i) => i !== index);
+        setMarkets(updatedMarket)
+    }
 
     useEffect(() => {
-        if (user?.role !== "RECRUITER" && token) {
-            navigate('/login')
+        if (user?.role !== "RECRUITER" || !token) {
+            navigate('/')
         }
     }, [])
-    // console.log("user", user)
+
     const onDrop = useCallback((acceptedFiles) => {
         const imageFile = acceptedFiles[0]
         setUploadedImage(URL.createObjectURL(imageFile))
@@ -57,7 +88,7 @@ export default function EditRecruiterProfile() {
     }
 
     const editRecruiterSchema = Yup.object().shape({
-        companyname: Yup.string().required("Company Name is required"),
+        // companyname: Yup.string().required("Company Name is required"),
         companySize: Yup.string().required("Company Size is required"),
         companyType: Yup.string().required("Company Type is required"),
         workEmail: Yup.string().required("Work email is required"),
@@ -69,14 +100,14 @@ export default function EditRecruiterProfile() {
         oneLinePitch: Yup.string().required("One Line Pitch is required"),
         recruiterName: Yup.string().required("Name is required"),
         phone: Yup.number().required("Name is required"),
-        locations: Yup.array().required("Location is required"),
-        newLocation: Yup.string(),
+        // locations: Yup.array().required("Location is required"),
+        // newLocation: Yup.string(),
         markets: Yup.array(),
         newMarket: Yup.string(),
     })
     const formik = useFormik({
         initialValues: {
-            companyname: "",
+            // companyname: "",
             companyType: "",
             workEmail: "",
             website: "",
@@ -88,8 +119,8 @@ export default function EditRecruiterProfile() {
             oneLinePitch: "",
             recruiterName: "",
             phone: null,
-            locations: [],
-            newLocation: '',
+            // locations: [],
+            // newLocation: '',
             newLocation: "",
             markets: [],
             newMarket: "",
@@ -98,29 +129,27 @@ export default function EditRecruiterProfile() {
         onSubmit: (v) => {
             // console.log('v>>>>>>', v)
             const data = {
-                companyLogo: uploadedImage,
-                companyName: v?.companyname,
-                companyDescription: "",
+                // companyLogo: uploadedImage,
+                // companyName: v?.companyname,
                 oneLinePitch: v?.oneLinePitch,
                 companySize: v?.companySize,
                 companyType: v?.companyType,
-                markets: v?.markets,
-                location: v?.locations,
-                recruiterName: user?.recruiterName,
+                markets: markets,
+                location: locations,
+                recruiterName: v?.recruiterName,
                 email: user?.email,
                 phone: v?.phone,
                 workEmail: v?.workEmail,
                 website: v?.website,
                 twitter: v?.twitter,
                 linkedIn: v?.linkedIn,
-                facebook: 'fjkl;d',
+                facebook: 'facebook.com',
                 blogUrl: v?.blogUrl
             }
-            console.log(data)
+            // console.log(data)
             updateRecruiter(data)
         }
     })
-
     async function updateRecruiter(data) {
         const res = await recruiterServices.update(data)
         setSubmitting(false)
@@ -130,6 +159,7 @@ export default function EditRecruiterProfile() {
                 anchorOrigin: { horizontal: "right", vertical: "top" },
                 autoHideDuration: 1000
             })
+            dispatch(setCredentials({ ...res }))
             navigate('/recruiter/dashboard')
         } else {
             enqueueSnackbar('error', {
@@ -139,12 +169,61 @@ export default function EditRecruiterProfile() {
         }
     }
 
+    // getRecruiterById
+    async function getRecruiterById(id) {
+        const res = await recruiterServices.getRecruiterById(id)
+        // setSubmitting(false)
+        // console.log(res, 'sdfhls')
+        if (res && res.success) {
+            // console.log('res', res)
+            setFieldValue("recruiterName", res?.user?.recruiterName)
+            setFieldValue("workEmail", res.user?.email)
+            setFieldValue("phone", res.user?.phone)
+            setFieldValue("one", res.user?.email)
+            setFieldValue("oneLinePitch", res.user?.oneLinePitch)
+            setFieldValue("companySize", res.user?.companySize)
+            setFieldValue("companyType", res.user?.companyType)
+            setMarkets(res.user?.markets)
+            setLocations(res.user?.location)
+            setFieldValue("recruiterName", res.user?.recruiterName)
+            setFieldValue("email", res.user?.email)
+            setFieldValue("phone", res.user?.phone)
+            setFieldValue("workEmail", res.user?.workEmail)
+            setFieldValue("website", res.user?.website)
+            setFieldValue("twitter", res.user?.twitter)
+            setFieldValue("linkedIn", res.user?.linkedIn)
+            setFieldValue("blogUrl", res.user?.blogUrl)
+            // setResData({ ...res })
+        } else {
+            enqueueSnackbar('error', {
+                variant: "error",
+                anchorOrigin: { horizontal: "right", vertical: "top" }, autoHideDuration: 1000
+            })
+        }
+    }
     useEffect(() => {
         if (user) {
-            setFieldValue("recruiterName", user?.recruiterName)
-            setFieldValue("workEmail", user?.email)
+            // console.log(user)
+            getRecruiterById(user?._id)
+            // setFieldValue("recruiterName", user?.recruiterName)
+            // setFieldValue("workEmail", user?.email)
+            // setFieldValue("phone", user?.phone)
+            // setFieldValue("one", user?.email)
+            // setFieldValue("oneLinePitch", user?.oneLinePitch)
+            // setFieldValue("companySize", user?.companySize)
+            // setFieldValue("companyType", user?.companyType)
+            // setMarkets(user?.markets)
+            // setLocations(user?.location)
+            // setFieldValue("recruiterName", user?.recruiterName)
+            // setFieldValue("email", user?.email)
+            // setFieldValue("phone", user?.phone)
+            // setFieldValue("workEmail", user?.workEmail)
+            // setFieldValue("website", user?.website)
+            // setFieldValue("twitter", user?.twitter)
+            // setFieldValue("linkedIn", user?.linkedIn)
+            // setFieldValue("blogUrl", user?.blogUrl)
         }
-    }, [user])
+    }, [])
 
 
     const {
@@ -172,41 +251,32 @@ export default function EditRecruiterProfile() {
     return (
         <FormikProvider value={formik}>
             <Form autoComplete="off" noValidate onSubmit={handleSubmit}>
-                <Stack justifyContent={'space-between'} direction={'row'}>
-                    <Box sx={{ bgcolor: 'black', width: '18%', textAlign: "center", px: 1 }} >
-                        <Typography sx={{ color: "white", fontSize: 18, pt: 4 }} >Set up your account</Typography>
-                        <Typography sx={{ color: "white", fontSize: 12 }} >We make it easy for you to connect with high-quality startup talent who are ready for a new challenge.start sourcing today</Typography>
-                    </Box>
-                    <Box sx={{ width: "80%" }} >
-                        <Stack spacing={1} sx={{
-                            width: '50%',
+                <Stack justifyContent={'center'} direction={'row'} my={1} >
+                    <Box sx={{ width: { xs: "100%", lg: '40%' }, border: '1px solid #e0e0e0', }} >
+                        <Stack spacing={2} sx={{
+                            width: "100%",
                             bgcolor: 'rgb(255, 255, 255)',
-                            borderRadius: 0.4, p: 1, pt: 4
+                            borderRadius: 0.4, p: 2, pt: { xs: 2, lg: 4 }
                         }} >
-                            <Typography variant="companyTitle" >Let's create you Account</Typography>
+                            <Typography variant="companyTitle" >Edit Profile</Typography>
+
                             <Stack>
-                                <Typography variant="profilePageTitle" >About your Company</Typography>
-                                <Typography variant="profilePageSubText" >Keep in mind you can always update this later</Typography>
-                            </Stack>
-                            <Stack>
-                                <Typography variant="profilePageTitle" >Company Name*</Typography>
+                                <Typography variant="profilePageTitle" >Name*</Typography>
                                 <TextField sx={{ ".css-3ux5v-MuiInputBase-root-MuiOutlinedInput-root": { height: "32px", borderRadius: '4px' } }}
-                                    {...getFieldProps("companyname")}
-                                    error={Boolean(touched.companyname && errors.companyname)}
-                                    helperText={touched.companyname && errors.companyname}
+                                    {...getFieldProps("recruiterName")}
+                                    error={Boolean(touched.recruiterName && errors.recruiterName)}
+                                    helperText={touched.recruiterName && errors.recruiterName}
                                 />
                             </Stack>
                             <Stack>
-                                <Typography variant="profilePageTitle" >Logo Content*</Typography>
-                                <div>
-                                    <div {...getRootProps()} style={dropzoneStyles}>
-                                        <input {...getInputProps()} />
-                                        {!uploadedImage &&
-                                            <p>Upload Logo</p>
-                                        }
-                                    </div>
-                                </div>
+                                <Typography variant="profilePageTitle" >Phone*</Typography>
+                                <TextField sx={{ ".css-3ux5v-MuiInputBase-root-MuiOutlinedInput-root": { height: "32px", borderRadius: '4px' } }}
+                                    {...getFieldProps("phone")}
+                                    error={Boolean(touched.phone && errors.phone)}
+                                    helperText={touched.phone && errors.phone}
+                                />
                             </Stack>
+
                             <Stack>
                                 <Typography variant="profilePageTitle" >Work Email*</Typography>
                                 <TextField sx={{ ".css-3ux5v-MuiInputBase-root-MuiOutlinedInput-root": { height: "32px", borderRadius: '4px' } }}
@@ -247,7 +317,7 @@ export default function EditRecruiterProfile() {
                                     helperText={touched.blogUrl && errors.blogUrl}
                                 />
                             </Stack>
-                            <Stack>
+                            {/* <Stack>
                                 <Typography variant="profilePageTitle" >Location*</Typography>
                                 <Stack direction={'row'} flexWrap={'wrap'} spacing={1} useFlexGap sx={{ pb: 1 }} >
                                     {
@@ -273,7 +343,51 @@ export default function EditRecruiterProfile() {
                                         />
                                     )}
                                 </Field>
+                            </Stack> */}
+                            <Stack sx={{ width: { xs: "100%", lg: "60%" } }} spacing={1} >
+                                <Stack direction={'row'} flexWrap={'wrap'} spacing={1} useFlexGap >
+                                    {
+                                        locations.map((location, idx) => (
+                                            <Chip label={location} key={idx} sx={{ borderRadius: "4px" }}
+                                                onDelete={() => removeLocation(idx)}
+                                            />
+                                        ))
+                                    }
+                                </Stack>
+                                <FormControl>
+                                    <Typography variant="profilePageTitle" >Locations?*</Typography>
+                                    <TextField sx={{ ".css-3ux5v-MuiInputBase-root-MuiOutlinedInput-root": { height: "40px" } }}
+                                        value={newLocation}
+                                        onChange={(e) => setNewLocation(e.target.value)}
+                                    />
+                                    <Button variant="blackButton" sx={{ fontSize: 12, width: "120px", height: "30px", bgcolor: 'black', fontWeight: 500, mt: 0.6 }}
+                                        onClick={() => addLocation()}
+                                    >Add Location</Button>
+                                </FormControl>
                             </Stack>
+
+                            <Stack sx={{ width: { xs: "100%", lg: "60%" } }} spacing={1} >
+                                <Stack direction={'row'} flexWrap={'wrap'} spacing={1} useFlexGap >
+                                    {
+                                        markets.map((market, idx) => (
+                                            <Chip label={market} key={idx} sx={{ borderRadius: "4px" }}
+                                                onDelete={() => removeMarket(idx)}
+                                            />
+                                        ))
+                                    }
+                                </Stack>
+                                <FormControl>
+                                    <Typography variant="profilePageTitle" >Markets?*</Typography>
+                                    <TextField sx={{ ".css-3ux5v-MuiInputBase-root-MuiOutlinedInput-root": { height: "40px" } }}
+                                        value={newMarket}
+                                        onChange={(e) => setNewMarket(e.target.value)}
+                                    />
+                                    <Button variant="blackButton" sx={{ fontSize: 12, width: "120px", height: "30px", bgcolor: 'black', fontWeight: 500, mt: 0.6 }}
+                                        onClick={() => addMarket()}
+                                    >Add Markets</Button>
+                                </FormControl>
+                            </Stack>
+
                             <Stack>
                                 <Typography variant="profilePageTitle" >Company size*</Typography>
                                 <Select
@@ -300,7 +414,8 @@ export default function EditRecruiterProfile() {
                                     }
                                 </Select>
                             </Stack>
-                            <Stack>
+
+                            {/* <Stack>
                                 <Typography variant="profilePageTitle" >Markets*</Typography>
                                 <Stack direction={'row'} flexWrap={'wrap'} spacing={1} useFlexGap sx={{ pb: 1 }} >
                                     {
@@ -327,7 +442,8 @@ export default function EditRecruiterProfile() {
                                         />
                                     )}
                                 </Field>
-                            </Stack>
+                            </Stack> */}
+
                             <Stack>
                                 <Typography variant="profilePageTitle" >One-line pitch</Typography>
                                 <TextField sx={{ ".css-3ux5v-MuiInputBase-root-MuiOutlinedInput-root": { height: "32px", borderRadius: '4px' } }}
@@ -336,30 +452,10 @@ export default function EditRecruiterProfile() {
                                     helperText={touched.oneLinePitch && errors.oneLinePitch}
                                 />
                             </Stack>
-                            <Stack>
-                                <Typography variant="profilePageTitle" >About your</Typography>
-                                <Typography variant="profilePageSubText" >Keep in mind you can always update this later</Typography>
-                            </Stack>
-                            <Stack>
-                                <Typography variant="profilePageTitle" >Name*</Typography>
-                                <TextField sx={{ ".css-3ux5v-MuiInputBase-root-MuiOutlinedInput-root": { height: "32px", borderRadius: '4px' } }}
-                                    {...getFieldProps("recruiterName")}
-                                    error={Boolean(touched.recruiterName && errors.recruiterName)}
-                                    helperText={touched.recruiterName && errors.recruiterName}
-                                />
-                            </Stack>
-                            <Stack>
-                                <Typography variant="profilePageTitle" >Phone*</Typography>
-                                <TextField sx={{ ".css-3ux5v-MuiInputBase-root-MuiOutlinedInput-root": { height: "32px", borderRadius: '4px' } }}
-                                    {...getFieldProps("phone")}
-                                    error={Boolean(touched.phone && errors.phone)}
-                                    helperText={touched.phone && errors.phone}
-                                />
-                            </Stack>
                             <Button size="small" variant="outlined" type="submit"
                                 onClick={() => console.log(errors)}
-                                sx={{ fontSize: 14, width: "58px", height: "30px", fontWeight: 500 }}
-                            >Save</Button>
+                                sx={{ fontSize: 14, width: "88px", height: "30px", fontWeight: 500 }}
+                            >Edit</Button>
                         </Stack>
                     </Box>
                 </Stack>

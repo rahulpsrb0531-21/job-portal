@@ -19,6 +19,8 @@ const TABLE_HEAD = [
     { id: 'email', label: 'Email', alignRight: false },
     { id: 'companyName', label: 'Company Name', alignRight: false },
     { id: 'companyType', label: 'Company Type', alignRight: false },
+    { id: '', alignRight: false },
+    { id: '', alignRight: false },
 ]
 
 // ----------------------------------------------------------------------
