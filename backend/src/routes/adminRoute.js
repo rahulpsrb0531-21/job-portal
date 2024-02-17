@@ -1,6 +1,6 @@
 import express from "express"
 const router = express.Router()
-import { loginAdmin, registerRecruiterByAdmin } from "../controllers/adminController.js"
+import { loginAdmin, registerRecruiterByAdmin, updateAdminRecruiter } from "../controllers/adminController.js"
 import { isAdmin, isRecruiter, verifyToken } from "../middleware/verifyJWT.js"
 import { deleteRecruiter, updateRecruiter } from "../controllers/recruiterController.js"
 import { createJob, deleteJob, updateJob } from "../controllers/jobController.js"
@@ -16,5 +16,5 @@ router.post('/update/job', verifyToken, isAdmin, updateJob)
 router.delete('/delete/job/:id', verifyToken, isAdmin, deleteJob)
 
 // RECRUITER 
-router.post('/recruiter/update', verifyToken, isAdmin, updateRecruiter)
+router.post('/recruiter/update', verifyToken, isAdmin, updateAdminRecruiter)
 export default router

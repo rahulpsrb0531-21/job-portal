@@ -47,10 +47,8 @@ const registerRecruiterByAdmin = async (req, res) => {
     try {
         const { companyLogo, companyName, companyDescription, oneLinePitch, companySize, companyType,
             markets, location, recruiterName, password, email, phone, role,
-            workEmail, website, twitter, linkedIn, facebook, blogUrl } = req.body
+            workEmail, website, twitter, linkedIn, facebook, blogUrl, isPremiumMember } = req.body
 
-        // if (!recruiterName || !email || !password || !role) throw customError.dataInvalid
-        // console.log(recruiterName, email, password, role)
         const recruiterExists = await Recruiter.findOne({ email: email })
         if (recruiterExists) throw customError.userExists
         const newRecruiter = await Recruiter.create({
@@ -72,7 +70,8 @@ const registerRecruiterByAdmin = async (req, res) => {
             twitter,
             linkedIn,
             facebook,
-            blogUrl
+            blogUrl,
+            isPremiumMember
         })
 
         res.status(200).json({
@@ -91,4 +90,51 @@ const registerRecruiterByAdmin = async (req, res) => {
     }
 }
 
-export { loginAdmin, registerRecruiterByAdmin }
+// @desc   Update Recruiter
+// @route   UPDATE /api/admin/recruiter/update
+// @access  private Admin
+const updateAdminRecruiter = async (req, res) => {
+    try {
+        const { oneLinePitch, isPremiumMember,
+            companySize, companyType, markets, location, phone, workEmail,
+            website, twitter, linkedIn, facebook, blogUrl, recruiterName, email } = req.body
+        // console.log('1')
+        const recruiterExists = await Recruiter.findOne({ email })
+        // console.log('2')
+        if (recruiterExists) {
+            recruiterExists.recruiterName = recruiterName
+            recruiterExists.email = email
+            recruiterExists.isPremiumMember = isPremiumMember
+            recruiterExists.oneLinePitch = oneLinePitch
+            recruiterExists.companySize = companySize
+            recruiterExists.companyType = companyType
+            recruiterExists.markets = markets
+            recruiterExists.location = location
+            recruiterExists.phone = phone
+            recruiterExists.workEmail = workEmail
+            recruiterExists.website = website
+            recruiterExists.twitter = twitter
+            recruiterExists.linkedIn = linkedIn
+            recruiterExists.facebook = facebook
+            recruiterExists.blogUrl = blogUrl
+        }
+        // console.log('3')
+        let recruiterUpdate = await recruiterExists.save()
+        // console.log('4')
+        res.status(200).json({
+            success: true,
+            user: recruiterUpdate,
+            message: `Update Recruiter Successfully`,
+        })
+
+    } catch (error) {
+        console.log(`***** ERROR : ${req.originalUrl, error} error`);
+        res.status(200).json({
+            success: false,
+            data: error,
+        });
+    }
+}
+
+
+export { loginAdmin, registerRecruiterByAdmin, updateAdminRecruiter }

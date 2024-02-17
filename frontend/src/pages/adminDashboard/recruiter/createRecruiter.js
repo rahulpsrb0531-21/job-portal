@@ -3,7 +3,7 @@ import { server } from "../../../utils/server"
 import { useDropzone } from 'react-dropzone'
 import * as Yup from "yup"
 import { useFormik, Form, FormikProvider, FieldArray, Field, getIn } from "formik"
-import { Box, Button, MenuItem, Stack, TextField, Typography, Select, Chip, Autocomplete } from "@mui/material";
+import { Box, Button, MenuItem, Stack, TextField, Typography, Select, Chip, Autocomplete, FormControl, RadioGroup, FormControlLabel, Radio } from "@mui/material";
 import recruiterServices from "../../../services/recruiterServices"
 import { useSnackbar } from "notistack"
 import { useSelector } from "react-redux"
@@ -74,6 +74,7 @@ export default function CreateRecruiter({ handleNext }) {
         newLocation: Yup.string(),
         markets: Yup.array(),
         newMarket: Yup.string(),
+        isPremiumMember: Yup.boolean().required("Premium member is required")
     })
     const formik = useFormik({
         initialValues: {
@@ -97,6 +98,7 @@ export default function CreateRecruiter({ handleNext }) {
             newLocation: "",
             markets: [],
             newMarket: "",
+            isPremiumMember: null
         },
         validationSchema: editRecruiterSchema,
         onSubmit: (v) => {
@@ -123,7 +125,8 @@ export default function CreateRecruiter({ handleNext }) {
                 twitter: v?.twitter,
                 linkedIn: v?.linkedIn,
                 facebook: 'fjkl;d',
-                blogUrl: v?.blogUrl
+                blogUrl: v?.blogUrl,
+                isPremiumMember: (v?.isPremiumMember === "true" ? true : false),
             }
             // console.log('data>>>', data)
             registerRecruiter(data)
@@ -389,42 +392,26 @@ export default function CreateRecruiter({ handleNext }) {
                                     helperText={touched.oneLinePitch && errors.oneLinePitch}
                                 />
                             </Stack>
-                            {/* <Stack>
-                                <Typography variant="profilePageTitle" >About your</Typography>
-                                <Typography variant="profilePageSubText" >Keep in mind you can always update this later</Typography>
-                            </Stack>
-
-                            <Stack>
-                                <Typography variant="profilePageTitle" >Name*</Typography>
-                                <TextField sx={{ ".css-3ux5v-MuiInputBase-root-MuiOutlinedInput-root": { height: "32px", borderRadius: '4px' } }}
-                                    {...getFieldProps("recruiterName")}
-                                    error={Boolean(touched.recruiterName && errors.recruiterName)}
-                                    helperText={touched.recruiterName && errors.recruiterName}
-                                />
-                            </Stack>
-
-                            <TextField
-                                autoComplete="off"
-                                type="password" placeholder="Password"
-                                sx={{
-                                    ".css-3ux5v-MuiInputBase-root-MuiOutlinedInput-root": { height: "40px", borderRadius: "2px" },
-                                    ".css-q1w0rq-MuiInputBase-input-MuiOutlinedInput-input": {
-                                        p: '10px 14px'
-                                    }
-                                }}
-                                {...getFieldProps("password")}
-                                error={Boolean(touched.password && errors.password)}
-                                helperText={touched.password && errors.password}
-                            />
-
-                            <Stack>
-                                <Typography variant="profilePageTitle" >Phone*</Typography>
-                                <TextField sx={{ ".css-3ux5v-MuiInputBase-root-MuiOutlinedInput-root": { height: "32px", borderRadius: '4px' } }}
-                                    {...getFieldProps("phone")}
-                                    error={Boolean(touched.phone && errors.phone)}
-                                    helperText={touched.phone && errors.phone}
-                                />
-                            </Stack> */}
+                            <Box>
+                                <FormControl>
+                                    <Typography variant="profilePageTitle" >Premium Memeber ?*</Typography>
+                                    <RadioGroup
+                                        row
+                                        aria-labelledby="demo-controlled-radio-buttons-group"
+                                        name="controlled-radio-buttons-group"
+                                        value={values?.isPremiumMember}
+                                        onChange={(e) => setFieldValue("isPremiumMember", e.target.value)}
+                                    >
+                                        <FormControlLabel
+                                            value={true} control={<Radio size="sm" />}
+                                            label={<Typography sx={{ fontSize: 14, fontWeight: 600, ml: -0.6 }} >Yes</Typography>}
+                                        />
+                                        <FormControlLabel value={false} control={<Radio size="sm" />}
+                                            label={<Typography sx={{ fontSize: 14, fontWeight: 600, ml: -0.6 }} >No</Typography>}
+                                        />
+                                    </RadioGroup>
+                                </FormControl>
+                            </Box>
                             <Button size="small" variant="outlined" type="submit"
                                 // onClick={() => console.log(errors)}
                                 // onClick={() => handleNext()}

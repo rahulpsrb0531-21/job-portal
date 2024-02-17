@@ -157,38 +157,18 @@ const getJob = async (req, res) => {
 // @access  public
 const getJobAll = async (req, res) => {
     try {
-        // const job = await Job.find({})
-        // const job = await Job.aggregate([
-        //     {
-        //         $group: {
-        //             _id: "$company.companyName",
-        //             jobs: { $push: "$$ROOT" }
-        //         }
-        //     },
-        //     {
-        //         $project: {
-        //             _id: 0,
-        //             companyName: "$_id",
-        //             recruiterId: { $first: "$jobs.recruiterId" },
-        //             companyDescription: { $first: "$jobs.company.oneLinePitch" },
-        //             // recruiterDetails: { $first: "recruiterDetails" },
-        //             jobs: 1
-        //         }
-        //     }
-        // ])
-        // console.log(job)
-        // res.status(200).json({
-        //     success: true,
-        //     job,
-        //     message: 'Get All Job  successfully',
-        // })
 
-        const jobs = await Job.find({})
+        // const jobs = await Job.find({})
+        // const jobs = await Job.find().sort({ {isPremiumMember}: -1, created_at: -1 })
+        const jobs = await Job.find().sort({ "company.isPremiumMember": -1, created_at: -1 })
+        // const jobs = await Job.find({ isPremiumMember: true }).sort({ createdAt: 1 })
+        // const jobs = await Job.find({ isPremiumMember: true }).sort({ created_at: -1 })
         res.status(200).json({
             success: true,
             jobs,
             message: 'Get All Job  successfully',
         })
+        console.log('jobs', jobs)
 
     } catch (error) {
         console.log(`***** ERROR: ${req.originalUrl, error} error`)

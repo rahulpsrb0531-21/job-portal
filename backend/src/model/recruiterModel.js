@@ -35,8 +35,8 @@ const recruiterSchema = mongoose.Schema(
         linkedIn: { type: String },
         facebook: { type: String },
         blogUrl: { type: String },
-        role: { type: String, default: "RECRUITER" },
-        // bio: { type: String }
+        isPremiumMember: { type: Boolean, required: false },
+        role: { type: String, default: "RECRUITER" }
     },
     { timestamps: { createdAt: 'created_at', updatedAt: 'updated_at' } }
 )

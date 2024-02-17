@@ -41,7 +41,7 @@ const loginRecruiter = async (req, res) => {
 
 // @desc    Register Recruiter
 // @route   POST /api/recruiter/create
-// @access  public
+// @access  ADMIN
 const registerRecruiter = async (req, res) => {
     try {
         const { recruiterName, email, password, role } = req.body
@@ -97,7 +97,7 @@ const getRecruiterByid = async (req, res) => {
 
 // @desc   Update Recruiter
 // @route   UPDATE /api/recruiter/update
-// @access  private
+// @access  private Admin
 const updateRecruiter = async (req, res) => {
     try {
         const { oneLinePitch,
@@ -107,11 +107,8 @@ const updateRecruiter = async (req, res) => {
         const recruiterExists = await Recruiter.findOne({ email })
         // console.log('2')
         if (recruiterExists) {
-            // recruiterExists.companyLogo = companyLogo
-            // recruiterExists.companyName = companyName
             recruiterExists.recruiterName = recruiterName
             recruiterExists.email = email
-            // recruiterExists.companyDescription = companyDescription
             recruiterExists.oneLinePitch = oneLinePitch
             recruiterExists.companySize = companySize
             recruiterExists.companyType = companyType

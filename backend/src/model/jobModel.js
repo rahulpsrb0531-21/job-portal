@@ -55,6 +55,7 @@ const jobSchema = mongoose.Schema(
             type: Boolean,
             default: false
         },
+        isPremiumMember: { type: Boolean, required: false },
         recruiterId: {
             type: Schema.Types.ObjectId,
             ref: "Recruiter"
