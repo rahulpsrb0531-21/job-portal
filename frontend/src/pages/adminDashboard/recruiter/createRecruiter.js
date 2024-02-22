@@ -126,7 +126,7 @@ export default function CreateRecruiter({ handleNext }) {
                 linkedIn: v?.linkedIn,
                 facebook: 'fjkl;d',
                 blogUrl: v?.blogUrl,
-                isPremiumMember: (v?.isPremiumMember === "true" ? true : false),
+                isPremiumMember: (v?.isPremiumMember === "true" ? true : false)
             }
             // console.log('data>>>', data)
             registerRecruiter(data)
