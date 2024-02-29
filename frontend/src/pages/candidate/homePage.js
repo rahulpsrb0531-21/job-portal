@@ -19,7 +19,7 @@ const HomePage = () => {
     }, [])
 
     useEffect(() => {
-        if (user?.role !== "CANDIDATE" && !token) {
+        if (token === null) {
             navigate('/')
         }
     }, [token])
@@ -46,9 +46,9 @@ const HomePage = () => {
             <Stack direction={'row'} alignItems={'start'} justifyContent={'space-between'}
                 sx={{ width: '100%', border: '1px solid #e0e0e0', borderRadius: "8px", p: 1 }}
             >
-                <Stack direction={'row'} alignItems={'start'} >
+                <Stack direction={'row'} alignItems={'start'} spacing={1} >
                     <Iconify icon={"mingcute:user-4-fill"} sx={{ width: 42, height: 42 }} />
-                    <Stack spacing={1} >
+                    <Stack spacing={1.4} >
                         <Box>
                             <Typography
                                 sx={{ fontSize: 24, color: 'rgb(5, 12, 38)', fontWeight: 500 }}

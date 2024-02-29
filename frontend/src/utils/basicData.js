@@ -129,22 +129,22 @@ const employmentTypeData = ["Full-Time", "Part-Time", "Permanent", "Temporary", 
 
 const companyServiceData = [
     {
-        img: "../images/it.png",
+        img: "../images/consultancy.jpg",
         title: "IT Development & Consultancy",
         description: "IT consultants are great communicators and have excellent organisational skills as well as sound knowledge and understanding of IT systems."
     },
     {
-        img: "../images/management.png",
+        img: "../images/management-1.png",
         title: "Management Consultancy",
         description: "Management consultants help businesses improve their performance and grow by solving problems and finding new and better ways of doing things."
     },
     {
-        img: "../images/education.png",
+        img: "../images/education-1.png",
         title: "Education Consultancy & Training",
         description: "Education is the process of facilitating learning, or the acquisition of knowledge, skills, values, beliefs, and habits."
     },
     {
-        img: "../images/jobs.png",
+        img: "../images/jobs-1.png",
         title: "Jobs",
         description: "Connect with 20000+ employers. Apply to Millions of job opportunities across top companies, industries & locations on India's No.1 job site. Apply online. Post CV today."
     },
@@ -160,11 +160,6 @@ const companyOurSerivceData = [
         title: " Digital Assurance And Testing",
         icon: "vaadin:diamond",
         description: "The digital transformation of the IT industry requires an increased focus on QA as the application quality plays a crucial role in the end-user experience and business value."
-    },
-    {
-        title: "Infrastructure And Networking",
-        icon: "memory:monitor",
-        description: "Provide robustly and secured Infrastructure and Networks for running the Enterprise Applications."
     },
     {
         title: "Enterprise Applications",
@@ -192,8 +187,12 @@ const companyOurSerivceData = [
         description: "Doing business in today's age requires data and analytics to drive positive outcomes for the business."
     },
     {
+        title: "Infrastructure And Networking",
+        icon: "memory:monitor",
+        description: "Provide robustly and secured Infrastructure and Networks for running the Enterprise Applications."
+    },
+    {
         title: "Admission Process",
-        // icon: "fa:hourglass-1",
         icon: "octicon:hourglass-24",
         description: "DKRIN’s Admission process is a unique model that works best for all students."
     },

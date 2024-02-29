@@ -1,5 +1,6 @@
 import React, { useCallback, useState, useEffect } from 'react';
 import * as Yup from "yup"
+import { useFormik, Form, FormikProvider, getIn } from "formik"
 import Dialog from '@mui/material/Dialog';
 import { Box, Button, CardContent, Divider, FormControl, FormControlLabel, FormHelperText, FormLabel, MenuItem, Radio, RadioGroup, Select, Stack, TextField, Typography } from '@mui/material';
 import Iconify from "../../components/Iconify";
@@ -7,7 +8,6 @@ import { useSnackbar } from "notistack"
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 import { DatePicker } from '@mui/x-date-pickers/DatePicker';
-import { useFormik, Form, FormikProvider, getIn } from "formik"
 import candidateServices from '../../services/candidateServices';
 import { useSelector } from 'react-redux';
 import moment from 'moment';
@@ -116,22 +116,19 @@ export default function CreateApplication({ open, setOpen, candidateData }) {
         <Box sx={{
             bgcolor: 'rgb(255, 255, 255)',
             width: { xs: '96%' },
-            borderRadius: 0.4, mt: 4,
+            borderRadius: 0.4, mt: 1,
             border: '1px solid #e0e0e0', borderRadius: "8px"
         }}>
             <FormikProvider value={formik}>
                 <Form autoComplete="off" noValidate onSubmit={handleSubmit}>
                     {/* <CardContent > */}
                     <Stack spacing={2} sx={{ p: 2 }}  >
-                        <Typography variant="h4" color={"#2D2F39"}>Create Application</Typography>
+                        <Typography sx={{ fontSize: 28, fontWeight: 500 }} color={"#2D2F39"}>Create Application</Typography>
 
                         <Stack spacing={0.6}>
                             <Typography variant="profilePageTitle" >Total work experience*</Typography>
                             <Select
-                                sx={{
-                                    ".css-k6dkf7-MuiSelect-select-MuiInputBase-input-MuiOutlinedInput-input": { p: 1 },
-                                    width: { xs: "98%", lg: '58%' }
-                                }}
+                                sx={{ ".css-k6dkf7-MuiSelect-select-MuiInputBase-input-MuiOutlinedInput-input": { p: 2 }, borderRadius: "4px", width: { xs: "100%", sm: "100%", md: "40%", lg: "40%" } }}
                                 value={values.totalYearExp} {...getFieldProps('totalYearExp')}
                             >
                                 {
@@ -186,8 +183,8 @@ export default function CreateApplication({ open, setOpen, candidateData }) {
                                 multiline={true}
                                 rows={4}
                                 sx={{
-                                    ".css-k6dkf7-MuiSelect-select-MuiInputBase-input-MuiOutlinedInput-input": { p: 1 },
-                                    width: { xs: "98%", lg: '58%' }
+                                    ".MuiInputBase-root": { borderRadius: '4px' },
+                                    width: { xs: "100%", sm: "100%", md: "40%", lg: "40%" }
                                 }}
                                 placeholder='Write a note to Dkrin to let them know why you think you’d be a good fit.'
                                 {...getFieldProps("relavantWork")}
@@ -198,14 +195,11 @@ export default function CreateApplication({ open, setOpen, candidateData }) {
                             />
                         </Stack>
                         <Divider />
-                        <Stack direction={'row'} justifyContent={'end'} alignItems={'center'} spacing={1} >
-                            {/* <Button variant="outlined" sx={{ width: 80 }}
-                            // onClick={() => onClose()}
-                            >Cancel</Button> */}
+                        <Stack direction={'row'} justifyContent={'end'} alignItems={'center'} spacing={1} sx={{ pb: 6 }} >
                             <Button variant="blackButton"
                                 // onClick={() => console.log(errors)}
                                 type="submit"
-                                sx={{ fontSize: 12, width: "110px", height: "30px", bgcolor: 'black', fontWeight: 500, }}
+                                sx={{ letterSpacing: 2, width: 125, mt: 1 }}
                             >Apply</Button>
                         </Stack>
                     </Stack>

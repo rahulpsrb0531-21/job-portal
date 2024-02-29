@@ -10,6 +10,9 @@ import { companyServiceData } from '../utils/basicData'
 import OurServices from '../components/company/ourServices.js'
 import Footer from '../components/footer.js'
 import AboutSection from '../components/company/aboutSection.js'
+import ContactUs from '../components/company/contactUs.js'
+import HeroSection from '../components/company/heroSection.js'
+import DrawerMenu from '../components/drawerMenu.js'
 
 
 export function MainPage() {
@@ -17,7 +20,7 @@ export function MainPage() {
     return (
         <Box>
             <MainHeader />
-            <Box>
+            {/* <Box>
                 {
                     isDesktop === true ? (
                         <Stack alignItems={'center'}
@@ -43,17 +46,22 @@ export function MainPage() {
                         </Stack>
                     )
                 }
-            </Box>
-            {
+            </Box> */}
+            <HeroSection />
+            {/* {
                 isDesktop === true ? (
                     <CategoryServices />
                 ) : (
                     <CardCarousel cards={companyServiceData} />
                 )
-            }
+            } */}
+            {/* <Box sx={{ height: '100vh', bgcolor: "red" }} > */}
+            <CategoryServices />
+            {/* </Box> */}
             <OurServices />
             <AboutSection />
-            <Footer />
+            <ContactUs />
+            <Footer page="mainpage" />
         </Box>
     )
 }
@@ -85,34 +93,35 @@ const MainHeader = () => {
             <Box
                 component={'img'}
                 src='/images/logo.png'
-                sx={{ width: { xs: 100, lg: 200 } }}
+                sx={{ width: { xs: 100, lg: 120 } }}
             />
-            <Stack direction={'row'} alignItems={'center'} spacing={2} >
-                <Button variant="outlined"
+            <Box
+                sx={{ display: { xs: "block", sm: "block", md: "none", lg: 'none' } }}
+            >
+                <DrawerMenu />
+            </Box>
+            <Stack direction={'row'} alignItems={'center'} spacing={2} justifyContent={'space-between'}
+                sx={{
+                    width: '60%',
+                    display: { xs: "none", sm: "none", md: "flex", lg: 'flex' }
+                }}
+            >
+                <Stack direction={'row'} spacing={4} >
+                    <Typography variant='headerTitleLink' sx={{ cursor: 'pointer', ":hover": { textDecoration: "underline" } }}
+                        onClick={() => navigate('/login')}
+                    >Find a job</Typography>
+                    <Typography variant='headerTitleLink' sx={{ cursor: 'pointer', ":hover": { textDecoration: "underline" } }}
+                        onClick={() => navigate('/onboarding/recruiter/login')}
+                    >Find a Candidate</Typography>
+                    <Typography variant='headerTitleLink' sx={{ cursor: 'pointer', ":hover": { textDecoration: "underline" } }} >Join Us Now</Typography>
+                </Stack>
+                <Button variant="contained"
                     onClick={() => navigate('/login')}
-                >Log In</Button>
-                <Button variant="blackButton"
-                    onClick={handleClick}
-                >Sign Up</Button>
-                <Popover
-                    id={id}
-                    open={open}
-                    anchorEl={anchorEl}
-                    onClose={handleClose}
-                    anchorOrigin={{
-                        vertical: 'bottom',
-                        horizontal: 'left',
+                    sx={{
+                        width: 80, fontWeight: 400,
+                        borderRadius: 8, letterSpacing: 0.4
                     }}
-                >
-                    <Box sx={{ p: 1.4 }} >
-                        <Typography sx={{ fontSize: 12, cursor: "pointer" }}
-                            onClick={() => navigate('/login')}
-                        >I'm looking for a job</Typography>
-                        <Typography sx={{ fontSize: 12, cursor: "pointer" }}
-                            onClick={() => navigate('/onboarding/recruiter/login')}
-                        >I'm looking for candidates</Typography>
-                    </Box>
-                </Popover>
+                >Login</Button>
             </Stack>
         </Stack>
     )

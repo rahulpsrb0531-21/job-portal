@@ -55,23 +55,23 @@ export default function AppliedPage() {
                                 return (
                                     <Stack direction={'row'} justifyContent={'space-between'} alignItems={"start"}
                                         sx={{
-                                            width: { xs: "96%", lg: "60%" },
-                                            border: '1px solid #e0e0e0', borderRadius: "4px", p: 1, cursor: "pointer",
+                                            width: { xs: "96%", lg: "60%" }, height: 'auto',
+                                            border: '1px solid #e0e0e0', borderRadius: "4px", px: 1, py: 2, cursor: "pointer",
                                             ":hover": { boxShadow: 1 }
                                         }}
                                         onClick={() => navigate(`/candidate/applied/${data?.job?.title}`, { state: data?.job })}
                                     >
                                         <Stack direction={'row'} spacing={1} >
                                             <Box>
-                                                {/* <Typography
-                                                    sx={{ fontSize: 20, fontWeight: 500 }}
-                                                >{data?.job?.company?.companyName}</Typography> */}
                                                 <Typography
-                                                    sx={{ fontSize: 16, color: 'rgb(97, 97, 97)' }}
+                                                    sx={{ fontSize: 18, color: 'rgb(97, 97, 97)' }}
                                                 >{data?.job?.title}</Typography>
                                                 <Typography
-                                                    sx={{ fontSize: 12, fontWeight: 600 }}
-                                                >{data?.status}</Typography>
+                                                    sx={{ fontSize: 14, fontWeight: 600, textTransform: "uppercase" }}
+                                                >
+                                                    <span style={{ fontWeight: 400, textTransform: "capitalize" }} >Status - </span>
+                                                    {data?.status}
+                                                </Typography>
                                             </Box>
                                         </Stack>
                                         {/* <Box onClick={() => navigate(`/candidate/applied/${data?.job?.title}`, { state: data?.job })} > */}

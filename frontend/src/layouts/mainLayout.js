@@ -1,8 +1,9 @@
 import React, { useState } from "react"
-import { Container, Divider, Stack } from "@mui/material"
+import { Box, Container, Divider, Stack } from "@mui/material"
 import { styled } from '@mui/material/styles'
 import { Navigate, Outlet, useLocation } from "react-router-dom"
 import Header from "../components/header"
+import Footer from "../components/footer"
 import DashboardSidebar from "./dashboard/DashboardSidebar"
 
 
@@ -35,7 +36,8 @@ export default function MainLayout() {
                     mt: 8,
                     ml: 1,
                     overflow: "hidden",
-                    minHeight: '100%'
+                    // height: '80vh'
+                    // minHeight: '100%'
                 }}
             >
                 <DashboardSidebar />
@@ -45,7 +47,9 @@ export default function MainLayout() {
                 {/* <DashboardSidebar device="mobile"/> */}
             </Stack>
             {/* <Divider /> */}
-            {/* <Footer /> */}
+            <Box sx={{ position: "fixed", bottom: 0, width: '100%' }} >
+                <Footer />
+            </Box>
         </Stack>
     )
 }

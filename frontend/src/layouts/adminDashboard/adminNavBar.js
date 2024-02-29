@@ -78,10 +78,8 @@ export default function AdminNavbar({ onOpenSidebar }) {
                 <Stack direction={'row'} alignItems='center'  >
                     <Typography variant='navHeading' color={'black'}>
                         admin
-                        {/* {JSON.parse(sessionStorage.getItem("user"))?.username} */}
                     </Typography>
                     <Iconify onClick={handleClick} icon={'bxs:down-arrow'} width={18} marginLeft='0.5rem' height={18} color='#BCBCCB' />
-                    {/* <KeyboardArrowDownIcon width={22} height={22}  color='red' /> */}
                     <Popover
                         id={id}
                         open={open}

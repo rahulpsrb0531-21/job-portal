@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { motion } from 'framer-motion';
 import { useNavigate } from 'react-router-dom';
-import { IconButton, Drawer, Stack, Typography, Button } from '@mui/material';
+import { IconButton, Drawer, Stack, Typography, Button, Box } from '@mui/material';
 import MenuIcon from '@mui/icons-material/Menu';
 import Iconify from './Iconify';
 import { useDispatch, useSelector } from 'react-redux';
@@ -14,6 +14,7 @@ const DrawerMenu = () => {
     const [isOpen, setIsOpen] = useState(false)
     const [navConfig, setNavConfig] = useState([])
     const [userName, setUserName] = useState('')
+    const token = localStorage.getItem("access")
     const { user } = useSelector((state) => state.auth)
 
     console.log("user", user)
@@ -75,6 +76,21 @@ const DrawerMenu = () => {
         }
     ]
 
+    const notLogin = [
+        {
+            title: 'Find a job',
+            path: '/login',
+        },
+        {
+            title: 'Find a Candidate',
+            path: '/onboarding/recruiter/login',
+        },
+        {
+            title: 'Join Us Now',
+            path: '/',
+        },
+    ]
+
     useEffect(() => {
         if (user?.role === 'CANDIDATE') {
             setUserName(user?.candidateName)
@@ -82,6 +98,8 @@ const DrawerMenu = () => {
         } else if (user?.role === 'RECRUITER') {
             setUserName(user?.recruiterName)
             setNavConfig(recruiterNavConfig)
+        } else if (!token) {
+            setNavConfig(notLogin)
         }
     }, [user])
 
@@ -90,22 +108,38 @@ const DrawerMenu = () => {
             <IconButton onClick={toggleDrawer} color="inherit">
                 <Iconify icon={"material-symbols:menu"} />
             </IconButton>
-            <Drawer anchor="left" open={isOpen} onClose={toggleDrawer}>
+            <Drawer
+                anchor="left" open={isOpen} onClose={toggleDrawer}>
                 <motion.div
-                    // initial={{ x: -300 }}
                     animate={{ x: 0 }}
                     transition={{ type: 'spring', stiffness: 100 }}
                     style={{ width: '250px' }}
                 >
                     <Stack>
-                        <Stack direction={'row'} spacing={1} alignItems={'center'}
-                            sx={{
-                                bgcolor: "black", color: "white", height: 80, borderBottomRightRadius: '8px', pl: 2
-                            }}
-                        >
-                            <Iconify icon={"mingcute:user-4-fill"} sx={{ width: 34, height: 34 }} />
-                            <Typography>{userName}</Typography>
-                        </Stack>
+                        {
+                            (!token) ? (
+                                <Box
+                                    component={"img"}
+                                    src="/images/logo.png"
+                                    sx={{
+                                        width: 120,
+                                        objectFit: "cover",
+                                        cursor: "pointer",
+                                        py: 1
+                                    }}
+                                    onClick={() => navigate('/')}
+                                />
+                            ) : (
+                                <Stack direction={'row'} spacing={1} alignItems={'center'}
+                                    sx={{
+                                        bgcolor: "black", color: "white", height: 80, borderBottomRightRadius: '8px', pl: 2
+                                    }}
+                                >
+                                    <Iconify icon={"mingcute:user-4-fill"} sx={{ width: 34, height: 34 }} />
+                                    <Typography>{userName}</Typography>
+                                </Stack>
+                            )
+                        }
                         <Stack spacing={2} sx={{ p: 2 }} >
                             {
                                 navConfig?.map((data, idx) => (
@@ -119,9 +153,18 @@ const DrawerMenu = () => {
                                 ))
                             }
                         </Stack>
-                        <Button variant='outlined' sx={{ mx: 1, mt: 2 }}
-                            onClick={() => logout()}
-                        >Log out</Button>
+                        {
+                            !token ? (
+                                <Button variant='outlined' sx={{ mx: 1, mt: 2 }}
+                                    onClick={() => navigate('/login')}
+                                >Login</Button>
+                            ) : (
+                                <Button variant='outlined' sx={{ mx: 1, mt: 2 }}
+                                    onClick={() => logout()}
+                                >Log out</Button>
+
+                            )
+                        }
                     </Stack>
                 </motion.div>
             </Drawer>

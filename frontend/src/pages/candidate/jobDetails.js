@@ -103,7 +103,7 @@ export default function JobDetails() {
     ]
 
     useEffect(() => {
-        if (user?.role !== "CANDIDATE" && !token) {
+        if (!token) {
             navigate('/')
         }
     }, [])
@@ -125,19 +125,19 @@ export default function JobDetails() {
                         <Stack direction={'row'} alignItems={'center'} justifyContent={'space-between'} >
                             <Typography>{state?.title}</Typography>
                         </Stack>
-                        <Stack spacing={1}>
+                        <Stack spacing={1.8}>
                             {
                                 jobBasicDetails?.map((data, idx) => (
-                                    <>
-                                        <Typography>{data?.name}</Typography>
-                                        <Typography sx={{ fontSize: 12 }}
+                                    <Box>
+                                        <Typography sx={{ fontSize: 18, fontWeight: 600 }} >{data?.name}</Typography>
+                                        <Typography sx={{ fontSize: 16, opacity: 0.8 }}
                                             dangerouslySetInnerHTML={{ __html: data?.value }} />
-                                    </>
+                                    </Box>
                                 ))
                             }
                         </Stack>
-                        <Box>
-                            <Typography>Technologies</Typography>
+                        <Box sx={{ pt: 1.2 }}>
+                            <Typography sx={{ fontSize: 18, fontWeight: 500 }}>Technologies</Typography>
                             <Stack direction={'row'} spacing={1} >
                                 {
                                     state?.skills?.map((data, idx, row) => (
@@ -146,8 +146,8 @@ export default function JobDetails() {
                                 }
                             </Stack>
                         </Box>
-                        <Box>
-                            <Typography>Location</Typography>
+                        <Box sx={{ pt: 1.2 }} >
+                            <Typography sx={{ fontSize: 18, fontWeight: 500 }}>Location</Typography>
                             <Stack direction={'row'} spacing={1} >
                                 {
                                     state?.location?.map((data, idx, row) => (
@@ -159,14 +159,14 @@ export default function JobDetails() {
                         <Box my={2} >
                             <Stack direction={'row'} alignItems={'center'} spacing={2} >
                                 <Button variant="outlined"
-                                    sx={{ fontSize: 14, width: "58px", height: "30px", fontWeight: 500 }}
+                                    sx={{ letterSpacing: 2, width: 125, mt: 1 }}
                                 >Save</Button>
                                 <Button variant="blackButton"
                                     onClick={() => navigate('/candidate/create/application', { state: state?._id })}
-                                    sx={{ fontSize: 12, width: "110px", height: "30px", bgcolor: 'black', fontWeight: 500, }}
+                                    sx={{ letterSpacing: 2, width: 125, mt: 1 }}
                                 >Apply</Button>
                             </Stack>
-                            <Stack mt={1}>
+                            <Stack sx={{ mt: 1.6, mb: 6 }} spacing={0.2}  >
                                 {
                                     jobRegardingData?.map((data, idx) => (
                                         <Stack direction={'row'} alignItems={'center'} spacing={1} >

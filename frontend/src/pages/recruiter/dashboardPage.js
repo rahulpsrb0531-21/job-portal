@@ -50,35 +50,39 @@ export default function DashboardPage() {
     }, [])
 
     return (
-        <Box>
-            <Stack direction={'row'} alignItems={'center'} justifyContent={'end'}
-                sx={{
-                    border: '1px solid #e0e0e0', borderRadius: "8px",
-                    p: 2,
-                    backgroundImage: "linear-gradient(178deg,#fafafa,#fff 35%)",
-                    width: "90%", ml: 8, mt: 1
-                }}
-            >
-                <Button variant="outlined"
-                    onClick={() => navigate("/recruiter/create/job")}
-                    sx={{ fontSize: 14, width: "140px", height: "30px", fontWeight: 500 }} >Job New Post</Button>
-            </Stack>
-            <Stack direction={'row'} spacing={4} alignItems={'center'} justifyContent={'center'} sx={{ pt: 10 }} >
-                <Stack sx={{ border: "0.5px solid #ccc", width: 200, p: 2, textAlign: 'center', borderRadius: "4px", cursor: "pointer" }}
-                    onClick={() => navigate('/recruiter/jobs')}
+        <>
+            <Box >
+                <Stack direction={'row'} alignItems={'center'} justifyContent={'end'}
+                    sx={{
+                        border: '1px solid #e0e0e0', borderRadius: "8px",
+                        p: 2,
+                        backgroundImage: "linear-gradient(178deg,#fafafa,#fff 35%)",
+                        // width: { xs: "90%", lg: "90%" }, 
+                        width: { xs: "94%", sm: "94%", md: "90%", lg: "90%" },
+                        ml: { xs: 1, lg: 8 }, mt: 1
+                    }}
                 >
-                    <Typography variant="companyTitle" >Jobs</Typography>
-                    <Divider />
-                    <Typography variant="companySubText">Total : {jobs?.length}</Typography>
+                    <Button variant="outlined"
+                        onClick={() => navigate("/recruiter/create/job")}
+                        sx={{ fontSize: 14, width: 150, height: "30px", fontWeight: 500 }} >Job New Post</Button>
                 </Stack>
-                <Stack sx={{ border: "0.5px solid #ccc", width: 200, p: 2, textAlign: 'center', borderRadius: "4px", cursor: "pointer" }}
-                    onClick={() => navigate('/recruiter/applicant')}
-                >
-                    <Typography variant="companyTitle" >Applicant</Typography>
-                    <Divider />
-                    <Typography variant="companySubText">Total : {applicant?.length}</Typography>
+                <Stack direction={{ xs: 'column', sm: "column", md: 'row', lg: 'row' }} spacing={4} sx={{ minHeight: "76vh" }} justifyContent={'center'} alignItems={"center"} >
+                    <Stack sx={{ border: "0.5px solid #ccc", width: 200, height: 100, p: 2, textAlign: 'center', borderRadius: "4px", cursor: "pointer" }}
+                        onClick={() => navigate('/recruiter/jobs')}
+                    >
+                        <Typography variant="companyTitle" >Jobs</Typography>
+                        <Divider />
+                        <Typography variant="companySubText">Total : {jobs?.length}</Typography>
+                    </Stack>
+                    <Stack sx={{ border: "0.5px solid #ccc", width: 200, height: 100, p: 2, textAlign: 'center', borderRadius: "4px", cursor: "pointer" }}
+                        onClick={() => navigate('/recruiter/applicant')}
+                    >
+                        <Typography variant="companyTitle" >Applicant</Typography>
+                        <Divider />
+                        <Typography variant="companySubText">Total : {applicant?.length}</Typography>
+                    </Stack>
                 </Stack>
-            </Stack>
-        </Box>
+            </Box>
+        </>
     )
 }

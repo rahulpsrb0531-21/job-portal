@@ -1,11 +1,12 @@
 import React, { useState } from "react"
-import { Container, Divider, Stack } from "@mui/material"
+import { Box, Container, Divider, Stack } from "@mui/material"
 import { styled } from '@mui/material/styles'
 import { Navigate, Outlet, useLocation } from "react-router-dom"
 // import Header from "../components/header"
 // import DashboardSidebar from "./dashboard/DashboardSidebar"
 import RecruiterSidebar from "./recruiterSidebar"
 import RecruiterHeader from "../../components/recruiterHeader"
+import Footer from "../../components/footer"
 // import Footer from "../components/footer"
 
 const RootStyle = styled('div')({
@@ -62,8 +63,9 @@ export default function RecruiterLayout() {
                     <Outlet />
                 </MainStyle>
             </RootStyle>
-            {/* <Divider /> */}
-            {/* <Footer /> */}
+            <Box sx={{ position: "fixed", bottom: 0, width: '100%' }} >
+                <Footer />
+            </Box>
         </Stack>
     )
 }

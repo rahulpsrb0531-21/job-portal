@@ -12,13 +12,18 @@ const ListItemStyle = styled((props) => <ListItemButton disableGutters {...props
   position: 'relative',
   textTransform: 'capitalize',
   color: '#282C3F',
+  // color: 'gold',
   fontWeight: 300,
+  // backgroundColor: "black",
+  width: 100,
+  borderRadius: '4px',
+  // textAlign: "center"
 }));
 
 const ListItemIconStyle = styled(ListItemIcon)({
   display: 'flex',
   alignItems: 'center',
-  justifyContent: 'center',
+  justifyContent: 'center'
 });
 
 // ----------------------------------------------------------------------
@@ -45,10 +50,11 @@ function NavItem({ item, active }) {
   const activeRootStyle = {
     color: '#0f6fff ',
     fontWeight: 400,
-    p: 2,
+    // p: 2,
     // transform: 'scale(2)',
     bgcolor: '#f2f8ff',
-    opacity: 0.6
+    // bgcolor: 'red',
+    opacity: 0.6,
   };
 
   const activeSubStyle = {
@@ -97,7 +103,7 @@ function NavItem({ item, active }) {
                         transition: (theme) => theme.transitions.create('transform'),
                         ...(isActiveSub && {
                           transform: 'scale(2)',
-                          bgcolor: 'primary.main',
+                          // bgcolor: 'primary.main',
                           // color: 'blue',
                         })
 
@@ -124,16 +130,19 @@ function NavItem({ item, active }) {
         // width: 0,
         // height: 100,
         "&:hover": {
+          // color: '#0f6fff ',
           color: '#0f6fff ',
           fontWeight: 400,
-          p: 2,
+          // p: 2,
           // transform: 'scale(2)',
           bgcolor: '#f2f8ff',
-          opacity: 0.6
+          // bgcolor: 'green',
+          opacity: 0.6,
+          // width: 90
         }
       }}
     >
-      <Stack alignItems={'center'} >
+      <Stack alignItems={'center'} justifyContent={'center'} width={"100%"} >
         <Iconify icon={icon} sx={{ width: 22, height: 22 }} />
         <Typography sx={{ fontSize: 12, color: 'rgb(97, 97, 97)' }} >{title}</Typography>
       </Stack>

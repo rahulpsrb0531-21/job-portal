@@ -187,8 +187,8 @@ export default function DocumentUpload({ open, setOpen, candidateData }) {
         },
     ]
     return (
-        <Stack>
-            <Typography sx={{ fontSize: { xs: 24, lg: 18 }, fontWeight: 600 }} >Upload Documents</Typography>
+        <Stack sx={{ pb: 6 }}>
+            <Typography sx={{ fontSize: { xs: 18, lg: 22 }, fontWeight: 600 }} >Upload Documents</Typography>
             {/* <Box>
                     <Stack>
                         <Typography sx={{ fontSize: { xs: 14 } }} >Tell us about yourself so startups know who you are.</Typography>
@@ -285,16 +285,19 @@ const UploadPdf = ({ setFieldValue, uploadName, title, docValue, getCandidateByI
     }
     return (
         <Stack direction={{ lg: 'row' }} spacing={2} alignItems={{ lg: 'center' }}
-        // sx={{ bgcolor: 'blue', width: '100%' }}
         >
             <Box sx={{ width: 196, pb: 0.6 }} >
-                <Typography variant="profilePageTitle">
+                <Typography sx={{
+                    fontSize: 14,
+                    color: "rgb(5, 12, 38)",
+                    fontWeight: 500, lineHeight: '16px'
+                }} >
                     {title}*
                 </Typography>
             </Box>
             {
                 (docValue?.length === 0) ? (
-                    <Box sx={{ width: { xs: '90%', lg: '46%' } }}>
+                    <Box sx={{ width: { xs: '100%', lg: '46%' } }}>
                         <div {...getRootProps()} style={dropzoneStyles}>
                             <input {...getInputProps()} />
                             {upload ? (
@@ -302,8 +305,8 @@ const UploadPdf = ({ setFieldValue, uploadName, title, docValue, getCandidateByI
                             ) : isDragActive ? (
                                 <Typography variant="body1">Drop the files here...</Typography>
                             ) : (
-                                <Stack alignItems={'center'} >
-                                    <Typography sx={{ fontSize: 14 }} >Upload
+                                <Stack alignItems={'center'} justifyContent={'center'} sx={{ height: 50 }}  >
+                                    <Typography sx={{ fontSize: 16 }} >Upload file
                                         {/* {title} */}
                                     </Typography>
                                 </Stack>
@@ -313,8 +316,10 @@ const UploadPdf = ({ setFieldValue, uploadName, title, docValue, getCandidateByI
                     </Box>
                 ) : (
                     <Stack direction={'row'} alignItems={'center'} justifyContent={'space-between'} sx={{
-                        border: '0.4px solid #ccc', width: { xs: '90%', lg: "46%" },
-                        p: { xs: 0.8, lg: 1 }, borderRadius: '4px'
+                        border: '0.4px solid #ccc', width: { xs: '100%', lg: "46%" },
+                        height: 60,
+                        px: { xs: 0.8, lg: 1 },
+                        borderRadius: '4px'
                     }} >
                         <Stack direction={'row'} alignItems={'center'} spacing={2} onClick={handleDownload}>
                             <Iconify icon={"ph:file-pdf-bold"} sx={{ width: { xs: 22, lg: 42 }, color: "blue" }} />

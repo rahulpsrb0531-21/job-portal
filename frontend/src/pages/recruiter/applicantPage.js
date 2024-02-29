@@ -62,7 +62,7 @@ export default function ApplicantPage() {
     }
 
     return (
-        <Container>
+        <Container sx={{ height: "84vh" }} >
             <ApplicantApproveModal
                 open={open}
                 setOpen={setOpen}
@@ -71,7 +71,7 @@ export default function ApplicantPage() {
                 applicationId={applicationId}
                 getapplicantJob={getapplicantJob}
             />
-            <Box sx={{ width: '100%', pt: 6 }}>
+            <Box sx={{ width: '100%', pt: 1 }}>
                 {
                     applicantJob?.length === 0 ? (
                         <Box sx={{
@@ -83,8 +83,8 @@ export default function ApplicantPage() {
                         </Box>
                     ) : (
                         <Box>
-                            <Typography>Applicants</Typography>
-                            <Stack spacing={1} >
+                            <Typography variant='companyTitle'>Applicants</Typography>
+                            <Stack spacing={1} sx={{ pt: 1 }} >
                                 {
                                     applicantJob?.map((data, idx) => {
                                         // console.log(data?._id)

@@ -1,5 +1,5 @@
 import { useEffect } from "react";
-import { Box, Stack, Typography } from "@mui/material";
+import { Box, Grid, Stack, Typography } from "@mui/material";
 import { companyOurSerivceData } from "../../utils/basicData";
 import Iconify from "../Iconify";
 import AOS from 'aos';
@@ -14,31 +14,34 @@ export default function OurServices() {
     }, [])
     return (
         <Stack sx={{ mt: 8 }} >
-            <Typography sx={{ fontSize: 24, fontWeight: 900, textTransform: "uppercase", textAlign: "center" }} >Our services</Typography>
-            <Stack rowGap={2} columnGap={2} mx={1} my={4}
-                flexWrap={"wrap"}
-                justifyContent={'center'}
-                direction={{ xs: 'column', lg: 'row' }}
-            >
+            <Typography variant="sactionTitle" >Our services</Typography>
+            <Grid container rowGap={2} columnGap={2} justifyContent={'center'} sx={{ pt: 2 }}>
                 {
                     companyOurSerivceData?.map((data, idx) => (
-                        <Stack direction={'row'} spacing={1}
+                        <Grid item xs={11.4} sm={5.6} md={3.8}
                             sx={{
-                                width: { lg: '30%' }, borderRadius: "4px", p: 2,
+                                height: { xs: 260, sm: 340, md: 360, lg: 380 },
+                                borderRadius: "2px", p: 2,
                                 border: "1px solid rgb(238, 238, 238)",
-                                bgcolor: '#f7f7f7', boxShadow: "0px 2px 6px #0000000A"
+                                bgcolor: '#e7f0e7',
+                                // bgcolor: 'red',
+                                boxShadow: "0px 2px 6px #0000000A",
+                                position: 'relative'
                             }}
                             data-aos="fade-up"
                         >
-                            <Iconify icon={data?.icon} sx={{ width: { xs: 82 }, height: 32 }} />
-                            <Stack spacing={2}>
-                                <Typography sx={{ fontSize: 18, fontWeight: 600 }} >{data?.title}</Typography>
-                                <Typography sx={{ fontSize: 14 }}>{data?.description}</Typography>
+                            <Stack spacing={2} >
+                                <Iconify icon={data?.icon} sx={{ width: { xs: 82 }, height: 42 }} />
+                                <Typography variant="serviceCardTitle" >{data?.title}</Typography>
                             </Stack>
-                        </Stack>
+                            <Typography variant="serviceCardSubText"
+                                sx={{ position: 'absolute', bottom: 10 }}
+                            >{data?.description}</Typography>
+                        </Grid>
                     ))
                 }
-            </Stack>
+            </Grid>
+            {/* </Stack> */}
         </Stack>
     )
 }

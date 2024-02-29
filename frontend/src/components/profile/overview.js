@@ -69,7 +69,7 @@ export default function Overview() {
                         <Typography
                             sx={{ fontSize: 14, color: 'rgb(145, 148, 160)' }}
                         >Skill</Typography>
-                        <Stack direction={'row'} flexWrap={'wrap'} spacing={1} sx={{ pt: 1 }} >
+                        <Stack direction={'row'} flexWrap={'wrap'} spacing={1} useFlexGap >
                             {
                                 candidateData?.skills.map((data, idx) => (
                                     <Typography

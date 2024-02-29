@@ -15,12 +15,13 @@ export default function Profile() {
     const { user } = useSelector((state) => state.auth)
     console.log('user', user)
     const token = localStorage.getItem('access')
+    console.log('token', token)
     const handleChange = (event, newValue) => {
         setValue(newValue);
     }
 
     useEffect(() => {
-        if (user?.role !== "CANDIDATE" && token) {
+        if (token === null) {
             navigate('/')
         }
     }, [])

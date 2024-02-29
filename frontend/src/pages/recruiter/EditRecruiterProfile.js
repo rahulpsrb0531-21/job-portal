@@ -100,8 +100,6 @@ export default function EditRecruiterProfile() {
         oneLinePitch: Yup.string().required("One Line Pitch is required"),
         recruiterName: Yup.string().required("Name is required"),
         phone: Yup.number().required("Name is required"),
-        // locations: Yup.array().required("Location is required"),
-        // newLocation: Yup.string(),
         markets: Yup.array(),
         newMarket: Yup.string(),
     })
@@ -205,23 +203,6 @@ export default function EditRecruiterProfile() {
         if (user) {
             // console.log(user)
             getRecruiterById(user?._id)
-            // setFieldValue("recruiterName", user?.recruiterName)
-            // setFieldValue("workEmail", user?.email)
-            // setFieldValue("phone", user?.phone)
-            // setFieldValue("one", user?.email)
-            // setFieldValue("oneLinePitch", user?.oneLinePitch)
-            // setFieldValue("companySize", user?.companySize)
-            // setFieldValue("companyType", user?.companyType)
-            // setMarkets(user?.markets)
-            // setLocations(user?.location)
-            // setFieldValue("recruiterName", user?.recruiterName)
-            // setFieldValue("email", user?.email)
-            // setFieldValue("phone", user?.phone)
-            // setFieldValue("workEmail", user?.workEmail)
-            // setFieldValue("website", user?.website)
-            // setFieldValue("twitter", user?.twitter)
-            // setFieldValue("linkedIn", user?.linkedIn)
-            // setFieldValue("blogUrl", user?.blogUrl)
         }
     }, [])
 
@@ -241,9 +222,6 @@ export default function EditRecruiterProfile() {
         setFieldValue('markets', values.markets.filter((market, i) => i !== idx))
     }
 
-    const deleteLocation = (idx) => {
-        setFieldValue('locations', values.locations.filter((data, i) => i !== idx))
-    }
 
     const companySizeData = ['1-10', '11-50', '51-200', '201-500', '501-1000', '1001-5000', '5000+']
 
@@ -251,7 +229,7 @@ export default function EditRecruiterProfile() {
     return (
         <FormikProvider value={formik}>
             <Form autoComplete="off" noValidate onSubmit={handleSubmit}>
-                <Stack justifyContent={'center'} direction={'row'} my={1} >
+                <Stack justifyContent={'center'} direction={'row'} my={1} sx={{ pb: 4 }} >
                     <Box sx={{ width: { xs: "100%", lg: '40%' }, border: '1px solid #e0e0e0', }} >
                         <Stack spacing={2} sx={{
                             width: "100%",
@@ -317,34 +295,8 @@ export default function EditRecruiterProfile() {
                                     helperText={touched.blogUrl && errors.blogUrl}
                                 />
                             </Stack>
-                            {/* <Stack>
-                                <Typography variant="profilePageTitle" >Location*</Typography>
-                                <Stack direction={'row'} flexWrap={'wrap'} spacing={1} useFlexGap sx={{ pb: 1 }} >
-                                    {
-                                        values?.locations.map((data, idx) => (
-                                            <Chip label={data} key={idx} sx={{ borderRadius: "4px" }}
-                                                onDelete={() => deleteLocation(idx)}
-                                            />
-                                        ))
-                                    }
-                                </Stack>
-                                <Field name="newLocation">
-                                    {({ field }) => (
-                                        <TextField
-                                            sx={{ ".css-3ux5v-MuiInputBase-root-MuiOutlinedInput-root": { height: "32px", borderRadius: '4px' } }}
-                                            {...field}
-                                            onKeyDown={(e) => {
-                                                if (e.key === 'Enter') {
-                                                    e.preventDefault();
-                                                    setFieldValue("locations", [...values.locations, e.target.value])
-                                                    setFieldValue('newLocation', '')
-                                                }
-                                            }}
-                                        />
-                                    )}
-                                </Field>
-                            </Stack> */}
-                            <Stack sx={{ width: { xs: "100%", lg: "60%" } }} spacing={1} >
+                            <Stack sx={{ width: { xs: "100%", lg: "100%" } }} spacing={1} >
+                                <Typography variant="profilePageTitle" >Locations*</Typography>
                                 <Stack direction={'row'} flexWrap={'wrap'} spacing={1} useFlexGap >
                                     {
                                         locations.map((location, idx) => (
@@ -355,18 +307,18 @@ export default function EditRecruiterProfile() {
                                     }
                                 </Stack>
                                 <FormControl>
-                                    <Typography variant="profilePageTitle" >Locations?*</Typography>
-                                    <TextField sx={{ ".css-3ux5v-MuiInputBase-root-MuiOutlinedInput-root": { height: "40px" } }}
+                                    <TextField sx={{ ".css-3ux5v-MuiInputBase-root-MuiOutlinedInput-root": { height: "40px" }, }}
                                         value={newLocation}
                                         onChange={(e) => setNewLocation(e.target.value)}
                                     />
-                                    <Button variant="blackButton" sx={{ fontSize: 12, width: "120px", height: "30px", bgcolor: 'black', fontWeight: 500, mt: 0.6 }}
+                                    <Button variant="blackButton" sx={{ fontSize: 12, width: 124, bgcolor: 'black', fontWeight: 500, mt: 1, ":hover": { bgcolor: "black" } }}
                                         onClick={() => addLocation()}
                                     >Add Location</Button>
                                 </FormControl>
                             </Stack>
 
                             <Stack sx={{ width: { xs: "100%", lg: "60%" } }} spacing={1} >
+                                <Typography variant="profilePageTitle" >Markets*</Typography>
                                 <Stack direction={'row'} flexWrap={'wrap'} spacing={1} useFlexGap >
                                     {
                                         markets.map((market, idx) => (
@@ -377,12 +329,11 @@ export default function EditRecruiterProfile() {
                                     }
                                 </Stack>
                                 <FormControl>
-                                    <Typography variant="profilePageTitle" >Markets?*</Typography>
                                     <TextField sx={{ ".css-3ux5v-MuiInputBase-root-MuiOutlinedInput-root": { height: "40px" } }}
                                         value={newMarket}
                                         onChange={(e) => setNewMarket(e.target.value)}
                                     />
-                                    <Button variant="blackButton" sx={{ fontSize: 12, width: "120px", height: "30px", bgcolor: 'black', fontWeight: 500, mt: 0.6 }}
+                                    <Button variant="blackButton" sx={{ fontSize: 12, width: 124, bgcolor: 'black', fontWeight: 500, mt: 1, ":hover": { bgcolor: "black" } }}
                                         onClick={() => addMarket()}
                                     >Add Markets</Button>
                                 </FormControl>
@@ -391,7 +342,7 @@ export default function EditRecruiterProfile() {
                             <Stack>
                                 <Typography variant="profilePageTitle" >Company size*</Typography>
                                 <Select
-                                    sx={{ ".css-k6dkf7-MuiSelect-select-MuiInputBase-input-MuiOutlinedInput-input": { p: 1 } }}
+                                    sx={{ ".css-k6dkf7-MuiSelect-select-MuiInputBase-input-MuiOutlinedInput-input": { p: 2 } }}
                                     value={values.companySize} {...getFieldProps('companySize')}
                                 >
                                     {
@@ -404,7 +355,7 @@ export default function EditRecruiterProfile() {
                             <Stack>
                                 <Typography variant="profilePageTitle" >Company Type*</Typography>
                                 <Select
-                                    sx={{ ".css-k6dkf7-MuiSelect-select-MuiInputBase-input-MuiOutlinedInput-input": { p: 1 } }}
+                                    sx={{ ".css-k6dkf7-MuiSelect-select-MuiInputBase-input-MuiOutlinedInput-input": { p: 2 } }}
                                     value={values.companyType} {...getFieldProps('companyType')}
                                 >
                                     {
@@ -454,8 +405,8 @@ export default function EditRecruiterProfile() {
                             </Stack>
                             <Button size="small" variant="outlined" type="submit"
                                 onClick={() => console.log(errors)}
-                                sx={{ fontSize: 14, width: "88px", height: "30px", fontWeight: 500 }}
-                            >Edit</Button>
+                                sx={{ fontSize: 14, width: "124px", fontWeight: 500 }}
+                            >Save</Button>
                         </Stack>
                     </Box>
                 </Stack>

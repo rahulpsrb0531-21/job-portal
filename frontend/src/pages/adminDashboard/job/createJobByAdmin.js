@@ -123,7 +123,7 @@ export default function CreateJobByAdmin() {
                 visaSponsorship: (v?.visaSponsorship === "true" ? true : false),
                 reLocation: (v?.reLocation === "true" ? true : false),
             }
-            console.log('data>>>>', data)
+            // console.log('data>>>>', data)
             CreateJob(data)
         }
     })

@@ -38,9 +38,9 @@ export default function AppliedJobDetails() {
     return (
         <Stack
             sx={{
-                width: { xs: "96%", lg: '60%' }, borderRadius: "4px", p: { xs: 1, lg: 4 }, ml: { xs: 0, lg: 2 }, mt: 1,
+                width: { xs: "96%", lg: '60%' }, borderRadius: "4px", p: { xs: 1, lg: 4 }, ml: { xs: 0, lg: 2 }, mt: 1, mb: 8,
                 border: "1px solid rgb(238, 238, 238)",
-                bgcolor: '#f7f7f7', boxShadow: "0px 2px 6px #0000000A"
+                bgcolor: '#f7f7f7', boxShadow: "0px 2px 6px #0000000A",
             }}
         >
             <Stack direction={'row'} alignItems={'center'} justifyContent={'space-between'} >
@@ -52,14 +52,14 @@ export default function AppliedJobDetails() {
                     data?.map((data, idx) => (
                         <Stack>
                             <Typography sx={{ fontSize: 18, fontWeight: 600 }} >{data?.title}</Typography>
-                            <Typography sx={{ fontSize: 14 }}
+                            <Typography sx={{ fontSize: 16 }}
                                 dangerouslySetInnerHTML={{ __html: data?.value }} />
                         </Stack>
                     ))
                 }
             </Stack>
             <Typography sx={{ fontSize: 16, fontWeight: 600 }} >Job Type - {state?.employmentType}</Typography>
-            <Typography sx={{ fontSize: 16, fontWeight: 600 }} >{state?.salaryCurrency?.symbol}{state?.salaryRange?.minimum} - {state?.salaryCurrency?.symbol}{state?.salaryRange?.maximum}</Typography>
+            <Typography sx={{ fontSize: 16 }} >{state?.salaryCurrency?.symbol}{state?.salaryRange?.minimum} - {state?.salaryCurrency?.symbol}{state?.salaryRange?.maximum}</Typography>
         </Stack>
     )
 }

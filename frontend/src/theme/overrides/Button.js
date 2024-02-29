@@ -23,12 +23,11 @@ export default function Button(theme) {
         },
         contained: {
           borderRadius: 4,
-          fontWeight: 400,
-          backgroundColor: "#f73378",
-          // borderColor: "",
+          fontWeight: 200,
+          fontSize: 14,
+          backgroundColor: "black",
           '&:hover': {
-            // borderColor: "black",
-            backgroundColor: "#f06292",
+            backgroundColor: "black",
           }
         },
         outlined: {

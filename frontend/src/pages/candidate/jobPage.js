@@ -100,7 +100,7 @@ export default function JobPage() {
     }
 
     useEffect(() => {
-        if (user?.role !== "CANDIDATE" && !token) {
+        if (token === null) {
             navigate('/')
         }
     }, [])
@@ -113,7 +113,7 @@ export default function JobPage() {
     }
 
     return (
-        <Box sx={{ width: '100%' }}>
+        <Box sx={{ width: '100%', pb: 6 }} >
             <Box >
                 <TabContext value={value}>
                     <Box sx={{ borderBottom: 1, borderColor: 'divider' }}>
@@ -129,13 +129,13 @@ export default function JobPage() {
                         }} >
                             <Typography sx={{ fontSize: { xs: 18, lg: 24 }, fontWeight: 600, py: 1 }} >Search for jobs</Typography>
                             <Stack direction={{ xs: 'column', lg: 'row' }} flexWrap={'wrap'} rowGap={1} columnGap={1} >
-                                <TextField sx={{ ".css-3ux5v-MuiInputBase-root-MuiOutlinedInput-root": { height: "40px" }, width: { xs: "100%", lg: "40%" } }}
+                                <TextField sx={{ ".MuiInputBase-root": { borderRadius: "4px" }, width: { xs: "100%", lg: "40%" } }}
                                     onChange={(e) => setDesignations(e.target.value)}
                                     value={designations}
                                     placeholder='Job Title'
                                 />
                                 <Select
-                                    sx={{ ".css-k6dkf7-MuiSelect-select-MuiInputBase-input-MuiOutlinedInput-input": { p: 1.2 }, width: { xs: "100%", lg: "40%" } }}
+                                    sx={{ ".css-k6dkf7-MuiSelect-select-MuiInputBase-input-MuiOutlinedInput-input": { p: 2 }, borderRadius: "4px", width: { xs: "100%", sm: "100%", md: "40%", lg: "40%" } }}
                                     value={jobType}
                                     displayEmpty
                                 >
@@ -150,8 +150,7 @@ export default function JobPage() {
                                         ))
                                     }
                                 </Select>
-                                <Select
-                                    sx={{ ".css-k6dkf7-MuiSelect-select-MuiInputBase-input-MuiOutlinedInput-input": { p: 1.2 }, width: { xs: "100%", lg: "40%" } }}
+                                <Select sx={{ ".css-k6dkf7-MuiSelect-select-MuiInputBase-input-MuiOutlinedInput-input": { p: 2 }, borderRadius: "4px", width: { xs: "100%", sm: "100%", md: "40%", lg: "40%" } }}
                                     value={experience}
                                     displayEmpty
                                 >
@@ -166,9 +165,8 @@ export default function JobPage() {
                                         ))
                                     }
                                 </Select>
-                                {/* </FormControl> */}
                                 <TextField
-                                    sx={{ ".css-3ux5v-MuiInputBase-root-MuiOutlinedInput-root": { height: "40px" }, width: { xs: "100%", lg: "40%" } }}
+                                    sx={{ ".MuiInputBase-root": { borderRadius: "4px" }, width: { xs: "100%", lg: "40%" } }}
                                     value={locations}
                                     onChange={(e) => setLocations(e.target.value)}
                                     placeholder='Location'
@@ -183,20 +181,26 @@ export default function JobPage() {
                                 >Search</Button>
                             </Stack>
                         </Box>
-                        <Stack spacing={1} sx={{ my: 2 }} >
+                        <Stack spacing={2} sx={{ my: 2 }} >
                             {
                                 jobsData?.map((data, idx) => (
                                     <Stack sx={{
-                                        width: { xs: "96%", lg: "60%" },
+                                        width: { xs: "96%", sm: "96%", md: "60%", lg: "60%" },
                                         border: '1px solid #e0e0e0', borderRadius: "8px",
                                         p: 2,
                                         backgroundImage: "linear-gradient(178deg,#fafafa,#fff 35%)"
-                                    }} >
-                                        <Typography sx={{ fontSize: 14, fontWeight: 600 }} >{data?.title}</Typography>
-                                        <Typography sx={{ fontSize: 14, fontWeight: 600 }} >Job Type - {data?.employmentType}</Typography>
-                                        <Typography sx={{ fontSize: 14, fontWeight: 600 }} >{data?.salaryCurrency?.symbol}{data?.salaryRange?.minimum} - {data?.salaryCurrency?.symbol}{data?.salaryRange?.maximum}</Typography>
+                                    }} spacing={1} >
+                                        <Typography sx={{ fontSize: 14, fontWeight: 600 }} >
+                                            <span style={{ fontWeight: 400 }} >Position - </span>
+                                            {data?.title}</Typography>
+                                        <Typography sx={{ fontSize: 14, fontWeight: 600 }} >
+                                            <span style={{ fontWeight: 400 }} >Job Type - </span> {data?.employmentType}</Typography>
+                                        <Typography sx={{ fontSize: 14, fontWeight: 600 }} >
+                                            <span style={{ fontWeight: 400 }} >Salary - </span>
+                                            {data?.salaryCurrency?.symbol}{data?.salaryRange?.minimum} - {data?.salaryCurrency?.symbol}{data?.salaryRange?.maximum}</Typography>
                                         <Stack direction={'row'} spacing={0.4} alignItems={'center'} >
-                                            <Iconify icon={"carbon:location"} sx={{ width: 16 }} />
+                                            <Iconify icon={"carbon:location"} />
+                                            <span style={{ fontWeight: 400, fontSize: 14 }} >Location - </span>
                                             {
                                                 data?.location?.map((data, idx, row) => (
                                                     <Typography sx={{ fontSize: 14, fontWeight: 700 }} >{data} {idx + 1 === row.length ? "" : ","}</Typography>
@@ -212,7 +216,7 @@ export default function JobPage() {
                                             </Button>
                                             <Button variant="blackButton"
                                                 onClick={() => navigate(`/candidate/${data?.title}`, { state: data })}
-                                                sx={{ fontSize: 12, width: "110px", height: "30px", bgcolor: 'black', fontWeight: 500, }}
+                                                sx={{ fontSize: 12, width: 120, height: "30px", bgcolor: 'black', fontWeight: 500, }}
                                             >
                                                 Learn more
                                             </Button>

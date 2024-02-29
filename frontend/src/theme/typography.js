@@ -23,7 +23,7 @@ function responsiveFontSizes({ xs, sm, md, lg }) {
   };
 }
 
-const FONT_PRIMARY = 'Roboto'
+const FONT_PRIMARY = 'Inter'
 
 const typography = {
   fontFamily: FONT_PRIMARY,
@@ -106,11 +106,6 @@ const typography = {
     fontSize: pxToRem(30),
     ...responsiveFontSizes({ xs: 14, sm: 18, md: 20, lg: 30 }),
   },
-  // logoContent: {
-  //   fontWeight: 900,
-  //   fontSize: pxToRem(20),
-  //   ...responsiveFontSizes({ xs: 12, sm: 14, md: 18, lg: 20 }),
-  // },
   heroText: {
     color: "#ffff",
     opacity: 0.8,
@@ -130,13 +125,11 @@ const typography = {
   profilePageTitle: {
     color: "rgb(5, 12, 38)",
     fontWeight: 500,
-    fontSize: pxToRem(14),
-    ...responsiveFontSizes({ xs: 14, sm: 14, md: 14, lg: 14 }),
+    fontSize: pxToRem(16),
+    ...responsiveFontSizes({ xs: 16, sm: 16, md: 16, lg: 16 }),
   },
   profilePageSubText: {
     color: "rgb(113, 117, 132)",
-    // letterSpacing: 2,
-    // lineHeight: "10px",
     fontSize: pxToRem(14),
     ...responsiveFontSizes({ xs: 12, sm: 12, md: 14, lg: 14 }),
   },
@@ -153,7 +146,63 @@ const typography = {
     lineHeight: "20px",
     fontSize: pxToRem(16),
     ...responsiveFontSizes({ xs: 14, sm: 14, md: 16, lg: 16 }),
-  }
+  },
+  serviceCardTitle: {
+    fontWeight: 500,
+    // lineHeight: "30px",
+    fontSize: pxToRem(28),
+    ...responsiveFontSizes({ xs: 24, sm: 26, md: 28, lg: 28 }),
+  },
+  serviceCardSubText: {
+    fontWeight: 400,
+    lineHeight: "20px",
+    fontSize: pxToRem(16),
+    ...responsiveFontSizes({ xs: 14, sm: 14, md: 16, lg: 16 }),
+  },
+  contactUsTitle: {
+    fontWeight: 400,
+    fontSize: pxToRem(42),
+    ...responsiveFontSizes({ xs: 34, sm: 42, md: 42, lg: 42 }),
+  },
+  sactionTitle: {
+    fontWeight: 400,
+    textTransform: "uppercase",
+    textAlign: "center",
+    fontSize: pxToRem(42),
+    ...responsiveFontSizes({ xs: 34, sm: 42, md: 42, lg: 42 }),
+  },
+  headerTitleLink: {
+    fontWeight: 400,
+    fontSize: pxToRem(14),
+    ...responsiveFontSizes({ xs: 14, sm: 14, md: 14, lg: 14 })
+  },
+  loginTitle: {
+    fontWeight: 700,
+    textAlign: "center",
+    fontSize: pxToRem(46),
+    ...responsiveFontSizes({ xs: 20, sm: 26, md: 46, lg: 46 })
+  },
+  footerTitle: {
+    color: 'white',
+    fontWeight: 400,
+    fontSize: pxToRem(16),
+    ...responsiveFontSizes({ xs: 12, sm: 12, md: 16, lg: 16 })
+  },
+  formLabelText: {
+    fontWeight: 700,
+    fontSize: pxToRem(16),
+    ...responsiveFontSizes({ xs: 16, sm: 16, md: 16, lg: 16 })
+  },
+  privacyPolicyTitle: {
+    fontWeight: 600,
+    fontSize: pxToRem(32),
+    ...responsiveFontSizes({ xs: 16, sm: 16, md: 32, lg: 32 })
+  },
+  privacyPolicyText: {
+    opacity: 0.6,
+    fontSize: pxToRem(16),
+    ...responsiveFontSizes({ xs: 12, sm: 12, md: 16, lg: 16 })
+  },
 
 };
 

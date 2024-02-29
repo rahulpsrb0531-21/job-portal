@@ -32,6 +32,7 @@ import UpdateJobByAdmin from './pages/adminDashboard/job/updateJobByAdmin'
 import UpdateRecruiterByAdmin from './pages/adminDashboard/recruiter/updateRecruiterByAdmin'
 import AppliedJobDetails from './pages/candidate/appliedJobDetails'
 import NotificationList from './pages/adminDashboard/notification/notificationList'
+import PrivacyPage from './pages/privacyPage'
 
 export default function Router() {
     const { user } = useSelector((state) => state.auth)
@@ -91,6 +92,7 @@ export default function Router() {
         { path: '/', element: <MainPage /> },
         { path: '/login', element: <Login /> },
         { path: '/register', element: <Register /> },
+        { path: '/privacy-page', element: <PrivacyPage /> },
 
         // Recruiter login and register staff
         { path: '/onboarding/recruiter/login', element: <RecruiterLogin /> },
