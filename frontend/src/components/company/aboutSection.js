@@ -1,7 +1,17 @@
+import { useEffect } from "react"
 import { Box, Button, Stack, Typography } from "@mui/material"
-
+import AOS from 'aos'
+import 'aos/dist/aos.css'
 
 export default function AboutSection() {
+
+    useEffect(() => {
+        AOS.init({
+            duration: 800,
+            offset: 30,
+
+        })
+    }, [])
 
     const aboutSentance = [
         {
@@ -35,24 +45,34 @@ export default function AboutSection() {
     ]
 
     return (
-        <Stack spacing={4} sx={{ my: 10 }} >
-            <Typography variant="sactionTitle" >ABOUT US</Typography>
-            <Stack direction={{ xs: 'column', sm: 'row', md: "row", lg: 'row' }} justifyContent={'center'} spacing={4}
-                sx={{ pl: 1 }}
-                // justifyContent={'space-between'}
-                alignItems={"start"}
+        <Stack
+            // spacing={4}
+            sx={{ my: 10 }}
+        >
+            <Typography variant="sactionTitle"
+                sx={{
+                    textAlign: "left",
+                    fontWeight: 200, pl: { xs: 0, sm: 0, md: 1.6, lg: 1.6 }
+                }} >ABOUT US</Typography>
+            <Stack direction={{ xs: 'column', sm: 'row', md: "row", lg: 'row' }} justifyContent={'center'}
+                spacing={4}
+                sx={{ pt: 2 }}
             >
                 <Box
                     component={'img'}
-                    src="./images/about-img.jpg"
-                    sx={{ width: { xs: '90%', sm: 300, md: 300, lg: 400 }, borderRadius: "2px", objectFit: "contain" }}
+                    src="./images/about-img-us.jpg"
+                    sx={{ width: { xs: '100%', sm: 300, md: 300, lg: 400 }, borderRadius: "2px", objectFit: "contain" }}
                 />
-                <Stack sx={{ width: { xs: "90%", lg: '60%' } }} spacing={2} >
-                    <Typography sx={{ fontSize: 22, fontWeight: 600 }} >At DKRIN our values is an acronym of our name and it means the following</Typography>
+                <Stack
+                    sx={{ width: { xs: "90%", lg: '60%' } }}
+                    spacing={2}
+                    data-aos="fade-up"
+                >
+                    <Typography variant="serviceCardTitle" >At DKRIN our values is an acronym of our name and it means the following</Typography>
                     {
                         aboutSentance?.map((data, idx) => (
                             <Typography key={idx}
-                                sx={{ fontSize: 16 }}
+                                sx={{ fontSize: 16, lineHeight: "18px" }}
                             >{data?.value}</Typography>
                         ))
                     }

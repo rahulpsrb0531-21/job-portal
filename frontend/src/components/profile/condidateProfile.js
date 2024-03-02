@@ -256,9 +256,7 @@ export function CandidateProfile() {
                         <Stack sx={{ width: { xs: "98%", lg: "60%" } }} spacing={2.4} >
                             <FormControl>
                                 <Typography variant="profilePageTitle">Your name*</Typography>
-                                <TextField sx={{
-                                    ".MuiInputBase-root": { borderRadius: '4px' }
-                                }}
+                                <TextField sx={{ ".MuiInputBase-root": { borderRadius: '4px' } }}
                                     {...getFieldProps("name")}
                                     error={Boolean(touched.name && errors.name)}
                                     helperText={touched.name && errors.name}

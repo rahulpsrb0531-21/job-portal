@@ -65,6 +65,21 @@ const typography = {
     fontSize: pxToRem(17),
     ...responsiveFontSizes({ sm: 18, md: 18, lg: 18 }),
   },
+  heroTitle: {
+    fontWeight: 300,
+    lineHeight: 1.01,
+    letterSpacing: 0.4,
+    fontSize: pxToRem(12),
+    ...responsiveFontSizes({ xs: 52, sm: 52, md: 52, lg: 52 }),
+  },
+  heroSubText: {
+    fontWeight: 200,
+    lineHeight: 1.2,
+    // opacity: 0.4,
+    letterSpacing: 0.2,
+    fontSize: pxToRem(16),
+    ...responsiveFontSizes({ xs: 14, sm: 16, md: 16, lg: 16 }),
+  },
   subtitle1: {
     color: "#B0B0B0",
     fontWeight: 300,
@@ -84,43 +99,11 @@ const typography = {
     lineHeight: 1.5,
     fontSize: pxToRem(14),
   },
-  caption: {
-    lineHeight: 1.5,
-    fontSize: pxToRem(12),
-  },
-  overline: {
-    fontWeight: 700,
-    lineHeight: 1.5,
-    fontSize: pxToRem(12),
-    letterSpacing: 1.1,
-    textTransform: 'uppercase',
-  },
   button: {
     fontWeight: 700,
     lineHeight: 24 / 14,
     fontSize: pxToRem(14),
     textTransform: 'capitalize'
-  },
-  logo: {
-    fontWeight: 900,
-    fontSize: pxToRem(30),
-    ...responsiveFontSizes({ xs: 14, sm: 18, md: 20, lg: 30 }),
-  },
-  heroText: {
-    color: "#ffff",
-    opacity: 0.8,
-    fontWeight: 400,
-    letterSpacing: 2,
-    fontSize: pxToRem(16),
-    ...responsiveFontSizes({ xs: 10, sm: 12, md: 14, lg: 16 }),
-  },
-  heroText2: {
-    color: "#ffff", opacity: 0.8,
-    fontWeight: 600,
-    letterSpacing: 2,
-    fontSize: pxToRem(30),
-    textTransform: "uppercase",
-    ...responsiveFontSizes({ xs: 10, sm: 12, md: 14, lg: 50 }),
   },
   profilePageTitle: {
     color: "rgb(5, 12, 38)",
@@ -149,7 +132,7 @@ const typography = {
   },
   serviceCardTitle: {
     fontWeight: 500,
-    // lineHeight: "30px",
+    lineHeight: 1,
     fontSize: pxToRem(28),
     ...responsiveFontSizes({ xs: 24, sm: 26, md: 28, lg: 28 }),
   },
@@ -160,9 +143,10 @@ const typography = {
     ...responsiveFontSizes({ xs: 14, sm: 14, md: 16, lg: 16 }),
   },
   contactUsTitle: {
-    fontWeight: 400,
+    fontWeight: 500,
+    lineHeight: 1.01,
     fontSize: pxToRem(42),
-    ...responsiveFontSizes({ xs: 34, sm: 42, md: 42, lg: 42 }),
+    ...responsiveFontSizes({ xs: 34, sm: 42, md: 42, lg: 52 }),
   },
   sactionTitle: {
     fontWeight: 400,
@@ -202,6 +186,11 @@ const typography = {
     opacity: 0.6,
     fontSize: pxToRem(16),
     ...responsiveFontSizes({ xs: 12, sm: 12, md: 16, lg: 16 })
+  },
+  footerText: {
+    color: "white",
+    fontSize: pxToRem(14),
+    ...responsiveFontSizes({ xs: 14, sm: 14, md: 14, lg: 14 })
   },
 
 };

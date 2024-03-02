@@ -134,7 +134,7 @@ const companyServiceData = [
         description: "IT consultants are great communicators and have excellent organisational skills as well as sound knowledge and understanding of IT systems."
     },
     {
-        img: "../images/management-1.png",
+        img: "../images/management-1.jpg",
         title: "Management Consultancy",
         description: "Management consultants help businesses improve their performance and grow by solving problems and finding new and better ways of doing things."
     },
@@ -144,7 +144,7 @@ const companyServiceData = [
         description: "Education is the process of facilitating learning, or the acquisition of knowledge, skills, values, beliefs, and habits."
     },
     {
-        img: "../images/jobs-1.png",
+        img: "../images/jobs-1.jpg",
         title: "Jobs",
         description: "Connect with 20000+ employers. Apply to Millions of job opportunities across top companies, industries & locations on India's No.1 job site. Apply online. Post CV today."
     },
@@ -153,47 +153,48 @@ const companyServiceData = [
 const companyOurSerivceData = [
     {
         title: "Digital Transformation",
-        icon: "gis:earth-america",
+        icon: "fluent-mdl2:system",
         description: "Create disruption or be disrupted. Design new ecosystems, new business models and new revenue streams through providing richer user experience."
     },
     {
         title: " Digital Assurance And Testing",
-        icon: "vaadin:diamond",
+        icon: "file-icons:testcafe",
         description: "The digital transformation of the IT industry requires an increased focus on QA as the application quality plays a crucial role in the end-user experience and business value."
     },
     {
         title: "Enterprise Applications",
-        icon: "fa-solid:cubes",
+        // icon: "tdesign:application",
+        icon: "streamline:notification-application-1",
         description: "DKRIN brings right from System Selections to Turnkey solutions for Single and multiple ISV solutions to its clients so as to maximize their returns"
     },
     {
         title: "Technology And Innovation Management",
-        icon: "fa:tachometer",
+        icon: "eos-icons:content-lifecycle-management",
         description: "At DKRIN we believe that all technology based organisations fa fa-cubesneed to continually innovate in order to remain competitive."
     },
     {
         title: "Financial Management",
-        icon: "mdi-light:heart",
+        icon: "fluent-mdl2:financial-solid",
         description: "At DKRIN we understand that financial management is one of the most significant responsibilities of business owners and we..."
     },
     {
         title: "Business Design",
-        icon: "oi:brush",
+        icon: "clarity:design-line",
         description: "We provide our client's business to have human-centered dimension whenever there's an attempt of integration of all different ..."
     },
     {
         title: "Analytics",
-        icon: "ant-design:area-chart-outlined",
+        icon: "grommet-icons:analytics",
         description: "Doing business in today's age requires data and analytics to drive positive outcomes for the business."
     },
     {
         title: "Infrastructure And Networking",
-        icon: "memory:monitor",
+        icon: "streamline:network",
         description: "Provide robustly and secured Infrastructure and Networks for running the Enterprise Applications."
     },
     {
         title: "Admission Process",
-        icon: "octicon:hourglass-24",
+        icon: "uim:process",
         description: "DKRIN’s Admission process is a unique model that works best for all students."
     },
     {
@@ -203,7 +204,7 @@ const companyOurSerivceData = [
     },
     {
         title: "Student Care Policy",
-        icon: "map:university",
+        icon: "mdi:university-outline",
         description: "As we are dealing multicultural students, our counsellors are aware of student care from admission process to induction."
     },
     {

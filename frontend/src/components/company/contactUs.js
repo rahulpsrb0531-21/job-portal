@@ -38,20 +38,23 @@ export default function ContactUs() {
                 <Stack direction={{ xs: "column", sm: "column", md: "row", lg: 'row' }}
                     sx={{
                         height: 'auto',
-                        bgcolor: "rgb(235, 255, 0)",
+                        width: "100%",
+                        // bgcolor: "rgb(235, 255, 0)",
+                        bgcolor: "rgb(33, 13, 37)",
                         // p: { xs: 0, sm: 0, md: 4, lg: 4 },
-                        pb: 6
+                        p: { xs: 4, sm: 0, md: 10, lg: 10 },
+                        pb: 6, color: "white"
                     }}
+                    spacing={{ xs: 10, sm: 10, md: 0, lg: 0 }}
                 >
 
                     <Stack direction={'row'} sx={{
                         // bgcolor: "red",
-                        width: { xs: '100%', sm: '100%', md: "64%", lg: "64%" }, px: 4
-                    }} spacing={2} >
+                        width: { xs: '100%', sm: '100%', md: "64%", lg: "64%" }
+                    }} spacing={{ xs: 0, sm: 0, md: 2, lg: 2 }} >
                         <VerticalLine />
                         <Typography variant="contactUsTitle"
-                            sx={{ pr: { xs: 0, sm: 0, md: 20, lg: 20 } }}
-                        >Get in touch and start saving time today
+                            sx={{ pl: { xs: 0, sm: 0, md: 2, lg: 2 } }}>Get in touch and <br /> start saving time today
                         </Typography>
                     </Stack>
 
@@ -59,7 +62,7 @@ export default function ContactUs() {
 
                     <Stack sx={{
                         width: { xs: '100%', sm: '100%', md: "36%", lg: "36%" },
-                        p: 4
+                        px: { xs: 0, sm: 0, md: 4, lg: 4 }
                     }} >
                         <Typography
                             sx={{ fontSize: 16 }}
@@ -121,7 +124,8 @@ const VerticalLine = () => {
         <Box
             sx={{
                 width: "1px", height: 'auto', bgcolor: 'black', mt: "0px",
-                display: { xs: "none", sm: 'none', md: "block", lg: "block" }
+                display: { xs: "none", sm: 'none', md: "block", lg: "block" },
+                bgcolor: "white"
             }}
         ></Box>
     )

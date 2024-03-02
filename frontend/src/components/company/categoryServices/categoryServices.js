@@ -29,10 +29,18 @@ export default function CategoryServices() {
                                     loading="lazy"
                                 />
                                 <CardContent sx={{ p: 1, py: 4 }} >
-                                    <Typography gutterBottom variant="h5" component="div">
+                                    <Typography
+                                        // gutterBottom 
+                                        variant="h5"
+                                        // component="div"
+                                        sx={{ lineHeight: '22px' }}
+                                    >
                                         {data?.title}
                                     </Typography>
-                                    <Typography variant="body2" color="text.secondary">
+                                    <Typography variant="body2"
+                                        color="text.secondary"
+                                        sx={{ pt: 2, lineHeight: "18px" }}
+                                    >
                                         {data?.description}
                                     </Typography>
                                 </CardContent>
