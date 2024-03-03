@@ -12,7 +12,7 @@ import Application from "../model/applicationSchema.js"
 const registerCandidate = async (req, res) => {
     try {
         console.log('req.body', req.body)
-        const { candidateName, email, password, role } = req.body
+        const { candidateName, email, password, role, privacyChecked } = req.body
         if (!candidateName || !email || !password || !role) throw customError.dataInvalid
         const candidateExists = await Candidate.findOne({ email })
         if (candidateExists) throw customError.userExists
@@ -21,6 +21,7 @@ const registerCandidate = async (req, res) => {
             email,
             password,
             role,
+            privacyChecked,
             resume: ""
         })
         res.status(200).json({

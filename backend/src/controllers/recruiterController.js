@@ -44,7 +44,7 @@ const loginRecruiter = async (req, res) => {
 // @access  ADMIN
 const registerRecruiter = async (req, res) => {
     try {
-        const { recruiterName, email, password, role } = req.body
+        const { recruiterName, email, password, role, privacyChecked } = req.body
         if (!recruiterName || !email || !password || !role) throw customError.dataInvalid
         console.log(recruiterName, email, password, role)
         const recruiterExists = await Recruiter.findOne({ email: email })
@@ -53,6 +53,7 @@ const registerRecruiter = async (req, res) => {
             recruiterName,
             email,
             password,
+            privacyChecked,
             role,
         })
         res.status(200).json({
