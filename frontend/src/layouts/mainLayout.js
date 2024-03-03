@@ -47,9 +47,9 @@ export default function MainLayout() {
                 {/* <DashboardSidebar device="mobile"/> */}
             </Stack>
             {/* <Divider /> */}
-            <Box sx={{ position: "fixed", bottom: 0, width: '100%' }} >
+            {/* <Box sx={{ position: "fixed", bottom: 0, width: '100%' }} >
                 <Footer />
-            </Box>
+            </Box> */}
         </Stack>
     )
 }

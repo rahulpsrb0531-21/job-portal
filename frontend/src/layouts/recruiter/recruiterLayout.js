@@ -63,9 +63,9 @@ export default function RecruiterLayout() {
                     <Outlet />
                 </MainStyle>
             </RootStyle>
-            <Box sx={{ position: "fixed", bottom: 0, width: '100%' }} >
+            {/* <Box sx={{ position: "fixed", bottom: 0, width: '100%' }} >
                 <Footer />
-            </Box>
+            </Box> */}
         </Stack>
     )
 }
