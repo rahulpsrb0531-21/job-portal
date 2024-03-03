@@ -17,7 +17,8 @@ export default function HeroSection() {
                     >Find your dream job anywhere in the world <br /> Remotely part time and full time</Typography>
                     <Button variant="contained"
                         sx={{
-                            width: 130, fontWeight: 400,
+                            width: 130,
+                            fontWeight: 400,
                             borderRadius: 8, letterSpacing: 0.4
                         }}
                     >Apply Now</Button>

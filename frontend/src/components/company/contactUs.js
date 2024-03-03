@@ -8,7 +8,8 @@ export default function ContactUs() {
         name: Yup.string().required("Name is required"),
         email: Yup.string().required("Email is required"),
         phone: Yup.number().required("Number is required"),
-        message: Yup.string().required("Message is required")
+        message: Yup.string()
+        // message: Yup.string().required("Message is required")
     })
     const formik = useFormik({
         initialValues: {
@@ -35,85 +36,97 @@ export default function ContactUs() {
     return (
         <FormikProvider value={formik}>
             <Form autoComplete="off" noValidate onSubmit={handleSubmit}>
-                <Stack direction={{ xs: "column", sm: "column", md: "row", lg: 'row' }}
-                    sx={{
-                        height: 'auto',
-                        width: "100%",
-                        // bgcolor: "rgb(235, 255, 0)",
-                        bgcolor: "rgb(33, 13, 37)",
-                        // p: { xs: 0, sm: 0, md: 4, lg: 4 },
-                        p: { xs: 4, sm: 0, md: 10, lg: 10 },
-                        pb: 6, color: "white"
-                    }}
-                    spacing={{ xs: 10, sm: 10, md: 0, lg: 0 }}
-                >
+                <Box sx={{ bgcolor: "#851b15" }} >
+                    <Container maxWidth='lg' >
+                        <Stack direction={{ xs: "column", sm: "column", md: "row", lg: 'row' }}
+                            sx={{
+                                height: 'auto',
+                                width: "100%",
+                                // p: { xs: 0, sm: 0, md: 4, lg: 4 },
+                                // p: { xs: 4, sm: 0, md: 10, lg: 10 },
+                                py: 10, color: "white"
+                            }}
+                            spacing={{ xs: 10, sm: 10, md: 0, lg: 0 }}
+                        >
 
-                    <Stack direction={'row'} sx={{
-                        // bgcolor: "red",
-                        width: { xs: '100%', sm: '100%', md: "64%", lg: "64%" }
-                    }} spacing={{ xs: 0, sm: 0, md: 2, lg: 2 }} >
-                        <VerticalLine />
-                        <Typography variant="contactUsTitle"
-                            sx={{ pl: { xs: 0, sm: 0, md: 2, lg: 2 } }}>Get in touch and <br /> start saving time today
-                        </Typography>
-                    </Stack>
+                            <Stack direction={'row'} sx={{
+                                // bgcolor: "red",
+                                width: { xs: '100%', sm: '100%', md: "64%", lg: "64%" }
+                            }} spacing={{ xs: 0, sm: 0, md: 2, lg: 2 }} >
+                                {/* <VerticalLine /> */}
+                                <Typography variant="contactUsTitle"
+                                    sx={{ pl: { xs: 0, sm: 0, md: 2, lg: 2 } }}>Get in touch and <br /> start saving time today
+                                </Typography>
+                            </Stack>
 
-                    <VerticalLine />
+                            {/* <VerticalLine /> */}
 
-                    <Stack sx={{
-                        width: { xs: '100%', sm: '100%', md: "36%", lg: "36%" },
-                        px: { xs: 0, sm: 0, md: 4, lg: 4 }
-                    }} >
-                        <Typography
-                            sx={{ fontSize: 16 }}
-                        >Our team will take you through the key features and benefits of Atticus, and get to know your current verification needs and pain points.
-                        </Typography>
-                        <Stack spacing={1} sx={{ pt: 2 }} >
-                            <FormControl>
-                                <Typography sx={{ fontSize: 14 }} >Name</Typography>
-                                <TextField
-                                    sx={{ ".css-q1w0rq-MuiInputBase-input-MuiOutlinedInput-input": { height: "6px", bgcolor: "white", borderRadius: "8px" } }}
-                                    {...getFieldProps("name")}
-                                    error={Boolean(touched.name && errors.name)}
-                                    helperText={touched.name && errors.name}
-                                />
-                            </FormControl>
-                            <FormControl>
-                                <Typography sx={{ fontSize: 14 }} >Email</Typography>
-                                <TextField
-                                    sx={{ ".css-q1w0rq-MuiInputBase-input-MuiOutlinedInput-input": { height: "6px", bgcolor: "white", borderRadius: "8px" } }}
-                                    {...getFieldProps("email")}
-                                    error={Boolean(touched.email && errors.email)}
-                                    helperText={touched.email && errors.email}
-                                />
-                            </FormControl>
-                            <FormControl>
-                                <Typography sx={{ fontSize: 14 }} >Phone</Typography>
-                                <TextField
-                                    sx={{ ".css-q1w0rq-MuiInputBase-input-MuiOutlinedInput-input": { height: "6px", bgcolor: "white", borderRadius: "8px" } }}
-                                    {...getFieldProps("phone")}
-                                    error={Boolean(touched.phone && errors.phone)}
-                                    helperText={touched.phone && errors.phone}
-                                />
-                            </FormControl>
-                            <FormControl>
-                                <Typography sx={{ fontSize: 14 }} >Message</Typography>
-                                <TextField
-                                    multiline={true}
-                                    sx={{ bgcolor: 'white', borderRadius: "8px" }}
-                                    rows={4}
-                                    {...getFieldProps("message")}
-                                // error={Boolean(touched.message && errors.message)}
-                                // helperText={touched.message && errors.message}
-                                />
-                                <FormHelperText>{errors.message}</FormHelperText>
-                            </FormControl>
-                            <Button variant="blackButton" type="submit"  >
-                                Request more information
-                            </Button>
-                        </Stack>
-                    </Stack>
-                </Stack >
+                            <Stack sx={{
+                                width: { xs: '100%', sm: '100%', md: "30%", lg: "30%" }
+                            }} >
+                                <Typography
+                                    sx={{
+                                        fontSize: 16,
+                                        lineHeight: 1.6
+                                    }}
+                                >Our team will take you through the key features and benefits of Atticus, and get to know your current verification needs and pain points.
+                                </Typography>
+                                <Stack spacing={3} sx={{ pt: 4 }} >
+                                    <FormControl>
+                                        <Typography sx={{ fontSize: 14 }} >Name</Typography>
+                                        <TextField
+                                            sx={{ ".css-q1w0rq-MuiInputBase-input-MuiOutlinedInput-input": { height: "6px", bgcolor: "white", borderRadius: "8px" }, mt: '10px' }}
+                                            {...getFieldProps("name")}
+                                            error={Boolean(touched.name && errors.name)}
+                                            helperText={touched.name && errors.name}
+                                        />
+                                    </FormControl>
+                                    <FormControl>
+                                        <Typography sx={{ fontSize: 14 }} >Email</Typography>
+                                        <TextField
+                                            sx={{ ".css-q1w0rq-MuiInputBase-input-MuiOutlinedInput-input": { height: "6px", bgcolor: "white", borderRadius: "8px" }, mt: '10px' }}
+                                            {...getFieldProps("email")}
+                                            error={Boolean(touched.email && errors.email)}
+                                            helperText={touched.email && errors.email}
+                                        />
+                                    </FormControl>
+                                    <FormControl>
+                                        <Typography sx={{ fontSize: 14 }} >Phone</Typography>
+                                        <TextField
+                                            sx={{ ".css-q1w0rq-MuiInputBase-input-MuiOutlinedInput-input": { height: "6px", bgcolor: "white", borderRadius: "8px" }, mt: '10px' }}
+                                            {...getFieldProps("phone")}
+                                            error={Boolean(touched.phone && errors.phone)}
+                                            helperText={touched.phone && errors.phone}
+                                        />
+                                    </FormControl>
+                                    <FormControl>
+                                        <Typography sx={{ fontSize: 14 }} >Message</Typography>
+                                        <TextField
+                                            multiline={true}
+                                            sx={{
+                                                bgcolor: 'white', borderRadius: "8px", mt: '10px'
+                                            }}
+                                            rows={4}
+                                            {...getFieldProps("message")}
+                                        />
+                                        {/* <FormHelperText>{errors.message}</FormHelperText> */}
+                                    </FormControl>
+                                </Stack>
+                                <Button
+                                    type="submit"
+                                    variant="contained"
+                                    sx={{
+                                        fontWeight: 400,
+                                        borderRadius: 8, letterSpacing: 0.4,
+                                        mt: '20px'
+                                    }}
+                                >
+                                    Request more information
+                                </Button>
+                            </Stack>
+                        </Stack >
+                    </Container>
+                </Box>
             </Form>
         </FormikProvider>
     )

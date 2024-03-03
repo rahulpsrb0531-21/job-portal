@@ -64,30 +64,30 @@ export default function Footer({ page }) {
                     <Stack direction={'row'} justifyContent={'space-between'} spacing={8} >
                         <Stack spacing={{ xs: 1.4, sm: 1.4, md: 2, lg: 2 }} >
                             <Typography variant="footerText" >
-                                <a href="https://www.facebook.com/people/DKRIN-LTD/100064257146127/" target="_blank" style={{ textDecoration: "none", color: "white" }} >
+                                <a href="https://www.facebook.com/people/DKRIN-LTD/100064257146127/" target="_blank" rel="noreferrer" style={{ textDecoration: "none", color: "white" }} >
                                     Facebook
                                 </a>
                             </Typography>
                             <Typography variant="footerText" >
-                                <a href="https://www.instagram.com/dkrinltd/" target="_blank" style={{ textDecoration: "none", color: "white" }}>
+                                <a href="https://www.instagram.com/dkrinltd/" target="_blank" rel="noreferrer" style={{ textDecoration: "none", color: "white" }}>
                                     Instagram
                                 </a>
                             </Typography>
                             <Typography variant="footerText" >
-                                <a href="https://www.linkedin.com/in/dkrin-ltd-69402148" target="_blank" style={{ textDecoration: "none", color: "white" }}>
+                                <a href="https://www.linkedin.com/in/dkrin-ltd-69402148" target="_blank" rel="noreferrer" style={{ textDecoration: "none", color: "white" }}>
                                     Linkedin
                                 </a>
                             </Typography>
                             <Typography variant="footerText" >
-                                <a href="https://twitter.com/dkrinltd#" target="_blank" style={{ textDecoration: "none", color: "white" }}>
+                                <a href="https://twitter.com/dkrinltd#" target="_blank" rel="noreferrer" style={{ textDecoration: "none", color: "white" }}>
                                     Twitter
                                 </a>
                             </Typography>
                         </Stack>
                         <Stack spacing={{ xs: 1.4, sm: 1.4, md: 2, lg: 2 }} >
-                            <Typography variant="footerText" sx={{ cursor: "pointer" }} onClick={() => navigate("/privacy-policy")} >Privacy Policy</Typography>
-                            <Typography variant="footerText" sx={{ cursor: "pointer" }} onClick={() => navigate("/terms-condition")} >Terms & Condition</Typography>
-                            <Typography variant="footerText" sx={{ cursor: "pointer" }} onClick={() => navigate("/about-us")} >About</Typography>
+                            <Typography variant="footerText" sx={{ cursor: "pointer" }} onClick={() => navigate("/")} >Privacy Policy</Typography>
+                            <Typography variant="footerText" sx={{ cursor: "pointer" }} onClick={() => navigate("/")} >Terms & Condition</Typography>
+                            <Typography variant="footerText" sx={{ cursor: "pointer" }} onClick={() => navigate("/")} >About</Typography>
                         </Stack>
                     </Stack>
                 </Stack>
