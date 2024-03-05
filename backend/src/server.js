@@ -99,8 +99,9 @@ const StartServer = () => {
     })
 
     router.post('/upload-image', handleImageUpload, async (req, res) => {
-        const filePath = req.file.path;
-        res.json({ message: 'Uploaded successfully', filePath })
+        // const filePath = req.file.path;
+        const logoPath = path.join('uploads', req.file.filename)
+        res.json({ message: 'Uploaded successfully', logoPath })
     })
 
     router.post('/upload/candidate/document/:id/:docName', handleDocumentUpload, async (req, res) => {

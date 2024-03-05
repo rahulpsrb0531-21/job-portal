@@ -63,7 +63,7 @@ const conditateSchema = mongoose.Schema(
     {
         candidateImage: { type: String },
         candidateName: { type: String, required: true },
-        privacyChecked: { type: Boolean, required: true },
+        privacyChecked: { type: Boolean },
         email: {
             type: String,
             required: true,

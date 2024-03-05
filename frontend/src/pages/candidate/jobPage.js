@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import { NavLink as RouterLink, useNavigate } from 'react-router-dom'
+import { useDropzone } from 'react-dropzone'
 import { Box, Button, Tab, Stack, Typography, TextField, Autocomplete, Chip, Select, MenuItem, Divider, InputLabel, FormControl } from "@mui/material"
 import TabContext from '@mui/lab/TabContext'
 import TabList from '@mui/lab/TabList'
@@ -18,13 +19,38 @@ export default function JobPage() {
     const { enqueueSnackbar } = useSnackbar()
     const [value, setValue] = useState('1')
     const [jobsData, setJobsData] = useState([])
-    // console.log(jobsData)
+    // console.log('jobsData', jobsData[3]?.company?.companyLogo)
+    // const blob = new Blob([jobsData[3]?.company?.companyLogo], { type: 'image/jpeg' })
+    // const blobUrl = URL.createObjectURL(blob)
+    // console.log("blobUrl", blob)
     const token = localStorage.getItem('access')
     const { user } = useSelector((state) => state.auth)
     const [designations, setDesignations] = useState('')
     const [locations, setLocations] = useState('')
     const [experience, setExperience] = useState('')
     const [jobType, setJobType] = useState('')
+
+    const { getRootProps, getInputProps } = useDropzone({
+        // onDrop,
+        accept: 'image/*',
+        maxFiles: 1,
+    })
+
+    const dropzoneStyles = {
+        border: '1px dashed #cccccc',
+        display: "flex",
+        justifyContent: "center",
+        alignItems: 'center',
+        borderRadius: '4px',
+        padding: '20px',
+        // textAlign: 'center',
+        cursor: 'pointer',
+        backgroundImage: 'none',
+        // backgroundImage: uploadedImage ? `url(${uploadedImage})` : 'none',
+        backgroundSize: 'cover',
+        backgroundPosition: 'center',
+        height: '160px',
+    }
 
     const handleChange = (event, newValue) => {
         setValue(newValue);
@@ -37,6 +63,7 @@ export default function JobPage() {
     async function getJobs() {
         const res = await jobServices.getAllJobs()
         if (res && res.success) {
+            // console.log()
             setJobsData(res?.jobs)
         } else {
             enqueueSnackbar(
@@ -129,7 +156,8 @@ export default function JobPage() {
                         }} >
                             <Typography sx={{ fontSize: { xs: 18, lg: 24 }, fontWeight: 600, py: 1 }} >Search for jobs</Typography>
                             <Stack direction={{ xs: 'column', lg: 'row' }} flexWrap={'wrap'} rowGap={1} columnGap={1} >
-                                <TextField sx={{ ".MuiInputBase-root": { borderRadius: "4px" }, width: { xs: "100%", lg: "40%" } }}
+                                <TextField
+                                    sx={{ ".MuiInputBase-root": { borderRadius: "4px" }, width: { xs: "100%", lg: "40%" } }}
                                     onChange={(e) => setDesignations(e.target.value)}
                                     value={designations}
                                     placeholder='Job Title'
@@ -173,10 +201,25 @@ export default function JobPage() {
                                 />
                             </Stack>
                             <Stack direction={'row'} spacing={1} mt={1} >
-                                <Button variant='outlined' sx={{ width: '40%' }}
+                                <Button variant='outlined'
+                                    // sx={{ width: '40%' }}
+                                    sx={{
+                                        width: 130,
+                                        fontWeight: 400,
+                                        borderRadius: 8,
+                                        letterSpacing: 0.4
+                                    }}
                                     onClick={() => handlerClearAll()}
                                 >Clear All</Button>
-                                <Button variant='blackButton' sx={{ width: '40%' }}
+                                <Button
+                                    // variant='blackButton' sx={{ width: '40%' }}
+                                    variant="contained"
+                                    sx={{
+                                        width: 130,
+                                        fontWeight: 400,
+                                        borderRadius: 8,
+                                        letterSpacing: 0.4
+                                    }}
                                     onClick={() => searchJob()}
                                 >Search</Button>
                             </Stack>
@@ -189,7 +232,53 @@ export default function JobPage() {
                                         border: '1px solid #e0e0e0', borderRadius: "8px",
                                         p: 2,
                                         backgroundImage: "linear-gradient(178deg,#fafafa,#fff 35%)"
-                                    }} spacing={1} >
+                                    }} spacing={2} >
+
+                                        <Stack direction={'row'}
+                                            alignItems={'center'}
+                                            spacing={2.6}
+                                        >
+                                            {/* {console.log("djfhkhddsf", data?.company?.companyLogo)} */}
+                                            <Box
+                                                component={'img'}
+                                                // src={'/images/logo.png'}
+                                                src={'https://photos.wellfound.com/startups/i/7742654-5243f3c8796feda0a98a2491d5a82572-medium_jpg.jpg?buster=1591174010'}
+                                                sx={{
+                                                    width: 48,
+                                                    objectFit: "cover",
+                                                    border: '1px solid #e0e0e0',
+                                                    borderRadius: "4px",
+                                                }}
+
+                                            />
+                                            <Stack spacing={0.8} >
+                                                <Typography
+                                                    sx={{
+                                                        fontSize: 18,
+                                                        fontWeight: 500,
+                                                        color: "#0e1111",
+                                                        mr: '20px'
+                                                    }}
+
+                                                >{data?.company?.companyName}</Typography>
+                                                <Stack direction={'row'} spacing={1} >
+                                                    <Iconify icon={"el:group"}
+                                                        sx={{ width: 14, color: "#9e9e9e" }} />
+                                                    <Typography
+                                                        sx={{
+                                                            fontSize: 11,
+                                                            fontWeight: 700,
+                                                            color: "#9e9e9e",
+                                                            textTransform: "uppercase",
+                                                            letterSpacing: 0.25
+                                                        }}
+                                                    >
+                                                        {data?.company?.companySize} employees
+                                                    </Typography>
+                                                </Stack>
+                                            </Stack>
+                                        </Stack>
+
                                         <Typography sx={{ fontSize: 14, fontWeight: 600 }} >
                                             <span style={{ fontWeight: 400 }} >Position - </span>
                                             {data?.title}</Typography>
@@ -209,14 +298,30 @@ export default function JobPage() {
                                         </Stack>
                                         <Stack direction={'row'} spacing={1} sx={{ mt: 1 }} >
                                             <Button size="small" variant="outlined"
-                                                sx={{ fontSize: 14, width: "58px", height: "30px", fontWeight: 500 }}
+                                                // sx={{ fontSize: 14, width: "58px",
+                                                //  height: "30px", fontWeight: 500 }}
+                                                sx={{
+                                                    width: 128,
+                                                    fontWeight: 500,
+                                                    borderRadius: 8,
+                                                    letterSpacing: 0.4,
+                                                    // height: "30px"
+                                                }}
                                                 onClick={() => savedJob(data)}
                                             >
                                                 Save
                                             </Button>
-                                            <Button variant="blackButton"
+                                            <Button variant="contained"
+                                                sx={{
+                                                    width: 128,
+                                                    // height: "38px",
+                                                    fontWeight: 400,
+                                                    borderRadius: 8,
+                                                    letterSpacing: 0.4
+                                                }}
                                                 onClick={() => navigate(`/candidate/${data?.title}`, { state: data })}
-                                                sx={{ fontSize: 12, width: 120, height: "30px", bgcolor: 'black', fontWeight: 500, }}
+                                            // sx={{ fontSize: 12, width: 120,
+                                            //      height: "30px", bgcolor: 'black', fontWeight: 500, }}
                                             >
                                                 Learn more
                                             </Button>

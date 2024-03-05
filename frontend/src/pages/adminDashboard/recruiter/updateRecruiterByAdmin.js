@@ -13,6 +13,7 @@ import adminServices from "../../../services/adminServices"
 
 export default function UpdateRecruiterByAdmin() {
     const { state } = useLocation()
+    console.log("state>>>>>", state?.companyLogo)
     const navigate = useNavigate()
     const { enqueueSnackbar } = useSnackbar()
     const [uploadedImage, setUploadedImage] = useState(null)
@@ -29,6 +30,7 @@ export default function UpdateRecruiterByAdmin() {
         server.post(`upload-image`, formData)
             .then(res => {
                 return res.data
+                // console.log('data>>>>>>>', res?.data)
             })
             .catch(err => {
                 return null
@@ -39,6 +41,7 @@ export default function UpdateRecruiterByAdmin() {
         accept: 'image/*',
         maxFiles: 1,
     })
+
     const dropzoneStyles = {
         border: '1px dashed #cccccc',
         display: "flex",
@@ -218,9 +221,7 @@ export default function UpdateRecruiterByAdmin() {
                         }} >
 
                             <Stack spacing={1}>
-
                                 <Typography variant="profilePageTitle" >Update Recruiter</Typography>
-
                                 <Stack>
                                     <Typography variant="profilePageTitle" >Name*</Typography>
                                     <TextField sx={{ ".css-3ux5v-MuiInputBase-root-MuiOutlinedInput-root": { height: "32px", borderRadius: '4px' } }}

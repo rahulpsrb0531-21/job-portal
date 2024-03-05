@@ -40,7 +40,7 @@ export default function RecruiterPopover() {
                 ref={anchorRef}
                 onClick={handleOpen}
             >
-                <Iconify icon={"mingcute:user-4-fill"} sx={{ width: 32, height: 32 }} />
+                <Iconify icon={"mingcute:user-4-fill"} sx={{ width: 32, height: 32, pr: 1 }} />
                 <Iconify icon={"fluent:ios-arrow-24-regular"} sx={{ width: 18, height: 18, transform: "rotate(270deg)" }} />
             </IconButton>
 

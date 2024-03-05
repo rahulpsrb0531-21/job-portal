@@ -28,15 +28,15 @@ export default function Overview() {
     return (
         <Box sx={{
             bgcolor: 'rgb(255, 255, 255)', width: { xs: "98%", lg: '60%' },
-            borderRadius: 0.4, p: 2, mt: 1,
+            borderRadius: 0.4, p: 1, py: 2, mt: 1,
             border: '1px solid #e0e0e0', borderRadius: "8px"
         }} >
-            <Typography sx={{ fontSize: 24, fontWeight: 500 }} >What recruiter will see</Typography>
-            <Stack sx={{
+            <Typography sx={{ fontSize: 24, fontWeight: 500, pb: 1.3 }} >What recruiter will see</Typography>
+            <Box sx={{
                 border: '1px solid #e0e0e0', borderRadius: "8px"
-            }} >
-                <Stack sx={{ p: 2 }} spacing={2} >
-                    <Stack direction={'row'} alignItems={'start'} >
+            }}>
+                <Stack sx={{ p: 2 }} spacing={4} >
+                    <Stack direction={'row'} alignItems={'start'} spacing={2} >
                         <Iconify icon={"mingcute:user-4-fill"} sx={{ width: 42, height: 42 }} />
                         <Box>
                             <Typography
@@ -47,24 +47,61 @@ export default function Overview() {
                             >{candidateData?.primaryRole}</Typography>
                         </Box>
                     </Stack>
-                    <Box sx={{ pl: 1 }}>
+
+
+                    <Stack spacing={1.4} sx={{ pl: 1 }}>
+                        <Typography sx={{ fontSize: 14, color: 'rgb(145, 148, 160)' }}>Education</Typography>
+                        <Stack spacing={1.4} sx={{ width: { xs: "100%", lg: "80%" } }} >
+                            {
+                                candidateData?.eduction?.map((data, idx) => (
+                                    <Stack direction={'row'} justifyContent={'space-between'} sx={{
+                                        bgcolor: 'rgb(255, 255, 255)',
+                                        p: 2, borderRadius: "4px",
+                                        border: "1px solid rgb(224, 224, 224)",
+                                        borderLeftColor: "rgb(224, 224, 224)",
+                                        borderBottomColor: "rgb(224, 224, 224)"
+                                    }} >
+                                        <Stack direction={'row'} spacing={1}
+                                        >
+                                            <Iconify icon={"fluent-mdl2:education"}
+                                                sx={{ width: 32, height: 32, border: "1px solid rgb(224, 224, 224)", borderRadius: '4px' }} />
+                                            <Stack>
+                                                <Typography variant="profilePageTitle">
+                                                    {data?.education}</Typography>
+                                                {/* <Typography variant="profilePageSubText">{data?.title}s</Typography> */}
+                                            </Stack>
+                                        </Stack>
+                                    </Stack>
+                                ))
+                            }
+                        </Stack>
+                    </Stack>
+
+                    <Stack spacing={1.4} sx={{ pl: 1 }}>
                         <Typography sx={{ fontSize: 14, color: 'rgb(145, 148, 160)' }}>Experience</Typography>
-                        {
-                            candidateData?.workExperience?.map((data, idx) => (
-                                <Stack direction={'row'}  >
-                                    <Iconify icon={"mingcute:user-4-fill"} sx={{ width: 22, height: 22 }} />
-                                    <Box>
-                                        <Typography
-                                            sx={{ fontSize: 14, color: 'rgb(5, 12, 38)', fontWeight: 700 }}
-                                        >{data?.title}</Typography>
-                                        <Typography
-                                            sx={{ fontSize: 14, color: 'rgb(145, 148, 160)' }}
-                                        >{data?.company}</Typography>
-                                    </Box>
-                                </Stack>
-                            ))
-                        }
-                    </Box>
+                        <Stack spacing={1.4} sx={{ width: { xs: "100%", lg: "80%" } }} >
+                            {
+                                candidateData?.workExperience?.map((data, idx) => (
+                                    <Stack direction={'row'} justifyContent={'space-between'} sx={{
+                                        bgcolor: 'rgb(255, 255, 255)',
+                                        p: 2, borderRadius: "4px",
+                                        border: "1px solid rgb(224, 224, 224)",
+                                        borderLeftColor: "rgb(224, 224, 224)",
+                                        borderBottomColor: "rgb(224, 224, 224)"
+                                    }} >
+                                        <Stack direction={'row'} spacing={1}>
+                                            <Iconify icon={"bx:building"}
+                                                sx={{ width: 32, height: 32, border: "1px solid rgb(224, 224, 224)", borderRadius: '4px' }} />
+                                            <Stack>
+                                                <Typography variant="profilePageTitle">{data?.title}</Typography>
+                                                <Typography variant="profilePageSubText">{data?.company}</Typography>
+                                            </Stack>
+                                        </Stack>
+                                    </Stack>
+                                ))
+                            }
+                        </Stack>
+                    </Stack>
                     <Box sx={{ pl: 1 }}>
                         <Typography
                             sx={{ fontSize: 14, color: 'rgb(145, 148, 160)' }}
@@ -83,7 +120,7 @@ export default function Overview() {
                         </Stack>
                     </Box>
                 </Stack>
-            </Stack>
+            </Box>
         </Box>
     )
 }

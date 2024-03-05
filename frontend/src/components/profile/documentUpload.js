@@ -126,32 +126,32 @@ export default function DocumentUpload({ open, setOpen, candidateData }) {
 
     const data = [
         {
-            title: "resume",
+            title: "Resume",
             uploadName: "resume",
             docValue: candidate?.resume
         },
         {
-            title: "cover Letter",
+            title: "Cover Letter",
             uploadName: "coverLetter",
             docValue: candidate?.coverLetter
         },
         {
-            title: "academic Certificates",
+            title: "Academic Certificates",
             uploadName: "academicCertificates",
             docValue: candidate?.academicCertificates
         },
         {
-            title: "professional Certificates",
+            title: "Professional Certificates",
             uploadName: "professionalCertificates",
             docValue: candidate?.professionalCertificates
         },
         {
-            title: "Proof Of Identity",
+            title: "Proof of Identity",
             uploadName: "proofOfIdentity",
             docValue: candidate?.proofOfIdentity
         },
         {
-            title: "Proof Of Address",
+            title: "Proof of Address",
             uploadName: "proofOfAddress",
             docValue: candidate?.proofOfAddress
         },
@@ -187,31 +187,31 @@ export default function DocumentUpload({ open, setOpen, candidateData }) {
         },
     ]
     return (
-        <Stack sx={{ pb: 6 }}>
+        <Stack >
             <Typography sx={{ fontSize: { xs: 18, lg: 22 }, fontWeight: 600 }} >Upload Documents</Typography>
             {/* <Box>
                     <Stack>
                         <Typography sx={{ fontSize: { xs: 14 } }} >Tell us about yourself so startups know who you are.</Typography>
                     </Stack>
                 </Box> */}
-            <Stack sx={{ width: { xs: '100%', lg: "60%" } }} spacing={2} >
+            <Stack sx={{ width: { xs: '100%', lg: "60%" }, pt: 2.8 }} spacing={3.6} >
                 <FormikProvider value={formik}>
                     <Form autoComplete="off" noValidate onSubmit={handleSubmit}>
                         {/* <CardContent > */}
-                        <Stack spacing={2} sx={{ p: 1.2 }}  >
-                            <Stack spacing={2} >
-                                {
-                                    data?.map((doc, idx) => (
-                                        <UploadPdf title={doc?.title} setFieldValue={setFieldValue}
-                                            uploadName={doc?.uploadName}
-                                            // textHelper={touched.resume && errors.resume}
-                                            docValue={doc?.docValue}
-                                            getCandidateById={getCandidateById}
-                                        />
-                                    ))
-                                }
-                            </Stack>
+                        {/* <Stack spacing={2} sx={{ p: 1.2 }}  > */}
+                        <Stack spacing={3.2} >
+                            {
+                                data?.map((doc, idx) => (
+                                    <UploadPdf title={doc?.title} setFieldValue={setFieldValue}
+                                        uploadName={doc?.uploadName}
+                                        // textHelper={touched.resume && errors.resume}
+                                        docValue={doc?.docValue}
+                                        getCandidateById={getCandidateById}
+                                    />
+                                ))
+                            }
                         </Stack>
+                        {/* </Stack> */}
                     </Form>
                 </FormikProvider>
             </Stack>
@@ -254,7 +254,7 @@ const UploadPdf = ({ setFieldValue, uploadName, title, docValue, getCandidateByI
         try {
             const id = user?._id
             const response = await server.get(`api/candidate/upload/resume/${id}/${uploadName}`, { responseType: 'blob' })
-            console.log("response", response)
+            // console.log("response", response)
             const url = window.URL.createObjectURL(new Blob([response.data]))
             const link = document.createElement('a')
             link.href = url
@@ -316,9 +316,11 @@ const UploadPdf = ({ setFieldValue, uploadName, title, docValue, getCandidateByI
                     </Box>
                 ) : (
                     <Stack direction={'row'} alignItems={'center'} justifyContent={'space-between'} sx={{
-                        border: '0.4px solid #ccc', width: { xs: '100%', lg: "46%" },
+                        border: '0.4px solid #ccc',
+                        width: { xs: '100%', lg: "46%" },
                         height: 60,
-                        px: { xs: 0.8, lg: 1 },
+                        px: 2,
+                        py: 5.4,
                         borderRadius: '4px'
                     }} >
                         <Stack direction={'row'} alignItems={'center'} spacing={2} onClick={handleDownload}>
@@ -328,7 +330,7 @@ const UploadPdf = ({ setFieldValue, uploadName, title, docValue, getCandidateByI
                             // onClick={handleDownload}
                             >Download {title}</Typography>
                         </Stack>
-                        <Typography sx={{ fontSize: 16, fontWeight: 700, cursor: "pointer" }}
+                        <Typography sx={{ fontSize: 16, fontWeight: 700, cursor: "pointer", px: 1 }}
                             onClick={() => deleteCandidateResume()}
                         >X</Typography>
                     </Stack>
@@ -341,7 +343,7 @@ const UploadPdf = ({ setFieldValue, uploadName, title, docValue, getCandidateByI
 const dropzoneStyles = {
     border: '1px dashed #cccccc',
     borderRadius: '4px',
-    padding: '2px',
+    padding: '14px',
     textAlign: 'center',
     cursor: 'pointer',
 }

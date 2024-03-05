@@ -5,16 +5,27 @@ import fs from 'fs'
 const __dirname = path.resolve()
 const uploadsPath = path.join(__dirname, 'uploads')
 
-// Set up Multer for handling file uploads
+// // Set up Multer for handling file uploads
+// const storage = multer.diskStorage({
+//     destination: (req, file, cb) => {
+//         cb(null, 'uploads/')
+//     },
+//     filename: (req, file, cb) => {
+//         const fileName = `${Date.now()}-${file.originalname}`;
+//         cb(null, fileName);
+//     },
+// });
+
+// Set up multer for file upload
 const storage = multer.diskStorage({
     destination: (req, file, cb) => {
-        cb(null, 'uploads/')
+        cb(null, 'uploads/');
     },
     filename: (req, file, cb) => {
-        const fileName = `${Date.now()}-${file.originalname}`;
-        cb(null, fileName);
+        cb(null, file.originalname);
     },
 });
+
 
 // const uploadImage = multer({ storage: storage });
 // export { uploadImage }

@@ -9,17 +9,22 @@ const navConfig = [
   {
     title: 'Dashboard',
     path: '/candidate/dashboard',
-    icon: 'ri:home-line'
+    // icon: 'ri:home-line'
+    icon: "system-uicons:home"
   },
   {
     title: 'Profile',
     path: '/candidate/profile',
-    icon: 'system-uicons:user-male'
+    // icon: "mdi:user-outline"
+    // icon: 'system-uicons:user-male'
+    icon: "clarity:user-line"
+    // icon: "simple-line-icons:user"
   },
   {
     title: 'Jobs',
     path: '/candidate/lists',
-    icon: 'streamline:bag-suitcase-2'
+    // icon: "ri:shopping-bag-line"
+    icon: "iconoir:suitcase"
   },
   {
     title: 'Applied Jobs',

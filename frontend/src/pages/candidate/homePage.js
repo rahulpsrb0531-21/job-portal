@@ -39,12 +39,27 @@ const HomePage = () => {
 
     return (
         <Stack sx={{
-            bgcolor: 'rgb(255, 255, 255)', width: { xs: '96%', lg: '60%' },
-            borderRadius: 0.4, p: 1, pt: 4
-        }} spacing={1} >
+            bgcolor: 'rgb(255, 255, 255)',
+            width: { xs: '96%', lg: '60%' },
+            borderRadius: 0.4,
+            p: 1,
+            // position: "absolute",
+            // right: 0,
+            // left: 0,
+            // bgcolor: "red"
+            // pt: 4
+        }}
+        // spacing={1} 
+        >
             {/* <Typography sx={{ fontSize: 16, fontWeight: 500, textAlign: 'right' }} >Profile last updated on: Jan 9, 2024</Typography> */}
-            <Stack direction={'row'} alignItems={'start'} justifyContent={'space-between'}
-                sx={{ width: '100%', border: '1px solid #e0e0e0', borderRadius: "8px", p: 1 }}
+            <Stack
+                alignItems={'start'}
+                justifyContent={'space-between'}
+                sx={{
+                    // width: '100%', 
+                    // border: '1px solid #e0e0e0', borderRadius: "8px",
+                    // p: 1
+                }}
             >
                 <Stack direction={'row'} alignItems={'start'} spacing={1} >
                     <Iconify icon={"mingcute:user-4-fill"} sx={{ width: 42, height: 42 }} />
@@ -78,6 +93,10 @@ const HomePage = () => {
                             >{candidate?.website}</Link>
                         </Stack>
                     </Stack>
+                </Stack>
+                <Stack>
+                    <Typography>Recently Applied Jobs</Typography>
+
                 </Stack>
             </Stack>
         </Stack >

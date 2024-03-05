@@ -33,7 +33,7 @@ export default function DashboardSidebar() {
   const { pathname } = useLocation()
   // const { user } = useSelector((state) => state.auth)
   const isDesktop = useResponsive('up', 'lg', "only")
-  console.log('mediaBetween', isDesktop)
+  // console.log('mediaBetween', isDesktop)
 
   // useEffect(() => {
   //   if (isOpenSidebar) {
@@ -52,12 +52,8 @@ export default function DashboardSidebar() {
   return (
     <Stack spacing={2}
       sx={{
-        // display: isDesktop === true ? "block" : "none",
-        display: { xs: "none", lg: "block" },
-        width: {
-          xs: "100%",
-          lg: 120
-        }
+        display: { xs: "none", sm: "none", md: "block", lg: "block" },
+        position: 'fixed'
       }}
     >
       {renderContent}

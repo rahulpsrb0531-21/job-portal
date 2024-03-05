@@ -19,7 +19,8 @@ export default function HeroSection() {
                         sx={{
                             width: 130,
                             fontWeight: 400,
-                            borderRadius: 8, letterSpacing: 0.4
+                            borderRadius: 8,
+                            letterSpacing: 0.4
                         }}
                     >Apply Now</Button>
                 </Stack>

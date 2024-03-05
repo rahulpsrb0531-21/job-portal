@@ -15,7 +15,9 @@ export default function CreateRecruiter({ handleNext }) {
     const navigate = useNavigate()
     const { enqueueSnackbar } = useSnackbar()
     const [uploadedImage, setUploadedImage] = useState(null)
-    const [recruiters, setRecruiters] = useState([])
+    const [uploadFilePath, setUploadFilePath] = useState("")
+    // console.log("uploadFilePath", uploadedImage)
+    // const [recruiters, setRecruiters] = useState([])
     const token = localStorage.getItem('access')
 
     const { user } = useSelector((state) => state.auth)
@@ -27,6 +29,8 @@ export default function CreateRecruiter({ handleNext }) {
         formData.append('image', imageFile);
         server.post(`upload-image`, formData)
             .then(res => {
+                // console.log('res.data', res.data?.logoPath)
+                setUploadFilePath(res.data?.logoPath)
                 return res.data
             })
             .catch(err => {
@@ -53,7 +57,7 @@ export default function CreateRecruiter({ handleNext }) {
         height: '160px',
     }
 
-    const editRecruiterSchema = Yup.object().shape({
+    const createRecruiterSchema = Yup.object().shape({
         companyname: Yup.string().required("Company Name is required"),
         companySize: Yup.string().required("Company Size is required"),
         companyType: Yup.string().required("Company Type is required"),
@@ -100,11 +104,12 @@ export default function CreateRecruiter({ handleNext }) {
             newMarket: "",
             isPremiumMember: null
         },
-        validationSchema: editRecruiterSchema,
+        validationSchema: createRecruiterSchema,
         onSubmit: (v) => {
             // console.log('v>>>>>>', v)
             const data = {
-                companyLogo: uploadedImage,
+                // companyLogo: uploadedImage,
+                companyLogo: uploadFilePath,
                 companyName: v?.companyname,
                 companyDescription: "",
                 oneLinePitch: v?.oneLinePitch,
@@ -194,6 +199,13 @@ export default function CreateRecruiter({ handleNext }) {
                         }} >
 
                             <Stack spacing={1}>
+                                <Box
+                                    component={'img'}
+                                    // src={uploadFilePath}
+                                    src={uploadedImage}
+                                    alt="namefk;.sdfj"
+                                    sx={{ width: 300 }}
+                                />
                                 <Stack>
                                     <Typography variant="profilePageTitle" >About your Recruiter</Typography>
                                     <Typography variant="profilePageSubText" >Keep in mind you can always update this later</Typography>

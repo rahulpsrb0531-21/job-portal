@@ -47,10 +47,10 @@ export function CandidateProfile() {
         primaryRole: Yup.string().required("Primary Role is required"),
         experience: Yup.string().required("Experience is required"),
         bio: Yup.string(),
-        websiteLink: Yup.string(),
-        twitterLink: Yup.string(),
-        linkedinLink: Yup.string(),
-        gitHubLink: Yup.string(),
+        Website: Yup.string(),
+        Twitter: Yup.string(),
+        LinkedIn: Yup.string(),
+        GitHub: Yup.string(),
         skills: Yup.array(),
         newSkill: Yup.string(),
         achivements: Yup.string().max(1000, 'Upto 1000 characters')
@@ -63,10 +63,10 @@ export function CandidateProfile() {
             primaryRole: "",
             experience: "",
             bio: "",
-            websiteLink: "",
-            twitterLink: "",
-            linkedinLink: "",
-            gitHubLink: "",
+            Website: "",
+            Twitter: "",
+            LinkedIn: "",
+            GitHub: "",
             work: [],
             education: [],
             skills: [],
@@ -89,10 +89,10 @@ export function CandidateProfile() {
                 primaryRole: v?.primaryRole,
                 yearsOfExperience: v?.experience,
                 bio: v?.bio,
-                website: v?.websiteLink,
-                linkedin: v?.linkedinLink,
-                twitter: v?.twitterLink,
-                gitHub: v?.gitHubLink,
+                website: v?.Website,
+                linkedin: v?.LinkedIn,
+                twitter: v?.Twitter,
+                gitHub: v?.GitHub,
                 // workExperience: workData,
                 workExperience: v?.work,
                 // eduction: educationData,
@@ -134,11 +134,11 @@ export function CandidateProfile() {
             setFieldValue("location", res?.candidate?.location)
             setFieldValue("primaryRole", res?.candidate?.primaryRole)
             setFieldValue("experience", res?.candidate?.yearsOfExperience)
-            setFieldValue("websiteLink", res?.candidate?.website)
-            setFieldValue("twitterLink", res?.candidate?.twitter)
+            setFieldValue("Website", res?.candidate?.website)
+            setFieldValue("Twitter", res?.candidate?.twitter)
             setFieldValue("bio", res?.candidate?.bio)
-            setFieldValue("linkedinLink", res?.candidate?.linkedin)
-            setFieldValue("gitHubLink", res?.candidate?.gitHub)
+            setFieldValue("LinkedIn", res?.candidate?.linkedin)
+            setFieldValue("GitHub", res?.candidate?.gitHub)
             setFieldValue("work", res?.candidate?.workExperience || [])
             setFieldValue("education", res?.candidate?.eduction || [])
             // skills
@@ -146,7 +146,7 @@ export function CandidateProfile() {
             // setFieldValue("skills", res?.candidate?.skills || [])
             setFieldValue("achivements", res?.candidate?.achivements)
         } else {
-            enqueueSnackbar(res?.data, {
+            enqueueSnackbar(res?.data?.message || "server is not working", {
                 variant: "error",
                 anchorOrigin: { horizontal: "right", vertical: "top" }, autoHideDuration: 1000
             })
@@ -241,119 +241,154 @@ export function CandidateProfile() {
                 />
                 <GraduationExperienceFormModal open={openGraduation} setOpen={setOpenGraduation}
                     candidateData={values} getCandidateById={getCandidateById} />
-                <Box sx={{ pb: 6 }}>
-                    <Stack direction={{ xs: "column", lg: 'row' }} justifyContent={'space-between'} >
-                        <Box>
-                            <Stack>
-                                <Typography
-                                    // variant="profilePageTitle"
-                                    sx={{ fontSize: 22, fontWeight: 600 }}
-                                >About</Typography>
-                                <Typography variant="profilePageSubText" sx={{ pb: 0.8 }} >Tell us about yourself so startups know who you are.</Typography>
-                            </Stack>
-                        </Box>
-                        {/* about us  */}
-                        <Stack sx={{ width: { xs: "98%", lg: "60%" } }} spacing={2.4} >
-                            <FormControl>
-                                <Typography variant="profilePageTitle">Your name*</Typography>
-                                <TextField sx={{ ".MuiInputBase-root": { borderRadius: '4px' } }}
-                                    {...getFieldProps("name")}
-                                    error={Boolean(touched.name && errors.name)}
-                                    helperText={touched.name && errors.name}
-                                />
-                            </FormControl>
-                            <FormControl>
-                                <Typography variant="profilePageTitle" >Where are you based?*</Typography>
-                                <TextField sx={{
-                                    ".MuiInputBase-root": { borderRadius: '4px' }
+                <Stack spacing={3.6} sx={{ pb: 0 }}>
+                    {/* about us  */}
+                    <Stack direction={{ xs: "column", lg: 'row' }} sx={{ pt: 4 }} spacing={4} >
+                        <Stack sx={{ width: { xs: "100%", sm: "100%", md: "40%", lg: "40%" } }} spacing={0.1} >
+                            <Typography
+                                sx={{ fontSize: 22, fontWeight: 600 }}
+                            >About</Typography>
+                            <Typography variant="profilePageSubText" sx={{ pb: 0.8 }} >Tell us about yourself so startups know who you are.</Typography>
+                        </Stack>
+                        <Stack
+                            sx={{ width: { xs: "94%", sm: "94%", sm: "40%", lg: "40%" } }}
+                            spacing={2.6} >
+                            <TextField
+                                sx={{
+                                    ".MuiInputBase-root": { borderRadius: '4px' },
+                                    '& > :not(style)': { m: 0 },
+                                    "& .MuiInputLabel-root": { fontSize: 15 },
                                 }}
-                                    {...getFieldProps("location")}
-                                    error={Boolean(touched.location && errors.location)}
-                                    helperText={touched.location && errors.location}
-                                />
-                            </FormControl>
-                            {/* select option */}
-                            <Stack direction={{ xs: 'column', lg: 'row' }} spacing={2} >
-                                <FormControl sx={{ width: { xs: "100%", lg: '50%' } }} >
-                                    <Typography variant="profilePageTitle" >Select your primary role*</Typography>
-                                    <Select sx={{ ".css-k6dkf7-MuiSelect-select-MuiInputBase-input-MuiOutlinedInput-input": { p: 2 }, borderRadius: "4px" }}
-                                        value={values.primaryRole} {...getFieldProps('primaryRole')} >
-                                        {
-                                            primaryRoleOption?.map((data, idx) => (
-                                                <MenuItem key={idx} value={data} >{data}</MenuItem>
-                                            ))
-                                        }
-                                    </Select>
-                                    <FormHelperText>{touched.primaryRole && errors.primaryRole}</FormHelperText>
-                                </FormControl>
-                                <Stack sx={{ width: { xs: "100%", lg: '50%' } }} >
-                                    <Typography variant="profilePageTitle" >Years of experience*</Typography>
-                                    <Select sx={{ ".css-k6dkf7-MuiSelect-select-MuiInputBase-input-MuiOutlinedInput-input": { p: 2 }, borderRadius: "4px" }}
-                                        value={values.experience} {...getFieldProps('experience')}
-                                    >
-                                        {
-                                            experienceData?.map((data, idx) => (
-                                                <MenuItem key={idx} value={data} >{data}</MenuItem>
-                                            ))
-                                        }
-                                    </Select>
-                                    <FormHelperText>{touched.experience && errors.experience}</FormHelperText>
-                                </Stack>
+                                {...getFieldProps("name")}
+                                error={Boolean(touched.name && errors.name)}
+                                helperText={touched.name && errors.name}
+                                label="Name*"
+                            />
+                            <TextField
+                                sx={{
+                                    ".MuiInputBase-root": { borderRadius: '4px' },
+                                    '& > :not(style)': { m: 0 },
+                                    "& .MuiInputLabel-root": { fontSize: 15 }
+                                }}
+                                {...getFieldProps("location")}
+                                error={Boolean(touched.location && errors.location)}
+                                helperText={touched.location && errors.location}
+                                label="Where are you based?*"
+                            />
+                            <Stack direction={{ xs: 'column', lg: 'row' }}
+                                spacing={3.2}>
+                                <TextField
+                                    select
+                                    sx={{
+                                        ".MuiInputBase-root": { borderRadius: '4px' },
+                                        '& > :not(style)': { m: 0 },
+                                        "& .MuiInputLabel-root": { fontSize: 15 },
+                                        width: '100%'
+                                    }}
+                                    label="Select your primary role*"
+                                    value={values.primaryRole}
+                                    {...getFieldProps('primaryRole')} >
+                                    {
+                                        primaryRoleOption?.map((data, idx) => (
+                                            <MenuItem key={idx} value={data} >{data}</MenuItem>
+                                        ))
+                                    }
+                                </TextField>
+                                <TextField
+                                    select
+                                    sx={{
+                                        ".MuiInputBase-root": { borderRadius: '4px' },
+                                        '& > :not(style)': { m: 0 },
+                                        "& .MuiInputLabel-root": { fontSize: 15 },
+                                        width: '100%'
+                                    }}
+                                    label="Years of experience*"
+                                    value={values.experience} {...getFieldProps('experience')}
+                                >
+                                    {
+                                        experienceData?.map((data, idx) => (
+                                            <MenuItem key={idx} value={data} >{data}</MenuItem>
+                                        ))
+                                    }
+                                </TextField>
+                                {/* </FormControl> */}
                             </Stack>
-                            <FormControl>
-                                <Typography>Your Bio</Typography>
-                                <TextField sx={{
-                                    ".MuiInputBase-root": { borderRadius: '4px' }
-                                }} multiline={true} rows={5}
-                                    {...getFieldProps("bio")}
-                                    error={Boolean(touched.bio && errors.bio)}
-                                    helperText={touched.bio && errors.bio}
-                                />
-                            </FormControl>
-                            <Button size="small" variant="blackButton" type="submit"
-                                sx={{ letterSpacing: 2, width: 125, mt: 1 }}
+                            <TextField
+                                sx={{
+                                    ".MuiInputBase-root": { borderRadius: '4px' },
+                                    '& > :not(style)': { m: 0 },
+                                    "& .MuiInputLabel-root": { fontSize: 15 }
+                                }}
+                                label="Your Bio"
+                                multiline={true} rows={5}
+                                {...getFieldProps("bio")}
+                                error={Boolean(touched.bio && errors.bio)}
+                                helperText={touched.bio && errors.bio}
+                            />
+                            <Button size="small" variant="contained"
+                                sx={{
+                                    width: 120,
+                                    // height: "38px",
+                                    fontWeight: 400,
+                                    borderRadius: 8,
+                                    letterSpacing: 0.4
+                                }}
+                                type="submit"
                             >
                                 Save
                             </Button>
                         </Stack>
                     </Stack>
-                    <Divider sx={{ py: 1 }} />
+                    <Divider />
+
                     {/* SocialLink*/}
-                    <Stack direction={{ xs: "column", lg: 'row' }} justifyContent={'space-between'} sx={{ pt: 2 }} >
-                        <Box>
-                            <Stack>
-                                <Typography sx={{ fontSize: 22, fontWeight: 600 }}>Social Profiles</Typography>
-                                <Typography variant="profilePageSubText" sx={{ pb: 0.8 }} >Where can people find you online?</Typography>
-                            </Stack>
-                        </Box>
-                        <Stack sx={{ width: { xs: "100%", lg: "60%" } }} spacing={2.4} >
+                    <Stack direction={{ xs: "column", lg: 'row' }} spacing={4} >
+                        <Stack sx={{
+                            width: { xs: "100%", sm: "100%", md: "40%", lg: "40%" }
+                        }} spacing={0.1} >
+                            <Typography sx={{ fontSize: 22, fontWeight: 600 }}>Social Profiles</Typography>
+                            <Typography variant="profilePageSubText" sx={{ pb: 0.8 }} >Where can people find you online?</Typography>
+                        </Stack>
+                        {/* </Box> */}
+                        <Stack sx={{ width: { xs: "94%", sm: "94%", sm: "40%", lg: "40%" } }}
+                            spacing={2.8} >
                             <FormControlCompoment
                                 errors={errors} touched={touched} values={values} setFieldValue={setFieldValue} getFieldProps={getFieldProps}
-                                title="websiteLink" />
+                                title="Website" />
                             <FormControlCompoment
                                 errors={errors} touched={touched} values={values} setFieldValue={setFieldValue} getFieldProps={getFieldProps}
-                                title="linkedinLink" />
+                                title="LinkedIn" />
                             <FormControlCompoment
                                 errors={errors} touched={touched} values={values} setFieldValue={setFieldValue} getFieldProps={getFieldProps}
-                                title="twitterLink" />
+                                title="Twitter" />
                             <FormControlCompoment
                                 errors={errors} touched={touched} values={values} setFieldValue={setFieldValue} getFieldProps={getFieldProps}
-                                title="gitHubLink" />
-                            <Button size="small" variant="blackButton" type="submit"
-                                sx={{ letterSpacing: 2, width: 125, mt: 1 }}
+                                title="GitHub" />
+                            <Button size="small" variant="contained"
+                                sx={{
+                                    width: 120,
+                                    // height: "38px",
+                                    fontWeight: 400,
+                                    borderRadius: 8,
+                                    letterSpacing: 0.4
+                                }}
+                                type="submit"
                             >Save</Button>
                         </Stack>
                     </Stack>
-                    <Divider sx={{ py: 1 }} />
-                    <Stack direction={{ xs: 'column', sm: "column", md: 'row', lg: 'row' }} justifyContent={'space-between'} sx={{ pt: 2 }} >
-                        <Box>
-                            <Stack>
-                                <Typography sx={{ fontSize: 22, fontWeight: 600 }} >Your work experience</Typography>
-                                <Typography variant="profilePageSubText" sx={{ pb: 0.8 }} >What other positions have you held?</Typography>
-                            </Stack>
-                        </Box>
-                        <Box sx={{ width: { xs: '100%', lg: "60%" } }} >
-                            <Stack spacing={1} >
+                    <Divider />
+
+                    <Stack direction={{ xs: 'column', sm: "column", md: 'row', lg: 'row' }}
+                        spacing={4} >
+                        <Stack sx={{
+                            width: { xs: "100%", sm: "100%", md: "40%", lg: "40%" }
+                        }} spacing={0.1}>
+                            <Typography sx={{ fontSize: 22, fontWeight: 600 }} >Your work experience</Typography>
+                            <Typography variant="profilePageSubText" sx={{ pb: 0.8 }} >What other positions have you held?</Typography>
+                        </Stack>
+                        <Box sx={{ width: { xs: "94%", sm: "94%", sm: "40%", lg: "40%" } }}>
+                            <Stack spacing={3.2}
+                            >
                                 {
                                     values?.work?.map((data, idx) => (
                                         <Stack direction={'row'} justifyContent={'space-between'} sx={{
@@ -389,17 +424,20 @@ export function CandidateProfile() {
                             >+Add work experience</Typography>
                         </Box>
                     </Stack>
-                    <Divider sx={{ py: 1 }} />
+
+                    <Divider />
+
                     {/* Education */}
-                    <Stack direction={{ xs: 'column', sm: "column", md: 'row', lg: 'row' }} justifyContent={'space-between'} sx={{ pt: 2 }} >
-                        <Box>
-                            <Stack>
-                                <Typography sx={{ fontSize: 22, fontWeight: 600 }} >Education</Typography>
-                                <Typography variant="profilePageSubText" sx={{ pb: 0.8 }} >What schools have you studied at?</Typography>
-                            </Stack>
-                        </Box>
-                        <Stack spacing={1} sx={{ width: { xs: "100%", sm: "100%", md: "60%", lg: "60%" } }} >
-                            {/* {console.log(values?.education)} */}
+                    <Stack direction={{ xs: 'column', sm: "column", md: 'row', lg: 'row' }} spacing={4} >
+                        <Stack sx={{
+                            width: { xs: "100%", sm: "100%", md: "40%", lg: "40%" }
+                        }} spacing={0.1}>
+                            <Typography sx={{ fontSize: 22, fontWeight: 600 }} >Education</Typography>
+                            <Typography variant="profilePageSubText" sx={{ pb: 0.8 }} >What schools have you studied at?</Typography>
+                        </Stack>
+                        <Stack spacing={3.2}
+                            sx={{ width: { xs: "94%", sm: "94%", sm: "40%", lg: "40%" } }}
+                        >
                             {
                                 values?.education.map((data, idx) => (
                                     <Stack direction={'row'} justifyContent={'space-between'} sx={{
@@ -436,18 +474,23 @@ export function CandidateProfile() {
                             >+Add work education</Typography>
                         </Stack>
                     </Stack >
-                    <Divider sx={{ py: 1 }} />
+
+                    <Divider />
 
                     {/* <Skills /> */}
-
-                    <Stack direction={{ xs: "column", lg: 'row' }} justifyContent={'space-between'} sx={{ pt: 2 }} spa >
-                        <Box>
+                    <Stack direction={{ xs: "column", lg: 'row' }} spacing={4}>
+                        <Box
+                            sx={{
+                                width: { xs: "100%", sm: "100%", md: "40%", lg: "40%" }
+                            }}
+                        >
                             <Stack>
                                 <Typography sx={{ fontSize: 22, fontWeight: 600 }} >Your Skills</Typography>
                                 <Typography variant="profilePageSubText" >This will help startups hone in on your strengths.</Typography>
                             </Stack>
                         </Box>
-                        <Stack sx={{ width: { xs: "100%", sm: "100%", md: "60%", lg: "60%" }, pt: 1 }} spacing={1} >
+                        <Stack sx={{ width: { xs: "94%", sm: "94%", sm: "40%", lg: "40%" } }}
+                            spacing={2} >
                             <Stack direction={'row'} flexWrap={'wrap'} spacing={1} useFlexGap >
                                 {
                                     skillValues.map((skill, idx) => (
@@ -458,33 +501,44 @@ export function CandidateProfile() {
                                 }
                             </Stack>
                             <FormControl>
-                                <Typography variant="profilePageTitle" sx={{ py: 0.8 }} >Skills?*</Typography>
-                                <TextField sx={{
-                                    ".MuiInputBase-root": { borderRadius: '4px' },
-                                    // width: 280
-                                }}
+                                <TextField
+                                    sx={{
+                                        ".MuiInputBase-root": { borderRadius: '4px' },
+                                        '& > :not(style)': { m: 0 },
+                                        "& .MuiInputLabel-root": { fontSize: 15 }
+                                    }}
+                                    label="Skill*"
                                     value={newSkillValue}
                                     onChange={(e) => setNewSkillValue(e.target.value)}
                                     error={Boolean(touched.skills && errors.skills)}
                                     helperText={touched.skills && errors.skills}
                                 />
-                                <Button variant="blackButton" type="submit"
-                                    sx={{ letterSpacing: 2, width: 125, mt: 1 }}
+                                <Button size="small"
+                                    type="submit"
+                                    variant="contained"
+                                    sx={{
+                                        width: 120,
+                                        fontWeight: 400,
+                                        borderRadius: 8,
+                                        letterSpacing: 0.4, mt: 1
+                                    }}
                                     onClick={() => addSkill()}
                                 >Add Skill</Button>
                             </FormControl>
                         </Stack>
                     </Stack>
-                    <Divider sx={{ py: 1 }} />
+
+                    <Divider />
+
                     {/* <Achievements /> */}
-                    <Stack direction={{ xs: 'column', lg: 'row' }} justifyContent={'space-between'} sx={{ pt: 2 }} >
-                        <Box>
-                            <Stack>
-                                <Typography sx={{ fontSize: 22, fontWeight: 600 }} >Achievements</Typography>
-                                <Typography variant="profilePageSubText" sx={{ pb: 0.8 }} >Sharing more details about yourself will help you stand out more.</Typography>
-                            </Stack>
-                        </Box>
-                        <Stack sx={{ width: { xs: "100%", sm: "100%", md: "60%", lg: "60%" } }} spacing={1} >
+                    <Stack direction={{ xs: 'column', lg: 'row' }} spacing={4}>
+                        <Stack sx={{
+                            width: { xs: "100%", sm: "100%", md: "40%", lg: "40%" }
+                        }} spacing={0.1}>
+                            <Typography sx={{ fontSize: 22, fontWeight: 600 }} >Achievements</Typography>
+                            <Typography variant="profilePageSubText" sx={{ pb: 0.8 }} >Sharing more details about yourself will help you stand out more.</Typography>
+                        </Stack>
+                        <Stack sx={{ width: { xs: "94%", sm: "94%", sm: "40%", lg: "40%" } }} >
                             <FormControl>
                                 <TextField multiline={true} rows={6}
                                     sx={{ ".MuiInputBase-root": { borderRadius: '4px' } }}
@@ -493,11 +547,20 @@ export function CandidateProfile() {
                                     error={Boolean(touched.achivements && errors.achivements)}
                                     helperText={touched.achivements && errors.achivements}
                                 />
-                                <Button variant="blackButton" type="submit" sx={{ letterSpacing: 2, width: 125, mt: 1 }}  >Save</Button>
+                                <Button
+                                    type="submit"
+                                    variant="contained"
+                                    sx={{
+                                        width: 120,
+                                        // height: "38px",
+                                        fontWeight: 400,
+                                        borderRadius: 8,
+                                        letterSpacing: 0.4, mt: 1
+                                    }}  >Save</Button>
                             </FormControl>
                         </Stack>
                     </Stack>
-                </Box>
+                </Stack>
             </Form >
         </FormikProvider >
     )
@@ -506,14 +569,17 @@ export function CandidateProfile() {
 const FormControlCompoment = ({ title, link, errors, touched, values, getFieldProps }) => {
     return (
         <FormControl>
-            <Typography variant="profilePageTitle">{title}</Typography>
+            {/* <Typography variant="profilePageTitle">{title}</Typography> */}
             <TextField variant="outlined" value={values?.title}
                 sx={{
-                    ".MuiInputBase-root": { borderRadius: '4px' }
+                    ".MuiInputBase-root": { borderRadius: '4px' },
+                    '& > :not(style)': { m: 0 },
+                    "& .MuiInputLabel-root": { fontSize: 15 }
                 }}
                 {...getFieldProps(title)}
                 error={Boolean(touched.title && errors.title)}
                 helperText={touched.title && errors.title}
+                label={title}
             />
         </FormControl>
     )

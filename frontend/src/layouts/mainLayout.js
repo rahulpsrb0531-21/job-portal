@@ -8,8 +8,19 @@ import DashboardSidebar from "./dashboard/DashboardSidebar"
 
 
 const MainStyle = styled('div')(({ theme }) => ({
-    flexGrow: 1,
+    position: "absolute",
+    // left: 120,
+    // left: { xs: 0, lg: 120 },
+    // flexGrow: 1,
     overflow: 'auto',
+    width: "100%",
+    backgroundColor: "rgb(255, 255, 255)",
+    [theme.breakpoints.up('lg')]: {
+        left: 120
+    },
+    [theme.breakpoints.up('md')]: {
+        left: 120
+    }
     // paddingBottom: theme.spacing(10),
     // [theme.breakpoints.up('lg')]: {
     //     paddingLeft: theme.spacing(2),
@@ -38,6 +49,9 @@ export default function MainLayout() {
                     overflow: "hidden",
                     // height: '80vh'
                     // minHeight: '100%'
+                    // position: "absolute"
+                    // bgcolor: "red"
+
                 }}
             >
                 <DashboardSidebar />

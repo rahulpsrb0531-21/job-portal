@@ -3,7 +3,7 @@ import PropTypes from 'prop-types'
 import { NavLink as RouterLink, matchPath, useLocation } from 'react-router-dom'
 // material
 import { alpha, useTheme, styled } from '@mui/material/styles'
-import { Box, List, Collapse, ListItemIcon, ListItemButton, Typography, Divider, Stack } from '@mui/material'
+import { Box, List, Collapse, ListItemIcon, ListItemButton, Typography, Divider, Stack, SvgIcon, Icon } from '@mui/material'
 import Iconify from './Iconify'
 
 const ListItemStyle = styled((props) => <ListItemButton disableGutters {...props} />)(({ theme }) => ({
@@ -143,7 +143,10 @@ function NavItem({ item, active }) {
       }}
     >
       <Stack alignItems={'center'} justifyContent={'center'} width={"100%"} >
-        <Iconify icon={icon} sx={{ width: 22, height: 22 }} />
+        <Iconify icon={icon} sx={{
+          width: 32, height: 32
+        }} />
+
         <Typography sx={{ fontSize: 12, color: 'rgb(97, 97, 97)' }} >{title}</Typography>
       </Stack>
     </ListItemStyle>
