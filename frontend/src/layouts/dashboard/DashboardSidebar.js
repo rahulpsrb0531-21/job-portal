@@ -58,7 +58,12 @@ export default function DashboardSidebar() {
       //   height: "100vh",
       //   // bgcolor: 'red'
       // }}
-      sx={{ position: 'sticky', top: '64px', maxHeight: 'calc(100vh - 64px)', overflowY: 'auto' }}
+      sx={{
+        position: 'sticky',
+        top: '84px',
+        maxHeight: 'calc(100vh - 84px)',
+        overflowY: 'auto'
+      }}
     >
       {renderContent}
     </Stack>

@@ -1,7 +1,7 @@
 import { useState } from "react"
 import { Link as RouterLink, useNavigate } from 'react-router-dom'
 import { styled, alpha } from '@mui/material/styles'
-import { Box, Typography, Stack, InputBase, Popover, Button } from "@mui/material"
+import { Box, Typography, Stack, InputBase, Popover, Button, Container } from "@mui/material"
 import SearchIcon from '@mui/icons-material/Search';
 import Iconify from "./Iconify";
 import CandidatePopover from "../layouts/dashboard/candidatePopover";
@@ -29,11 +29,12 @@ const Header = () => {
                 bgcolor: "white",
                 borderBottom: '1px solid #e0e0e0',
                 position: "fixed",
+                // position: "sticky",
                 left: 0,
                 top: 0,
                 zIndex: 1,
                 width: '100%',
-                p: 1
+                p: 1.4
             }}
             justifyContent={'space-between'}
         >
@@ -47,6 +48,10 @@ const Header = () => {
                 onClick={() => navigate('/')}
             />
 
+            {/* <Typography>Jobs</Typography>
+            <Typography>Profile</Typography>
+            <Typography>Applied</Typography> */}
+
             {
                 token && (
 
@@ -57,6 +62,7 @@ const Header = () => {
                     </Box>
                 )
             }
+
             {
                 token && (
 

@@ -35,6 +35,8 @@ export default function MainLayout() {
 
     return (
         <Stack
+        // maxWidth='lg'
+        // sx={{ bgcolor: "red" }}
         // sx={{
         //     "& .MuiBox-root": {
         //         height: 'auto', overflow: 'hidden',
@@ -44,13 +46,18 @@ export default function MainLayout() {
         // direction={'row'}
         >
             <CssBaseline />
-
+            {/* <Container maxWidth='lg' > */}
             <Header />
             <Stack direction={'row'} >
                 <DashboardSidebar />
                 <Box
                     component="main"
-                    sx={{ flexGrow: 1, bgcolor: 'background.default', p: 3, paddingTop: '64px' }}
+                    sx={{
+                        flexGrow: 1,
+                        bgcolor: 'background.default',
+                        p: 0,
+                        paddingTop: '64px'
+                    }}
                 >
                     <Container maxWidth="lg">
                         <Outlet />
@@ -58,18 +65,19 @@ export default function MainLayout() {
                     <Box sx={{ pb: 2 }} />
                 </Box>
             </Stack>
-            <Box
-                component="footer"
-                sx={{
-                    width: '100%',
-                    textAlign: 'center',
-                    p: 2,
-                    mt: 'auto',
-                    backgroundColor: 'background.paper',
-                }}
-            >
-                <Footer />
-            </Box>
+            {/* <Box
+                    component="footer"
+                // sx={{
+                //     width: '100%',
+                //     textAlign: 'center',
+                //     p: 2,
+                //     mt: 'auto',
+                //     backgroundColor: 'background.paper',
+                // }}
+                >
+                </Box> */}
+            {/* </Container> */}
+            <Footer />
         </Stack>
     )
 }

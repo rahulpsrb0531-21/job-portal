@@ -127,6 +127,8 @@ function NavItem({ item, active }) {
       sx={{
         ...(isActiveRoot && activeRootStyle),
         py: 2,
+        my: 0.2,
+        ml: 2,
         // width: 0,
         // height: 100,
         "&:hover": {

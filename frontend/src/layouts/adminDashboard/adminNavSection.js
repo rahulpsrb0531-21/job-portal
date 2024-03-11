@@ -7,19 +7,25 @@ import { Box, List, Collapse, ListItemIcon, ListItemButton, Typography, Divider,
 import Iconify from '../../components/Iconify'
 
 
+
 const ListItemStyle = styled((props) => <ListItemButton disableGutters {...props} />)(({ theme }) => ({
     ...theme.typography.body2,
     // height: 40,
     position: 'relative',
     textTransform: 'capitalize',
     color: '#282C3F',
-    fontWeight: 300
+    // color: 'gold',
+    fontWeight: 300,
+    // backgroundColor: "black",
+    width: 100,
+    borderRadius: '4px',
+    // textAlign: "center"
 }));
 
 const ListItemIconStyle = styled(ListItemIcon)({
     display: 'flex',
     alignItems: 'center',
-    justifyContent: 'center',
+    justifyContent: 'center'
 });
 
 // ----------------------------------------------------------------------
@@ -46,10 +52,11 @@ function NavItem({ item, active }) {
     const activeRootStyle = {
         color: '#0f6fff ',
         fontWeight: 400,
-        p: 2,
+        // p: 2,
         // transform: 'scale(2)',
         bgcolor: '#f2f8ff',
-        opacity: 0.6
+        // bgcolor: 'red',
+        opacity: 0.6,
     };
 
     const activeSubStyle = {
@@ -98,7 +105,7 @@ function NavItem({ item, active }) {
                                                 transition: (theme) => theme.transitions.create('transform'),
                                                 ...(isActiveSub && {
                                                     transform: 'scale(2)',
-                                                    bgcolor: 'primary.main',
+                                                    // bgcolor: 'primary.main',
                                                     // color: 'blue',
                                                 })
 
@@ -122,20 +129,28 @@ function NavItem({ item, active }) {
             sx={{
                 ...(isActiveRoot && activeRootStyle),
                 py: 2,
+                my: 0.2,
+                ml: 2,
                 // width: 0,
                 // height: 100,
                 "&:hover": {
+                    // color: '#0f6fff ',
                     color: '#0f6fff ',
                     fontWeight: 400,
-                    p: 2,
+                    // p: 2,
                     // transform: 'scale(2)',
                     bgcolor: '#f2f8ff',
-                    opacity: 0.6
+                    // bgcolor: 'green',
+                    opacity: 0.6,
+                    // width: 90
                 }
             }}
         >
-            <Stack alignItems={'center'}>
-                <Iconify icon={icon} sx={{ width: 22, height: 22 }} />
+            <Stack alignItems={'center'} justifyContent={'center'} width={"100%"} >
+                <Iconify icon={icon} sx={{
+                    width: 32, height: 32
+                }} />
+
                 <Typography sx={{ fontSize: 12, color: 'rgb(97, 97, 97)' }} >{title}</Typography>
             </Stack>
         </ListItemStyle>
@@ -146,6 +161,7 @@ AdminNavSection.propTypes = {
     navConfig: PropTypes.array,
 };
 
+
 export default function AdminNavSection({ navConfig, ...other }) {
     const { pathname } = useLocation();
 
@@ -154,7 +170,7 @@ export default function AdminNavSection({ navConfig, ...other }) {
     return (
         <List>
             {navConfig.map((item) => (
-                <Stack alignItems={'center'} sx={{ mr: 12 }} >
+                <Stack alignItems={'center'} >
                     <NavItem key={item.title} item={item} active={match} />
                 </Stack>
             ))

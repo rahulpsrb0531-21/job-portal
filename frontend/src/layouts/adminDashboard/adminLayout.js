@@ -9,6 +9,9 @@ import { styled } from '@mui/material/styles';
 import AdminSidebar from './adminSidebar'
 import Header from '../../components/header';
 import AdminNavbar from './adminNavBar';
+import Footer from '../../components/footer';
+import CssBaseline from '../../theme/overrides/CssBaseline';
+import { Box, Container, Stack } from '@mui/material';
 // ----------------------------------------------------------------------
 
 const APP_BAR_MOBILE = 64;
@@ -45,12 +48,46 @@ export default function DashboardLayout() {
     // }
 
     return (
-        <RootStyle>
+        <Stack
+        // maxWidth='lg'
+        // sx={{ bgcolor: "red" }}
+        // sx={{
+        //     "& .MuiBox-root": {
+        //         height: 'auto', overflow: 'hidden',
+        //     },
+        //     // bgcolor: 'rgb(250, 250, 251)'
+        // }}
+        // direction={'row'}
+        >
+            {/* <CssBaseline /> */}
+            {/* <Container maxWidth='lg' > */}
             <Header />
-            <AdminSidebar />
-            <MainStyle>
-                <Outlet />
-            </MainStyle>
-        </RootStyle>
+            <Stack direction={'row'} >
+                <AdminSidebar />
+                <Box
+                    component="main"
+                    sx={{
+                        flexGrow: 1,
+                        bgcolor: 'background.default',
+                        p: 0,
+                        paddingTop: '64px'
+                    }}
+                >
+                    <Container maxWidth="lg">
+                        <Outlet />
+                    </Container>
+                    <Box sx={{ pb: 2 }} />
+                </Box>
+            </Stack>
+            <Footer />
+        </Stack>
     );
 }
+
+// <RootStyle>
+//     <Header />
+//     <AdminSidebar />
+//     <MainStyle>
+//         <Outlet />
+//     </MainStyle>
+// </RootStyle>
