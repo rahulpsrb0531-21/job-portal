@@ -14,10 +14,10 @@ import { logOut } from '../../redux/reducers/authSlice'
 export default function CandidatePopover() {
     const navigate = useNavigate()
     const anchorRef = useRef(null)
-    const [open, setOpen] = useState(false)
     const dispatch = useDispatch()
     const { user } = useSelector((state) => state.auth)
     // console.log(user)
+    const [open, setOpen] = useState(false)
     const handleOpen = () => {
         setOpen(true);
     }
@@ -38,8 +38,7 @@ export default function CandidatePopover() {
                 ref={anchorRef}
                 onClick={handleOpen}
             >
-                {/* <Iconify icon={"mingcute:user-4-fill"} sx={{ width: 32, height: 32 }} /> */}
-                <Typography sx={{ pr: 1 }} >{user?.candidateName}</Typography>
+                <Typography sx={{ pr: 1, textTransform: 'capitalize' }} >{user?.candidateName}</Typography>
                 <Iconify icon={"fluent:ios-arrow-24-regular"} sx={{ width: 18, height: 18, transform: "rotate(270deg)" }} />
             </IconButton>
 
@@ -57,11 +56,14 @@ export default function CandidatePopover() {
                 <Stack spacing={0.75}>
                     <Stack direction={'row'} alignItems={'center'} >
                         <Iconify icon={"mingcute:user-4-fill"} sx={{ width: 32, height: 32 }} />
-                        <Typography sx={{ fontSize: 14, fontWeight: 500 }} >{
-                            user?.role === "CANDIDATE" ? user?.candidateName :
-                                user?.role === "RECRUITER" ? user?.recruiterName :
-                                    user?.recruiterName
-                        }</Typography>
+                        <Typography sx={{
+                            fontSize: 14, fontWeight: 500,
+                            textTransform: 'capitalize'
+                        }} >{
+                                user?.role === "CANDIDATE" ? user?.candidateName :
+                                    user?.role === "RECRUITER" ? user?.recruiterName :
+                                        user?.recruiterName
+                            }</Typography>
                     </Stack>
                     <Divider />
                     <Stack spacing={0.7} >

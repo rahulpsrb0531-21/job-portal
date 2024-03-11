@@ -40,7 +40,7 @@ export default function RecruiterPopover() {
                 ref={anchorRef}
                 onClick={handleOpen}
             >
-                <Iconify icon={"mingcute:user-4-fill"} sx={{ width: 32, height: 32, pr: 1 }} />
+                <Typography sx={{ pr: 1, textTransform: 'capitalize' }} >{user?.recruiterName}</Typography>
                 <Iconify icon={"fluent:ios-arrow-24-regular"} sx={{ width: 18, height: 18, transform: "rotate(270deg)" }} />
             </IconButton>
 
@@ -51,11 +51,12 @@ export default function RecruiterPopover() {
                 sx={{
                     mt: 1.5,
                     ml: 0.75,
+                    pr: 1.75,
                     width: 180,
                     '& .MuiMenuItem-root': { px: 1, typography: 'body2', borderRadius: 0.75 },
                 }}
             >
-                <Stack spacing={0.75}>
+                <Stack spacing={0.75} >
                     <Stack direction={'row'} alignItems={'center'} >
                         <Iconify icon={"mingcute:user-4-fill"} sx={{ width: 32, height: 32 }} />
                         <Typography sx={{ fontSize: 14, fontWeight: 500 }} >{user?.recruiterName || ''}</Typography>

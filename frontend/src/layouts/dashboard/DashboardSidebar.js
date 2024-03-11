@@ -51,10 +51,14 @@ export default function DashboardSidebar() {
 
   return (
     <Stack spacing={2}
-      sx={{
-        display: { xs: "none", sm: "none", md: "block", lg: "block" },
-        position: 'fixed'
-      }}
+      // sx={{
+      //   display: { xs: "none", sm: "none", md: "block", lg: "block" },
+      //   position: 'sticky',
+      //   overflow: "hidden",
+      //   height: "100vh",
+      //   // bgcolor: 'red'
+      // }}
+      sx={{ position: 'sticky', top: '64px', maxHeight: 'calc(100vh - 64px)', overflowY: 'auto' }}
     >
       {renderContent}
     </Stack>

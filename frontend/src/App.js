@@ -7,6 +7,7 @@ import { Provider } from 'react-redux'
 import persistStore from 'redux-persist/es/persistStore'
 import { PersistGate } from 'redux-persist/integration/react'
 import { store } from './redux/store'
+import Footer from './components/footer'
 let persistor = persistStore(store)
 
 // console.log = function () { }

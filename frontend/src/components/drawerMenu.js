@@ -17,7 +17,7 @@ const DrawerMenu = () => {
     const token = localStorage.getItem("access")
     const { user } = useSelector((state) => state.auth)
 
-    console.log("user", user)
+    // console.log("user", user)
 
     const toggleDrawer = () => {
         setIsOpen(!isOpen);

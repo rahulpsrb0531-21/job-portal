@@ -292,7 +292,7 @@ const UploadPdf = ({ setFieldValue, uploadName, title, docValue, getCandidateByI
                     color: "rgb(5, 12, 38)",
                     fontWeight: 500, lineHeight: '16px'
                 }} >
-                    {title}*
+                    {title}
                 </Typography>
             </Box>
             {

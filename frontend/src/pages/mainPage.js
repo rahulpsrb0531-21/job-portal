@@ -1,5 +1,6 @@
-import React, { useState } from 'react'
-import { Stack, Typography, Button, Box, Popover, Divider, Container, useMediaQuery, useTheme } from "@mui/material"
+import React, { useRef, useState } from 'react'
+import { Stack, Typography, Button, Box, Popover, Divider, Container, useMediaQuery, useTheme, IconButton } from "@mui/material"
+import { alpha } from '@mui/material/styles'
 import { useNavigate } from "react-router-dom"
 import Header from "../components/header"
 import ParallaxMousemove from '../components/parallerX/ParallaxMousemove'
@@ -13,14 +14,19 @@ import AboutSection from '../components/company/aboutSection.js'
 import ContactUs from '../components/company/contactUs.js'
 import HeroSection from '../components/company/heroSection.js'
 import DrawerMenu from '../components/drawerMenu.js'
+import { useDispatch, useSelector } from 'react-redux'
+import CandidatePopover from '../layouts/dashboard/candidatePopover.js'
+import Iconify from '../components/Iconify.js'
+import MenuPopover from '../components/MenuPopover.js'
+import { logOut } from '../redux/reducers/authSlice.js'
 
 
 export function MainPage() {
     // const isDesktop = useResponsive('up', 'lg')
     const theme = useTheme();
-    const isDesktop = useMediaQuery(theme.breakpoints.up('xl'));
-    const isTablet = useMediaQuery(theme.breakpoints.down('xl'));
-    const isMobile = useMediaQuery(theme.breakpoints.down('md'));
+    const isDesktop = useMediaQuery(theme.breakpoints.up('xl'))
+    const isTablet = useMediaQuery(theme.breakpoints.down('xl'))
+    const isMobile = useMediaQuery(theme.breakpoints.down('md'))
 
     const getContainerMaxWidth = () => {
         if (isDesktop) return "xl";
@@ -52,18 +58,35 @@ export function MainPage() {
 
 const MainHeader = () => {
     const navigate = useNavigate()
-    const [anchorEl, setAnchorEl] = useState(null);
+    const dispatch = useDispatch()
+    const anchorRef = useRef(null)
+    const { user } = useSelector((state) => state.auth)
+    console.log("user>>>", user)
 
-    const handleClick = (event) => {
-        setAnchorEl(event.currentTarget);
-    };
+    const [open, setOpen] = useState(false)
+    const handleOpen = () => {
+        setOpen(true);
+    }
 
     const handleClose = () => {
-        setAnchorEl(null);
-    };
+        setOpen(false);
+    }
 
-    const open = Boolean(anchorEl);
-    const id = open ? 'simple-popover' : undefined;
+    const logout = () => {
+        localStorage.clear()
+        dispatch(logOut())
+        navigate("/")
+    }
+    // const handleClick = (event) => {
+    //     setAnchorEl(event.currentTarget);
+    // };
+
+    // const handleClose = () => {
+    //     setAnchorEl(null);
+    // };
+
+    // const open = Boolean(anchorEl);
+    // const id = open ? 'simple-popover' : undefined;
     return (
         <Container maxWidth="lg" >
             <Stack direction={'row'} alignItems={'center'}
@@ -100,16 +123,232 @@ const MainHeader = () => {
                         >Find a Candidate</Typography>
                         <Typography variant='headerTitleLink' sx={{ cursor: 'pointer', ":hover": { textDecoration: "underline" } }} >Join Us Now</Typography>
                     </Stack>
-                    <Button variant="contained"
+                    {/* <Button variant="contained"
                         onClick={() => navigate('/login')}
+                        // onClick={handleClick}
                         sx={{
                             width: 80, fontWeight: 400,
                             borderRadius: 8,
                             letterSpacing: 0.4
                         }}
-                    >Login</Button>
+                    >Login</Button> */}
+                    {
+                        user?.role === "CANDIDATE" ? (
+                            <>
+                                <IconButton
+                                    ref={anchorRef}
+                                    onClick={handleOpen}
+                                >
+                                    {/* <Iconify icon={"mingcute:user-4-fill"} sx={{ width: 32, height: 32 }} /> */}
+                                    <Typography sx={{ pr: 1, textTransform: "capitalize" }} >{user?.candidateName}</Typography>
+                                    <Iconify icon={"fluent:ios-arrow-24-regular"} sx={{ width: 18, height: 18, transform: "rotate(270deg)" }} />
+                                </IconButton>
+
+                                <MenuPopover
+                                    open={open}
+                                    onClose={handleClose}
+                                    anchorEl={anchorRef.current}
+                                    sx={{
+                                        mt: 1.5,
+                                        ml: 0.75,
+                                        width: 180,
+                                        '& .MuiMenuItem-root': { px: 1, typography: 'body2', borderRadius: 0.75 },
+                                    }}
+                                >
+                                    <Stack spacing={0.75}>
+                                        <Stack direction={'row'} alignItems={'center'} >
+                                            <Iconify icon={"mingcute:user-4-fill"} sx={{ width: 32, height: 32 }} />
+                                            <Typography sx={{ fontSize: 14, fontWeight: 500, textTransform: "capitalize" }} >{user?.candidateName
+                                            }</Typography>
+                                        </Stack>
+                                        <Divider />
+                                        <Stack spacing={0.8}  >
+                                            <Typography sx={{
+                                                fontSize: 12, fontWeight: 500, p: 0.6,
+                                                borderRadius: "4px"
+                                                ,
+                                                ":hover": {
+                                                    bgcolor: (theme) => alpha(theme.palette.primary.main, theme.palette.action.focusOpacity),
+                                                    cursor: "pointer"
+                                                }
+                                            }}
+                                                onClick={() => navigate('/candidate/dashboard')}
+                                            >Dashboard</Typography>
+                                            <Typography sx={{
+                                                fontSize: 12, fontWeight: 500, p: 0.6,
+                                                borderRadius: "4px"
+                                                ,
+                                                ":hover": {
+                                                    bgcolor: (theme) => alpha(theme.palette.primary.main, theme.palette.action.focusOpacity),
+                                                    cursor: "pointer"
+                                                }
+                                            }}
+                                                onClick={() => navigate('/candidate/profile')}
+                                            >Profile</Typography>
+                                            <Typography sx={{
+                                                fontSize: 12, fontWeight: 500, p: 0.6,
+                                                borderRadius: "4px"
+                                                ,
+                                                ":hover": {
+                                                    bgcolor: (theme) => alpha(theme.palette.primary.main, theme.palette.action.focusOpacity),
+                                                    cursor: "pointer"
+                                                }
+                                            }}
+                                                onClick={() => navigate('/candidate/lists')}
+                                            >Job</Typography>
+                                            <Typography sx={{
+                                                fontSize: 12, fontWeight: 500, p: 0.6,
+                                                borderRadius: "4px"
+                                                ,
+                                                ":hover": {
+                                                    bgcolor: (theme) => alpha(theme.palette.primary.main, theme.palette.action.focusOpacity),
+                                                    cursor: "pointer"
+                                                }
+                                            }}
+                                                onClick={() => navigate('/candidate/applications')}
+                                            >Applied</Typography>
+                                            <Divider />
+                                            <Typography
+                                                onClick={() => logout()}
+                                                sx={{
+                                                    fontSize: 12, fontWeight: 500, p: 0.6,
+                                                    borderRadius: "4px"
+                                                    ,
+                                                    ":hover": {
+                                                        bgcolor: (theme) => alpha(theme.palette.primary.main, theme.palette.action.focusOpacity),
+                                                        cursor: "pointer"
+                                                    }
+                                                }}
+                                            >Log out</Typography>
+                                        </Stack>
+                                    </Stack>
+                                </MenuPopover>
+                            </>
+                        ) :
+                            user?.role === "RECRUITER" ? (
+                                <>
+                                    <IconButton
+                                        ref={anchorRef}
+                                        onClick={handleOpen}
+                                    >
+                                        {/* <Iconify icon={"mingcute:user-4-fill"} sx={{ width: 32, height: 32 }} /> */}
+                                        <Typography sx={{ pr: 1, textTransform: "capitalize" }} >{user?.recruiterName}</Typography>
+                                        <Iconify icon={"fluent:ios-arrow-24-regular"} sx={{ width: 18, height: 18, transform: "rotate(270deg)" }} />
+                                    </IconButton>
+
+                                    <MenuPopover
+                                        open={open}
+                                        onClose={handleClose}
+                                        anchorEl={anchorRef.current}
+                                        sx={{
+                                            mt: 1.5,
+                                            ml: 0.75,
+                                            width: 180,
+                                            '& .MuiMenuItem-root': { px: 1, typography: 'body2', borderRadius: 0.75 },
+                                        }}
+                                    >
+                                        <Stack spacing={0.75}>
+                                            <Stack direction={'row'} alignItems={'center'} >
+                                                <Iconify icon={"mingcute:user-4-fill"} sx={{ width: 32, height: 32 }} />
+                                                <Typography sx={{ fontSize: 14, fontWeight: 500, textTransform: 'capitalize' }} >{user?.recruiterName}</Typography>
+                                            </Stack>
+                                            <Divider />
+                                            <Stack spacing={0.8}  >
+                                                <Typography sx={{
+                                                    fontSize: 12, fontWeight: 500, p: 0.6,
+                                                    borderRadius: "4px"
+                                                    ,
+                                                    ":hover": {
+                                                        bgcolor: (theme) => alpha(theme.palette.primary.main, theme.palette.action.focusOpacity),
+                                                        cursor: "pointer"
+                                                    }
+                                                }}
+                                                    onClick={() => navigate('/recruiter/dashboard')}
+                                                >Dashboard</Typography>
+                                                <Typography sx={{
+                                                    fontSize: 12, fontWeight: 500, p: 0.6,
+                                                    borderRadius: "4px"
+                                                    ,
+                                                    ":hover": {
+                                                        bgcolor: (theme) => alpha(theme.palette.primary.main, theme.palette.action.focusOpacity),
+                                                        cursor: "pointer"
+                                                    }
+                                                }}
+                                                    onClick={() => navigate('/recruiter/profile')}
+                                                >Profile</Typography>
+                                                <Typography sx={{
+                                                    fontSize: 12, fontWeight: 500, p: 0.6,
+                                                    borderRadius: "4px"
+                                                    ,
+                                                    ":hover": {
+                                                        bgcolor: (theme) => alpha(theme.palette.primary.main, theme.palette.action.focusOpacity),
+                                                        cursor: "pointer"
+                                                    }
+                                                }}
+                                                    onClick={() => navigate('/recruiter/jobs')}
+                                                >Job</Typography>
+                                                <Typography sx={{
+                                                    fontSize: 12, fontWeight: 500, p: 0.6,
+                                                    borderRadius: "4px"
+                                                    ,
+                                                    ":hover": {
+                                                        bgcolor: (theme) => alpha(theme.palette.primary.main, theme.palette.action.focusOpacity),
+                                                        cursor: "pointer"
+                                                    }
+                                                }}
+                                                    onClick={() => navigate('/recruiter/applicant')}
+                                                >Applicant</Typography>
+                                                <Divider />
+                                                <Typography
+                                                    onClick={() => logout()}
+                                                    sx={{
+                                                        fontSize: 12, fontWeight: 500, p: 0.6,
+                                                        borderRadius: "4px"
+                                                        ,
+                                                        ":hover": {
+                                                            bgcolor: (theme) => alpha(theme.palette.primary.main, theme.palette.action.focusOpacity),
+                                                            cursor: "pointer"
+                                                        }
+                                                    }}
+                                                >Log out</Typography>
+                                            </Stack>
+                                        </Stack>
+                                    </MenuPopover>
+                                </>
+                            )
+                                : (
+                                    <Button variant="contained"
+                                        onClick={() => navigate('/login')}
+                                        // onClick={handleClick}
+                                        sx={{
+                                            width: 80, fontWeight: 400,
+                                            borderRadius: 8,
+                                            letterSpacing: 0.4
+                                        }}
+                                    >Login</Button>
+                                )
+                    }
+                    {/* <Popover
+                        id={id}
+                        open={open}
+                        anchorEl={anchorEl}
+                        onClose={handleClose}
+                        anchorOrigin={{
+                            vertical: 'bottom',
+                            horizontal: 'left',
+                        }}
+                    >
+                        <Stack spacing={0.8} sx={{ p: 1.4 }} >
+                            <Typography sx={{ fontSize: 14, cursor: "pointer" }}
+                                onClick={() => navigate('/login')}
+                            >I'm looking for a job</Typography>
+                            <Typography sx={{ fontSize: 14, cursor: "pointer" }}
+                                onClick={() => navigate('/onboarding/recruiter/login')}
+                            >I'm looking for candidates</Typography>
+                        </Stack>
+                    </Popover> */}
                 </Stack>
             </Stack>
-        </Container>
+        </Container >
     )
 }
