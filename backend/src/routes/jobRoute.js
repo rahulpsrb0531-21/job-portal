@@ -1,11 +1,12 @@
 import express from "express"
 const router = express.Router()
-import { candidateSaveJob, createJob, deleteCandidateSaveJob, deleteJob, getAllJob, getJob, getJobAll, searchJob, updateJob } from '../controllers/jobController.js'
+import { candidateSaveJob, createJob, deleteCandidateSaveJob, deleteJob, getAllJob, getJob, getJobAll, recommendedJobs, searchJob, updateJob } from '../controllers/jobController.js'
 import { isAdmin, isCandidate, isRecruiter, verifyToken } from "../middleware/verifyJWT.js"
 
 router.get('/all', getJobAll)
 router.get('/get/all', getAllJob)
 router.get('/:id', getJob)
+router.get('/recommended-jobs/:id', recommendedJobs)
 // router.get('/all/saved/:candidateId', verifyToken, isCandidate, getCandidateSaveJob)
 router.post('/create', verifyToken, isRecruiter, createJob)
 router.post('/admin/create', verifyToken, isAdmin, createJob)

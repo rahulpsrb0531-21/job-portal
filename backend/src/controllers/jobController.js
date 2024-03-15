@@ -9,8 +9,13 @@ import Job from '../model/jobModel.js'
 // @access  private
 const createJob = async (req, res) => {
     try {
-        const { company, recruiterId, title, experience, jobOverview,
-            qualifications, jobRequirements, jobResponsibilities, salaryRange, salaryCurrency,
+        const { company, recruiterId, title, experience,
+            jobDescription,
+            // jobOverview,
+            // qualifications, 
+            // jobRequirements, 
+            // jobResponsibilities,
+            salaryRange, salaryCurrency,
             location,
             skills,
             employmentType,
@@ -25,10 +30,11 @@ const createJob = async (req, res) => {
                 recruiterId,
                 title,
                 experience,
-                jobOverview,
-                qualifications,
-                jobRequirements,
-                jobResponsibilities,
+                jobDescription,
+                // jobOverview,
+                // qualifications,
+                // jobRequirements,
+                // jobResponsibilities,
                 salaryRange,
                 salaryCurrency,
                 location, skills,
@@ -168,7 +174,7 @@ const getJobAll = async (req, res) => {
             jobs,
             message: 'Get All Job  successfully',
         })
-        console.log('jobs', jobs)
+        // console.log('jobs', jobs)
 
     } catch (error) {
         console.log(`***** ERROR: ${req.originalUrl, error} error`)
@@ -261,31 +267,29 @@ const deleteCandidateSaveJob = async (req, res) => {
 const searchJob = async (req, res) => {
     try {
         const { designations, locations, experience, jobType } = req.body
+        console.log(experience)
         const query = {};
 
         if (designations && designations.length > 0) {
-            // query.title = { $in: designations }
-            query.title = { $regex: new RegExp(`^${designations}$`, 'i') }
+            query.title = { $regex: designations, $options: 'i' }
         }
 
         if (locations && locations.length > 0) {
-            query.location = { $regex: new RegExp(`^${locations}$`, 'i') }
+            query.location = { $regex: locations, $options: 'i' }
         }
 
         if (experience) {
-            query.experience = { $in: experience };
+            query.experience = { $regex: experience, $options: 'i' }
         }
 
         if (jobType && jobType.length > 0) {
-            query.employmentType = { $regex: new RegExp(`^${jobType}$`, 'i') }
+            // query.employmentType = { $regex: new RegExp(`^${jobType}$`, 'i') }
+            query.employmentType = { $regex: jobType, $options: 'i' }
         }
 
-        // Execute the query
         const jobs = await Job.find(query)
+        console.log(jobs.length)
 
-        // console.log('jobs', jobs)
-
-        // Send back the search results
         res.status(200).json({
             success: true,
             jobs,
@@ -299,6 +303,44 @@ const searchJob = async (req, res) => {
         })
     }
 }
+
+// @desc    Get Job Recommended
+// @route   GET /api/Job/recommended-jobs/:id
+// @access  Public
+const recommendedJobs = async (req, res) => {
+    try {
+        const _id = req.params.id
+        let candidate = await Candidate.findOne({ _id })
+        // console.log(candidate.preferences.experience)
+
+        // Retrieve job listings that match candidate preferences
+        const recommendedJobsCursor = await Job.find({
+            // location: candidatePreferences.location,
+            // skills: { $in: candidatePreferences.skills },
+            // employmentType: candidate.preferences.employmentType
+            experience: candidate.preferences.experience,
+        });
+
+        // Iterate over the cursor to get the matching job listings
+        const recommendedJobs = [];
+        await recommendedJobsCursor.forEach(job => {
+            recommendedJobs.push(job);
+        })
+
+        res.status(200).json({
+            success: true,
+            data: recommendedJobs,
+            message: 'Get recommended jobs  successfully',
+        })
+    } catch (error) {
+        console.log(`***** ERROR: ${req.originalUrl, error} error`)
+        res.status({
+            success: false,
+            data: error
+        })
+    }
+}
+
 
 // ADMIN 
 // @desc    Get Job All
@@ -321,4 +363,4 @@ const getAllJob = async (req, res) => {
     }
 }
 
-export { createJob, updateJob, deleteJob, getJob, getJobAll, candidateSaveJob, deleteCandidateSaveJob, getAllJob, searchJob }
+export { createJob, updateJob, deleteJob, getJob, getJobAll, candidateSaveJob, deleteCandidateSaveJob, getAllJob, searchJob, recommendedJobs }

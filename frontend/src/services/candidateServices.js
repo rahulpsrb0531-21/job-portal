@@ -46,6 +46,18 @@ const updateCandidate = ({ data, id }) => {
         })
 }
 
+const updatePreference = ({ data, id }) => {
+    return server.put(`api/candidate/preference/${id}`, data)
+        .then(res => {
+            console.log(res);
+            return res.data
+        })
+        .catch(err => {
+            console.log(err.response);
+            return null
+        })
+}
+
 const deleteWokrExp = (deleteWorkData) => {
     return server.post(`api/candidate/work/experience`, deleteWorkData)
         .then(res => {
@@ -96,6 +108,6 @@ const getAllCandidate = (id) => {
 
 const candidateServices = {
     createCandidate, updateCandidate, getCandidateById, deleteWokrExp,
-    deleteEducation, getAppliedJobCandidateById, getAllCandidate, deleteResume
+    deleteEducation, getAppliedJobCandidateById, getAllCandidate, deleteResume, updatePreference
 }
 export default candidateServices

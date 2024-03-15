@@ -14,7 +14,8 @@ const navConfig = [
   },
   {
     title: 'Profile',
-    path: '/candidate/profile',
+    path: '/candidate/profile/overview',
+    // path: '/candidate/profile',
     // icon: "mdi:user-outline"
     // icon: 'system-uicons:user-male'
     icon: "clarity:user-line"

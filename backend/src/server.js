@@ -15,7 +15,8 @@ import applicationRoute from './routes/applicationRoute.js'
 import adminRoute from './routes/adminRoute.js'
 import notificationRoute from './routes/notificationRoute.js'
 import { handleResumeUpload } from './custom/uploadFile.js'
-import { handleImageUpload } from './custom/uploadImage.js'
+import { upload } from './custom/uploadImage.js'
+// import { handleImageUpload } from './custom/uploadImage.js'
 import Candidate from './model/candidateModal.js'
 import { handleDocumentUpload } from './custom/uploadDoc.js'
 
@@ -98,11 +99,31 @@ const StartServer = () => {
         }
     })
 
-    router.post('/upload-image', handleImageUpload, async (req, res) => {
-        // const filePath = req.file.path;
-        const logoPath = path.join('uploads', req.file.filename)
-        res.json({ message: 'Uploaded successfully', logoPath })
+    router.post('/uploadLogo/:id', upload.single('logo'), async (req, res) => {
+        const _id = req.params.id
+        const filePath = req.file.path
+        try {
+            const candidate = await Candidate.findOneAndUpdate(
+                { _id: _id },
+                { $set: { candidateImage: filePath } },
+                { new: true }
+            )
+            console.log("Successful")
+            if (!candidate) {
+                return res.status(404).json({ error: 'Candidate not found' });
+            }
+
+            res.json({ success: true, updatedCandidate: candidate });
+        } catch (error) {
+            console.error('Error updating candidate image', error);
+            res.status(500).json({ error: 'Internal Server Error' });
+        }
     })
+    // router.post('/upload-image', handleImageUpload, async (req, res) => {
+    //     // const filePath = req.file.path;
+    //     const logoPath = path.join('uploads', req.file.filename)
+    //     res.json({ message: 'Uploaded successfully', logoPath })
+    // })
 
     router.post('/upload/candidate/document/:id/:docName', handleDocumentUpload, async (req, res) => {
         const _id = req.params.id

@@ -33,6 +33,12 @@ import UpdateRecruiterByAdmin from './pages/adminDashboard/recruiter/updateRecru
 import AppliedJobDetails from './pages/candidate/appliedJobDetails'
 import NotificationList from './pages/adminDashboard/notification/notificationList'
 import PrivacyPage from './pages/privacyPage'
+import ProfilePageLayout from './pages/candidate/profilePageLayout'
+import Overview from './components/profile/overview'
+import { CandidateProfile } from './components/profile/condidateProfile'
+import Resume from './pages/candidate/resume'
+import PreferencesPage from './pages/candidate/preferencePage'
+import DocumentUpload from './components/profile/documentUpload'
 
 export default function Router() {
     const { user } = useSelector((state) => state.auth)
@@ -40,7 +46,7 @@ export default function Router() {
         user === 'RECRUITER' ? " " :
             {
                 path: '/recruiter',
-                element: <RecruiterLayout />,
+                element: <MainLayout />,
                 children: [
                     { path: "dashboard", element: <DashboardPage /> },
                     { path: "jobs", element: <RecruiterJobs /> },
@@ -56,7 +62,17 @@ export default function Router() {
             element: <MainLayout />,
             children: [
                 { path: "dashboard", element: <HomePage /> },
-                { path: "profile", element: <ProfilePage /> },
+                // { path: "profile", element: <ProfilePage /> },
+                {
+                    path: "profile", element: <ProfilePageLayout />,
+                    children: [
+                        { path: "overview", element: <Overview /> },
+                        { path: "edit-profile", element: <CandidateProfile /> },
+                        { path: "resume", element: <Resume /> },
+                        { path: "preferences", element: <PreferencesPage /> },
+                        { path: "other-documents", element: <DocumentUpload /> },
+                    ]
+                },
                 { path: "lists", element: <JobPage /> },
                 { path: ":jobName", element: <JobDetails /> },
                 { path: "applications", element: <AppliedPage /> },

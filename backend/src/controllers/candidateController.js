@@ -4,6 +4,7 @@ import generateToken from "../custom/generateToken.js"
 import Candidate from "../model/candidateModal.js"
 import Job from "../model/jobModel.js"
 import Application from "../model/applicationSchema.js"
+import { candidateNav } from "../custom/customNavLinks.js"
 
 
 // @desc    Register Candidate
@@ -22,7 +23,8 @@ const registerCandidate = async (req, res) => {
             password,
             role,
             privacyChecked,
-            resume: ""
+            resume: "",
+            navConfig: candidateNav
         })
         res.status(200).json({
             success: true,
@@ -168,6 +170,77 @@ const updateCandidate = async (req, res) => {
         res.status(200).json({
             success: false,
             data: error,
+        });
+    }
+}
+// @desc    Update Candidate Preference
+// @route   PUT /api/candidate/preference/:id
+// @access  private
+const updatePreference = async (req, res) => {
+    try {
+        const _id = req.params.id
+        const { locations, skills, experience, employmentType } = req.body
+
+        // const updateFields = {}
+        const updatedCandidate = await Candidate.findOneAndUpdate(
+            { _id: _id },
+            {
+                $set: {
+                    'preferences.locations': locations,
+                    'preferences.skills': skills,
+                    'preferences.experience': experience,
+                    'preferences.employmentType': employmentType
+                }
+            },
+            { new: true }
+        )
+
+        if (!updatedCandidate) {
+            return res.status(404).json({ error: 'Candidate not found.' });
+        }
+        // Update candidate document with new preferences object
+        // const result = await Candidate.updateOne({ _id: _id }, {
+        //     $set: {
+        //         'preferences.locations': locations,
+        //         'preferences.skills': skills,
+        //         'preferences.experience':experience,
+        //         'preferences.jobType': jobType
+        //     }
+        // });
+
+        // if (result.modifiedCount === 0) {
+        //     throw new Error('Candidate preferences not found');
+        // }
+        // console.log('result', result)
+
+        // const updatedCandidate = await Candidate.findOneAndUpdate(
+        //     { _id: _id },
+        //     { $set: updateFields },
+        //     { new: true }
+        // )
+
+        // if (!updatedCandidate) {
+        //     return res.status(404).json({ error: 'Candidate not found.' });
+        // }
+        // Update candidate document with new preferences object
+        // const result = await Candidate.updateOne({ _id });
+
+        // if (result.modifiedCount === 0) {
+        //     throw new Error('Candidate preferences not found');
+        // }
+
+        // res.json({ message: 'Candidate updated successfully.', updatedCandidate })
+        res.status(200).json({
+            success: true,
+            updateCandidate,
+            message: 'Candidate updated successfully.'
+        })
+
+    } catch (error) {
+        console.log(`***** ERROR : ${req.originalUrl, error} error`);
+        res.status(200).json({
+            success: false,
+            msg: error,
         });
     }
 }
@@ -372,5 +445,5 @@ const getAllCandidate = async (req, res) => {
 export {
     registerCandidate, loginCandidate, getCandidateByid, updateCandidate, candidateDeleteWorkExpr,
     candidateDeleteEducation, getCandidateAppliedJob, getResumeCandidateById,
-    getAllCandidate, candidateDeleteResume
+    getAllCandidate, candidateDeleteResume, updatePreference
 }

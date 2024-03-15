@@ -17,30 +17,43 @@ const uploadsPath = path.join(__dirname, 'uploads')
 // });
 
 // Set up multer for file upload
+// const storage = multer.diskStorage({
+//     destination: (req, file, cb) => {
+//         cb(null, 'uploads/');
+//     },
+//     filename: (req, file, cb) => {
+//         cb(null, file.originalname);
+//     },
+// });
+
+
+// // const uploadImage = multer({ storage: storage });
+// // export { uploadImage }
+
+// const upload = multer({ storage });
+
+// Function to handle storing the resume file
+// function handleImageUpload(req, res, next) {
+//     upload.single('image')(req, res, function (err) {
+//         if (err instanceof multer.MulterError) {
+//             return res.status(400).json({ message: 'Image upload error' });
+//         } else if (err) {
+//             return res.status(500).json({ message: 'Internal server error' });
+//         }
+//         next()
+//     });
+// }
+// export { handleImageUpload }
+
+// Set up storage for logo uploads
 const storage = multer.diskStorage({
-    destination: (req, file, cb) => {
+    destination: function (req, file, cb) {
         cb(null, 'uploads/');
     },
-    filename: (req, file, cb) => {
+    filename: function (req, file, cb) {
         cb(null, file.originalname);
     },
 });
 
-
-// const uploadImage = multer({ storage: storage });
-// export { uploadImage }
-
-const upload = multer({ storage });
-
-// Function to handle storing the resume file
-function handleImageUpload(req, res, next) {
-    upload.single('image')(req, res, function (err) {
-        if (err instanceof multer.MulterError) {
-            return res.status(400).json({ message: 'Image upload error' });
-        } else if (err) {
-            return res.status(500).json({ message: 'Internal server error' });
-        }
-        next()
-    });
-}
-export { handleImageUpload }
+const upload = multer({ storage: storage })
+export { upload }

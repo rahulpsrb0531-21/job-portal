@@ -1,9 +1,9 @@
-import { useCallback, useEffect, useState } from "react"
+import { Children, useCallback, useEffect, useState } from "react"
 import { server } from "../../utils/server"
 import { useDropzone } from 'react-dropzone'
 import * as Yup from "yup"
 import { useFormik, Form, FormikProvider, FieldArray, Field, getIn } from "formik"
-import { Box, Button, MenuItem, Stack, TextField, Typography, Select, Chip, FormHelperText, FormControl, RadioGroup, FormControlLabel, Radio } from "@mui/material";
+import { Box, Button, MenuItem, Stack, TextField, Typography, Select, Chip, FormHelperText, FormControl, RadioGroup, FormControlLabel, Radio, Container } from "@mui/material";
 import recruiterServices from "../../services/recruiterServices"
 import { useSnackbar } from "notistack"
 import { useSelector } from "react-redux"
@@ -11,7 +11,7 @@ import { useNavigate } from "react-router-dom"
 import CustomDescription from "../../components/customDescription"
 import 'react-quill/dist/quill.snow.css'
 import jobServices from "../../services/jobServices"
-import { employmentTypeData, experienceData } from "../../utils/basicData"
+import { currencyData, employmentTypeData, experienceData } from "../../utils/basicData"
 
 
 export default function CreateJob() {
@@ -62,10 +62,11 @@ export default function CreateJob() {
         // recruiterId
         title: Yup.string().required("Title is required"),
         experience: Yup.string().required("Experience is required"),
-        jobOverview: Yup.string().required("Job Overview is required"),
-        qualifications: Yup.string().required("Qualifications is required"),
-        jobRequirements: Yup.string().required("Job Requirements is required"),
-        jobResponsibilities: Yup.string().required("Job Responsibilities is required"),
+        jobDescription: Yup.string().required("Job Description is required"),
+        // jobOverview: Yup.string().required("Job Overview is required"),
+        // qualifications: Yup.string().required("Qualifications is required"),
+        // jobRequirements: Yup.string().required("Job Requirements is required"),
+        // jobResponsibilities: Yup.string().required("Job Responsibilities is required"),
         salaryMin: Yup.number().required("Salary Minimum is required"),
         salaryMax: Yup.number().required("Salary Maximum is required"),
         // salaryCurrency: Yup.string().required("Salary Currency is required"),
@@ -83,10 +84,11 @@ export default function CreateJob() {
         initialValues: {
             title: "",
             experience: "",
-            jobOverview: "",
-            qualifications: "",
-            jobRequirements: "",
-            jobResponsibilities: "",
+            jobDescription: "",
+            // jobOverview: "",
+            // qualifications: "",
+            // jobRequirements: "",
+            // jobResponsibilities: "",
             salaryMin: 0,
             salaryMax: 0,
             // salaryCurrency: "",
@@ -108,10 +110,11 @@ export default function CreateJob() {
                 recruiterId: user?._id,
                 title: (v?.title).charAt(0).toUpperCase() + (v?.title).substring(1),
                 experience: v?.experience,
-                jobOverview: v?.jobOverview,
-                qualifications: v?.qualifications,
-                jobRequirements: v?.jobRequirements,
-                jobResponsibilities: v?.jobResponsibilities,
+                jobDescription: v?.jobDescription,
+                // jobOverview: v?.jobOverview,
+                // qualifications: v?.qualifications,
+                // jobRequirements: v?.jobRequirements,
+                // jobResponsibilities: v?.jobResponsibilities,
                 salaryRange: {
                     minimum: v?.salaryMin,
                     maximum: v?.salaryMax
@@ -160,199 +163,189 @@ export default function CreateJob() {
         setFieldValue, resetForm
     } = formik
 
-    const currencyData = [
-        {
-            name: "United States Dollar $",
-            symbol: "$"
-        },
-        {
-            name: "Euro €",
-            symbol: "€"
-        },
-        {
-            name: "Japanese Yen ¥",
-            symbol: "¥"
-        },
-        {
-            name: "British Pound Sterling  £",
-            symbol: "£"
-        },
-        {
-            name: "Swiss Franc  CHF",
-            symbol: "CHF"
-        },
-        {
-            name: "Canadian Dollar  CA$",
-            symbol: "CA$"
-        },
-        {
-            name: "Australian Dollar  A$",
-            symbol: "A$"
-        },
-        {
-            name: "Chinese Yuan Renminbi ¥",
-            symbol: "¥"
-        },
-        {
-            name: "Swedish Krona SEK",
-            symbol: "SEK"
-        },
-        {
-            name: "New Zealand Dollar NZ$",
-            symbol: "NZ$"
-        },
-        {
-            name: "Norwegian Krone kr",
-            symbol: "kr"
-        },
-        {
-            name: "Danish Krone kr",
-            symbol: "kr"
-        },
-        {
-            name: "Singapore Dollar S$",
-            symbol: "S$"
-        },
-        {
-            name: "Hong Kong Dollar HK$",
-            symbol: "HK$"
-        },
-        {
-            name: "South Korean Won ₩",
-            symbol: "₩"
-        },
-        {
-            name: "Indian Rupee ₹",
-            symbol: "₹"
-        },
-        {
-            name: "Brazilian Real R$",
-            symbol: "R$"
-        },
-        {
-            name: "Russian Ruble ₽",
-            symbol: "₽"
-        },
-        {
-            name: "South African Rand R",
-            symbol: "R"
-        },
-        {
-            name: "Turkish Lira ₺",
-            symbol: "₺"
-        },
-        {
-            name: "Mexican Peso $",
-            symbol: "$"
-        },
-        {
-            name: "Israeli New Shekel ₪",
-            symbol: "₪"
-        },
-        {
-            name: "Emirati Dirham د.إ",
-            symbol: "د.إ"
-        },
-        {
-            name: "Saudi Riyal ﷼",
-            symbol: "﷼"
-        },
-        {
-            name: "Indonesian Rupiah Rp",
-            symbol: "Rp"
-        },
-        {
-            name: "Malaysian Ringgit RM",
-            symbol: "RM"
-        },
-        {
-            name: "Thai Baht ฿",
-            symbol: "฿"
-        },
-        {
-            name: "Egyptian Pound E£",
-            symbol: "E£"
-        },
-        {
-            name: "Polish Złoty zł",
-            symbol: "zł"
-        },
-        {
-            name: "Czech Koruna Kč",
-            symbol: "Kč"
+    const handleKeyPress = (event) => {
+        if (event.key === 'Enter') {
+            event.preventDefault(); // Prevent default behavior for Enter key
         }
-    ]
+    };
 
 
     return (
-        <Box sx={{ pb: 6 }}>
+        <Container maxWidth='xl' >
             <FormikProvider value={formik}>
                 <Form autoComplete="off" noValidate onSubmit={handleSubmit}>
-                    <Stack justifyContent={'space-between'} direction={'row'}
+                    <Stack
+                    // spacing={3.6} 
+                    // sx={{ width: "100%" }} 
                     >
-                        <Box sx={{
-                            bgcolor: 'black', width: '18%', textAlign: "center", px: 1,
-                            display: { xs: "none", sm: "none", md: "block", lg: "block" }
-                        }}>
-                        </Box>
-                        <Box sx={{ width: { xs: '100%', sm: "100%", md: "80%", lg: "80%" }, pt: 1 }} >
-                            <Typography variant="companyTitle"
-                                sx={{ pl: 1 }}
-                            >Let's create job</Typography>
-                            <Stack spacing={2} sx={{
-                                width: { xs: "100%", lg: '50%' },
-                                bgcolor: 'rgb(255, 255, 255)',
-                                borderRadius: 0.4, p: 1, pt: 4
-                            }} >
-                                <Stack>
-                                    <Typography variant="profilePageTitle" >title*</Typography>
+                        {/* <Stack direction={{ xs: "column", lg: 'row' }} sx={{
+                            pt: 4, borderBottom: "1px solid #eee",
+                            height: { xs: 200, lg: 120 }
+                        }} spacing={{ xs: 2, lg: 4 }} >
+                            <Stack sx={{ width: { xs: "100%", sm: "100%", md: "30%", lg: "30%" } }} spacing={0.1} >
+                                <Typography
+                                    sx={{ fontSize: 22, fontWeight: 600 }}
+                                >Job Title</Typography>
+                                <Typography variant="profilePageSubText" sx={{ pb: 0.8 }} >Tell us about yourself so startups know who you are.</Typography>
+                            </Stack>
+                            <Stack
+                                sx={{ width: { xs: "94%", sm: "94%", md: "60%", lg: "60%" } }}
+                                spacing={2.6} >
+                                <TextField
+                                    sx={{
+                                        ".MuiInputBase-root": { borderRadius: '4px' },
+                                        '& > :not(style)': { m: 0 },
+                                        "& .MuiInputLabel-root": { fontSize: 15 },
+                                    }}
+                                    {...getFieldProps("title")}
+                                    error={Boolean(touched.title && errors.title)}
+                                    helperText={touched.title && errors.title}
+                                    label="Title*"
+                                />
+                            </Stack>
+                        </Stack> */}
+                        <Wrapper header={"Job Title"} subText={"A job Title must describe one position only."}
+                            Children={(
+                                <TextField
+                                    sx={{
+                                        ".MuiInputBase-root": { borderRadius: '4px' },
+                                        '& > :not(style)': { m: 0 },
+                                        "& .MuiInputLabel-root": { fontSize: 15 },
+                                    }}
+                                    {...getFieldProps("title")}
+                                    error={Boolean(touched.title && errors.title)}
+                                    helperText={touched.title && errors.title}
+                                    label="Title*"
+                                />
+                            )}
+                        />
+
+                        <Wrapper header={"Job description"} subText={"Provide a short job overview about the job,Keep it short and to the point."}
+                            Children={(
+                                <CustomDescription
+                                    // placeholder="Job Overview*" 
+                                    value={values.jobDescription} setFieldValue={(value) => setFieldValue("jobDescription", value === "<p><br></p>" ? '' : value)}
+                                    error={touched.jobDescription && errors.jobDescription} />
+                            )}
+                        />
+                        {/* <CustomDescription placeholder="Job Overview*" value={values.jobOverview} setFieldValue={(value) => setFieldValue("jobOverview", value === "<p><br></p>" ? '' : value)}
+                                    error={touched.jobOverview && errors.jobOverview} />
+                                <CustomDescription placeholder="Qualifications*" value={values.qualifications} setFieldValue={(value) => setFieldValue("qualifications", value === "<p><br></p>" ? '' : value)}
+                                    error={touched.qualifications && errors.qualifications} />
+                                <CustomDescription placeholder="Job Requirements*" value={values.jobRequirements} setFieldValue={(value) => setFieldValue("jobRequirements", value === "<p><br></p>" ? '' : value)}
+                                    error={touched.jobRequirements && errors.jobRequirements} />
+                                <CustomDescription placeholder="Job Responsibilities*" value={values.jobResponsibilities} setFieldValue={(value) => setFieldValue("jobResponsibilities", value === "<p><br></p>" ? '' : value)}
+                                    error={touched.jobResponsibilities && errors.jobResponsibilities} /> */}
+
+                        {/* <TextField
+                                    sx={{
+                                        ".MuiInputBase-root": { borderRadius: '4px' },
+                                        '& > :not(style)': { m: 0 },
+                                        "& .MuiInputLabel-root": { fontSize: 15 }
+                                    }}
+                                    label="Job Overview*"
+                                    multiline={true} rows={8}
+                                    onKeyPress={handleKeyPress}
+                                    {...getFieldProps("jobOverview")}
+                                    error={Boolean(touched.jobOverview && errors.jobOverview)}
+                                    helperText={touched.jobOverview && errors.jobOverview}
+                                /> */}
+                        {/* <TextField
+                                    sx={{
+                                        ".MuiInputBase-root": { borderRadius: '4px' },
+                                        '& > :not(style)': { m: 0 },
+                                        "& .MuiInputLabel-root": { fontSize: 15 }
+                                    }}
+                                    label="Qualifications*"
+                                    multiline={true} rows={8}
+                                    onKeyPress={handleKeyPress}
+                                    {...getFieldProps("qualifications")}
+                                    error={Boolean(touched.qualifications && errors.qualifications)}
+                                    helperText={touched.qualifications && errors.qualifications}
+                                /> */}
+                        {/* <TextField
+                                    sx={{
+                                        ".MuiInputBase-root": { borderRadius: '4px' },
+                                        '& > :not(style)': { m: 0 },
+                                        "& .MuiInputLabel-root": { fontSize: 15 }
+                                    }}
+                                    label="Job Requirements*"
+                                    multiline={true} rows={8}
+                                    onKeyPress={handleKeyPress}
+                                    {...getFieldProps("jobRequirements")}
+                                    error={Boolean(touched.jobRequirements && errors.jobRequirements)}
+                                    helperText={touched.jobRequirements && errors.jobRequirements}
+                                /> */}
+                        {/* <TextField
+                                    sx={{
+                                        ".MuiInputBase-root": { borderRadius: '4px' },
+                                        '& > :not(style)': { m: 0 },
+                                        "& .MuiInputLabel-root": { fontSize: 15 }
+                                    }}
+                                    label="Job Responsibilities*"
+                                    multiline={true} rows={8}
+                                    onKeyPress={handleKeyPress}
+                                    {...getFieldProps("jobResponsibilities")}
+                                    error={Boolean(touched.jobResponsibilities && errors.jobResponsibilities)}
+                                    helperText={touched.jobResponsibilities && errors.jobResponsibilities}
+                                /> */}
+
+
+                        {/* <Stack>
                                     <TextField
-                                        sx={{ ".MuiInputBase-root": { borderRadius: "4px" }, }}
-                                        {...getFieldProps("title")}
-                                        error={Boolean(touched.title && errors.title)}
-                                        helperText={touched.title && errors.title}
-                                    />
-                                </Stack>
-                                <Stack>
-                                    <Typography variant="profilePageTitle">Job Overview*</Typography>
-                                    <CustomDescription value={values.jobOverview} setFieldValue={(value) => setFieldValue("jobOverview", value === "<p><br></p>" ? '' : value)}
-                                        error={touched.jobOverview && errors.jobOverview} />
-                                </Stack>
-                                <Stack  >
-                                    <Typography variant="profilePageTitle" >Qualifications*</Typography>
-                                    <CustomDescription value={values.qualifications} setFieldValue={(value) => setFieldValue("qualifications", value === "<p><br></p>" ? '' : value)}
-                                        error={touched.qualifications && errors.qualifications} />
-                                </Stack>
-                                <Stack >
-                                    <Typography variant="profilePageTitle" >Job Requirements*</Typography>
-                                    <CustomDescription value={values.jobRequirements} setFieldValue={(value) => setFieldValue("jobRequirements", value === "<p><br></p>" ? '' : value)}
-                                        error={touched.jobRequirements && errors.jobRequirements} />
-                                </Stack>
-                                <Stack>
-                                    <Typography variant="profilePageTitle" >Job Responsibilities*</Typography>
-                                    <CustomDescription value={values.jobResponsibilities} setFieldValue={(value) => setFieldValue("jobResponsibilities", value === "<p><br></p>" ? '' : value)}
-                                        error={touched.jobResponsibilities && errors.jobResponsibilities} />
-                                </Stack>
-                                <Stack>
-                                    <Typography variant="profilePageTitle" >Years of experience*</Typography>
-                                    <Select
-                                        sx={{ ".css-k6dkf7-MuiSelect-select-MuiInputBase-input-MuiOutlinedInput-input": { p: 2 }, borderRadius: "4px" }}
-                                        value={values.experience} {...getFieldProps('experience')}
-                                    >
+                                        select
+                                        sx={{
+                                            ".MuiInputBase-root": { borderRadius: '4px' },
+                                            '& > :not(style)': { m: 0 },
+                                            "& .MuiInputLabel-root": { fontSize: 15 },
+                                            width: '100%'
+                                        }}
+                                        label="Years of experience*"
+                                        value={values.experience}
+                                        {...getFieldProps('experience')} >
                                         {
                                             experienceData?.map((data, idx) => (
                                                 <MenuItem key={idx} value={data} >{data}</MenuItem>
                                             ))
                                         }
-                                    </Select>
+                                    </TextField>
+                                    <FormHelperText>{touched.experience && errors.experience}</FormHelperText>
+                                </Stack> */}
+                        <Wrapper
+                            header={"Experience"} subText={""}
+                            Children={(
+                                <Stack>
+                                    <TextField
+                                        select
+                                        sx={{
+                                            ".MuiInputBase-root": { borderRadius: '4px' },
+                                            '& > :not(style)': { m: 0 },
+                                            "& .MuiInputLabel-root": { fontSize: 15 },
+                                            width: '100%'
+                                        }}
+                                        label="Years of experience*"
+                                        value={values.experience}
+                                        {...getFieldProps('experience')} >
+                                        {
+                                            experienceData?.map((data, idx) => (
+                                                <MenuItem key={idx} value={data} >{data}</MenuItem>
+                                            ))
+                                        }
+                                    </TextField>
                                     <FormHelperText>{touched.experience && errors.experience}</FormHelperText>
                                 </Stack>
-                                <Stack sx={{ width: { xs: "100%", lg: "100%" } }} >
-                                    <Typography variant="profilePageTitle" >Locations*</Typography>
-                                    <Stack direction={'row'} flexWrap={'wrap'} spacing={1} useFlexGap sx={{ pb: 1 }} >
+                            )}
+                        />
+
+                        {/* locations */}
+                        <Wrapper
+                            header={"Locations"} subText={""}
+                            Children={(
+                                <Stack>
+                                    <Stack direction={'row'} flexWrap={'wrap'} spacing={1} useFlexGap sx={{ pb: 1 }}  >
                                         {
-                                            locations.map((location, idx) => (
-                                                <Chip label={location} key={idx} sx={{ borderRadius: "4px" }}
+                                            locations.map((skill, idx) => (
+                                                <Chip label={skill} key={idx} sx={{ borderRadius: "4px" }}
                                                     onDelete={() => removeLocation(idx)}
                                                 />
                                             ))
@@ -360,17 +353,38 @@ export default function CreateJob() {
                                     </Stack>
                                     <FormControl>
                                         <TextField
-                                            sx={{ ".MuiInputBase-root": { borderRadius: "4px" } }}
+                                            sx={{
+                                                ".MuiInputBase-root": { borderRadius: '4px' },
+                                                '& > :not(style)': { m: 0 },
+                                                "& .MuiInputLabel-root": { fontSize: 15 }
+                                            }}
+                                            label="Location"
                                             value={newLocation}
-                                            onChange={(e) => setNewLocation(e.target.value)}
+                                            onChange={(e) => { setNewLocation(e.target.value) }}
+                                            onKeyPress={handleKeyPress}
+                                            error={Boolean(touched.location && errors.location)}
+                                            helperText={touched.location && errors.location}
                                         />
-                                        <Button variant="blackButton" sx={{ fontSize: 12, width: 124, bgcolor: 'black', fontWeight: 500, mt: 1 }}
+                                        <Button size="small"
+                                            // type="submit"
+                                            variant="contained"
+                                            sx={{
+                                                width: 142,
+                                                fontWeight: 400,
+                                                borderRadius: 8,
+                                                letterSpacing: 0.4, mt: 1
+                                            }}
                                             onClick={() => addLocation()}
                                         >Add Location</Button>
                                     </FormControl>
                                 </Stack>
+                            )}
+                        />
+                        {/* skills  */}
+                        <Wrapper
+                            header={"Skills"} subText={""}
+                            Children={(
                                 <Stack>
-                                    <Typography variant="profilePageTitle" >Skills*</Typography>
                                     <Stack direction={'row'} flexWrap={'wrap'} spacing={1} useFlexGap sx={{ pb: 1 }}  >
                                         {
                                             skillValues.map((skill, idx) => (
@@ -382,22 +396,48 @@ export default function CreateJob() {
                                     </Stack>
                                     <FormControl>
                                         <TextField
-                                            sx={{ ".MuiInputBase-root": { borderRadius: "4px" } }}
+                                            sx={{
+                                                ".MuiInputBase-root": { borderRadius: '4px' },
+                                                '& > :not(style)': { m: 0 },
+                                                "& .MuiInputLabel-root": { fontSize: 15 }
+                                            }}
+                                            label="skill"
                                             value={newSkillValue}
+                                            onKeyPress={handleKeyPress}
                                             onChange={(e) => setNewSkillValue(e.target.value)}
                                             error={Boolean(touched.skills && errors.skills)}
                                             helperText={touched.skills && errors.skills}
                                         />
-                                        <Button variant="blackButton" type="submit"
-                                            sx={{ fontSize: 12, width: 124, bgcolor: 'black', fontWeight: 500, mt: 1 }}
+                                        <Button size="small"
+                                            // type="submit"
+                                            variant="contained"
+                                            sx={{
+                                                width: 120,
+                                                fontWeight: 400,
+                                                borderRadius: 8,
+                                                letterSpacing: 0.4, mt: 1
+                                            }}
                                             onClick={() => addSkill()}
                                         >Add Skill</Button>
                                     </FormControl>
                                 </Stack>
-                                <Stack spacing={2}>
+                            )}
+                        />
+
+
+                        {/* Currency   */}
+                        <Wrapper
+                            header={"Currency"} subText={""}
+                            Children={(
+                                <Stack>
                                     <FormControl>
-                                        <Typography variant="profilePageTitle" >Currency*</Typography>
-                                        <Select sx={{ ".css-k6dkf7-MuiSelect-select-MuiInputBase-input-MuiOutlinedInput-input": { p: 2 }, borderRadius: "4px" }}
+                                        <TextField select sx={{
+                                            ".MuiInputBase-root": { borderRadius: '4px' },
+                                            '& > :not(style)': { m: 0 },
+                                            "& .MuiInputLabel-root": { fontSize: 15 },
+                                            width: '100%'
+                                        }}
+                                            label="Currency"
                                             value={values.currencyName}
                                             onChange={(e) => {
                                                 const selectedCurrency = currencyData.find(currency => currency.name === e.target.value);
@@ -412,36 +452,270 @@ export default function CreateJob() {
                                                     <MenuItem key={idx} value={data?.name} >{data?.name}</MenuItem>
                                                 ))
                                             }
-                                        </Select>
+                                        </TextField>
                                         <FormHelperText>{touched.currencyName && errors.currencyName}</FormHelperText>
                                     </FormControl>
-                                    <Stack >
+                                    <Stack direction={'row'} alignItems={'center'} spacing={1}
+                                    // sx={{ pt: 2 }}
+                                    >
+                                        <TextField
+                                            sx={{
+                                                ".MuiInputBase-root": { borderRadius: '4px' },
+                                                '& > :not(style)': { m: 0 },
+                                                "& .MuiInputLabel-root": { fontSize: 15 },
+                                            }}
+                                            {...getFieldProps("salaryMin")}
+                                            onKeyPress={handleKeyPress}
+                                            error={Boolean(touched.salaryMin && errors.salaryMin)}
+                                            helperText={touched.salaryMin && errors.salaryMin}
+                                            label="Minimum*"
+                                        />
+                                        <TextField
+                                            sx={{
+                                                ".MuiInputBase-root": { borderRadius: '4px' },
+                                                '& > :not(style)': { m: 0 },
+                                                "& .MuiInputLabel-root": { fontSize: 15 },
+                                            }}
+                                            {...getFieldProps("salaryMax")}
+                                            onKeyPress={handleKeyPress}
+                                            error={Boolean(touched.salaryMax && errors.salaryMax)}
+                                            helperText={touched.salaryMax && errors.salaryMax}
+                                            label="Miximum*"
+                                        />
+                                    </Stack>
+                                </Stack>
+                            )}
+                        />
+
+
+                        {/* Type of position  */}
+                        <Wrapper
+                            header={"Type of position"} subText={""}
+                            Children={(
+                                <Stack>
+                                    <TextField
+                                        select
+                                        sx={{
+                                            ".MuiInputBase-root": { borderRadius: '4px' },
+                                            '& > :not(style)': { m: 0 },
+                                            "& .MuiInputLabel-root": { fontSize: 15 },
+                                            width: '100%'
+                                        }}
+                                        label="Type of position"
+                                        value={values.employmentType}
+                                        {...getFieldProps('employmentType')} >
+                                        {
+                                            employmentTypeData?.map((data, idx) => (
+                                                <MenuItem key={idx} value={data} >{data}</MenuItem>
+                                            ))
+                                        }
+                                    </TextField>
+                                    <FormHelperText>{touched.employmentType && errors.employmentType}</FormHelperText>
+                                </Stack>
+                            )}
+                        />
+
+                        {/* visa Sponsorship   */}
+                        <Wrapper
+                            header={"Visa Sponsorship"} subText={""}
+                            Children={(
+                                <Box>
+                                    <FormControl>
+                                        <RadioGroup
+                                            row
+                                            aria-labelledby="demo-controlled-radio-buttons-group"
+                                            name="controlled-radio-buttons-group"
+                                            value={values?.visaSponsorship}
+                                            onChange={(e) => setFieldValue("visaSponsorship", e.target.value)}
+                                        >
+                                            <FormControlLabel
+                                                value={true} control={<Radio size="sm" />}
+                                                label={<Typography sx={{ fontSize: 14, fontWeight: 600, ml: -0.6 }} >Yes</Typography>}
+                                            />
+                                            <FormControlLabel value={false} control={<Radio size="sm" />}
+                                                label={<Typography sx={{ fontSize: 14, fontWeight: 600, ml: -0.6 }} >No</Typography>}
+                                            />
+                                        </RadioGroup>
+                                    </FormControl>
+                                    <FormHelperText>{touched.visaSponsorship && errors.visaSponsorship}</FormHelperText>
+                                </Box>
+                            )}
+                        />
+
+                        {/* visa Sponsorship   */}
+                        <Wrapper
+                            header={"Relocated"} subText={""}
+                            Children={(
+                                <Box>
+                                    <FormControl>
+                                        <RadioGroup
+                                            row
+                                            aria-labelledby="demo-controlled-radio-buttons-group"
+                                            name="controlled-radio-buttons-group"
+                                            value={values?.reLocation}
+                                            onChange={(e) => setFieldValue("reLocation", e.target.value)}
+                                        >
+                                            <FormControlLabel value={true} control={<Radio size="sm" />}
+                                                label={<Typography sx={{ fontSize: 14, fontWeight: 600, ml: -0.6 }} >Yes</Typography>} />
+                                            <FormControlLabel value={false} control={<Radio size="sm" />}
+                                                label={<Typography sx={{ fontSize: 14, fontWeight: 600, ml: -0.6 }} >No</Typography>}
+                                            />
+                                        </RadioGroup>
+                                    </FormControl>
+                                    <FormHelperText>{touched.reLocation && errors.reLocation}</FormHelperText>
+                                </Box>
+                            )}
+                        />
+
+
+
+                        {/* <Stack>
+                                    <Stack direction={'row'} flexWrap={'wrap'} spacing={1} useFlexGap sx={{ pb: 1 }}  >
+                                        {
+                                            locations.map((skill, idx) => (
+                                                <Chip label={skill} key={idx} sx={{ borderRadius: "4px" }}
+                                                    onDelete={() => removeLocation(idx)}
+                                                />
+                                            ))
+                                        }
+                                    </Stack>
+                                    <FormControl>
+                                        <TextField
+                                            sx={{
+                                                ".MuiInputBase-root": { borderRadius: '4px' },
+                                                '& > :not(style)': { m: 0 },
+                                                "& .MuiInputLabel-root": { fontSize: 15 }
+                                            }}
+                                            label="Location*"
+                                            value={newLocation}
+                                            onChange={(e) => setNewLocation(e.target.value)}
+                                            error={Boolean(touched.location && errors.location)}
+                                            helperText={touched.location && errors.location}
+                                        />
+                                        <Button size="small"
+                                            type="submit"
+                                            variant="contained"
+                                            sx={{
+                                                width: 142,
+                                                fontWeight: 400,
+                                                borderRadius: 8,
+                                                letterSpacing: 0.4, mt: 1
+                                            }}
+                                            onClick={() => addLocation()}
+                                        >Add Location</Button>
+                                    </FormControl>
+                                </Stack> */}
+
+                        {/* <Stack>
+                                    <Stack direction={'row'} flexWrap={'wrap'} spacing={1} useFlexGap sx={{ pb: 1 }}  >
+                                        {
+                                            skillValues.map((skill, idx) => (
+                                                <Chip label={skill} key={idx} sx={{ borderRadius: "4px" }}
+                                                    onDelete={() => removeSkill(idx)}
+                                                />
+                                            ))
+                                        }
+                                    </Stack>
+                                    <FormControl>
+                                        <TextField
+                                            sx={{
+                                                ".MuiInputBase-root": { borderRadius: '4px' },
+                                                '& > :not(style)': { m: 0 },
+                                                "& .MuiInputLabel-root": { fontSize: 15 }
+                                            }}
+                                            label="Skill*"
+                                            value={newSkillValue}
+                                            onChange={(e) => setNewSkillValue(e.target.value)}
+                                            error={Boolean(touched.skills && errors.skills)}
+                                            helperText={touched.skills && errors.skills}
+                                        />
+                                        <Button size="small"
+                                            type="submit"
+                                            variant="contained"
+                                            sx={{
+                                                width: 120,
+                                                fontWeight: 400,
+                                                borderRadius: 8,
+                                                letterSpacing: 0.4, mt: 1
+                                            }}
+                                            onClick={() => addSkill()}
+                                        >Add Skill</Button>
+                                    </FormControl>
+                                </Stack> */}
+
+                        {/* <Stack spacing={2}>
+                                    <FormControl>
+                                        <TextField select sx={{
+                                            ".MuiInputBase-root": { borderRadius: '4px' },
+                                            '& > :not(style)': { m: 0 },
+                                            "& .MuiInputLabel-root": { fontSize: 15 },
+                                            width: '100%'
+                                        }}
+                                            label="Currency*"
+                                            value={values.currencyName}
+                                            onChange={(e) => {
+                                                const selectedCurrency = currencyData.find(currency => currency.name === e.target.value);
+                                                if (selectedCurrency) {
+                                                    setFieldValue("currencyName", selectedCurrency?.name)
+                                                    setFieldValue("currencySymbol", selectedCurrency?.symbol)
+                                                }
+                                            }}
+                                        >
+                                            {
+                                                currencyData?.map((data, idx) => (
+                                                    <MenuItem key={idx} value={data?.name} >{data?.name}</MenuItem>
+                                                ))
+                                            }
+                                        </TextField>
+                                        <FormHelperText>{touched.currencyName && errors.currencyName}</FormHelperText>
+                                    </FormControl>
+                                    <Stack sx={{ pt: 2 }} spacing={2} >
                                         <Typography variant="profilePageTitle">Salary Range*</Typography>
                                         <Stack direction={'row'} alignItems={'center'} spacing={1} >
-                                            {/* <FormControl> */}
-                                            <TextField sx={{ ".MuiInputBase-root": { borderRadius: "4px" }, width: '50%' }}
+                                            <TextField
+                                                sx={{
+                                                    ".MuiInputBase-root": { borderRadius: '4px' },
+                                                    '& > :not(style)': { m: 0 },
+                                                    "& .MuiInputLabel-root": { fontSize: 15 },
+                                                }}
                                                 {...getFieldProps("salaryMin")}
+                                                onKeyPress={handleKeyPress}
                                                 error={Boolean(touched.salaryMin && errors.salaryMin)}
                                                 helperText={touched.salaryMin && errors.salaryMin}
+                                                label="Minimum*"
                                             />
-                                            <TextField sx={{ ".MuiInputBase-root": { borderRadius: "4px" }, width: '50%' }}
+                                            <TextField
+                                                sx={{
+                                                    ".MuiInputBase-root": { borderRadius: '4px' },
+                                                    '& > :not(style)': { m: 0 },
+                                                    "& .MuiInputLabel-root": { fontSize: 15 },
+                                                }}
                                                 {...getFieldProps("salaryMax")}
+                                                onKeyPress={handleKeyPress}
                                                 error={Boolean(touched.salaryMax && errors.salaryMax)}
                                                 helperText={touched.salaryMax && errors.salaryMax}
+                                                label="Miximum*"
                                             />
                                         </Stack>
                                     </Stack>
                                     <Stack>
-                                        <Typography variant="profilePageTitle" >Type of position*</Typography>
-                                        <Select sx={{ ".css-k6dkf7-MuiSelect-select-MuiInputBase-input-MuiOutlinedInput-input": { p: 2 }, borderRadius: "4px" }}
-                                            value={values.employmentType} {...getFieldProps('employmentType')}
-                                        >
+                                        <TextField
+                                            select
+                                            sx={{
+                                                ".MuiInputBase-root": { borderRadius: '4px' },
+                                                '& > :not(style)': { m: 0 },
+                                                "& .MuiInputLabel-root": { fontSize: 15 },
+                                                width: '100%'
+                                            }}
+                                            label="Type of position*"
+                                            value={values.employmentType}
+                                            {...getFieldProps('employmentType')} >
                                             {
                                                 employmentTypeData?.map((data, idx) => (
                                                     <MenuItem key={idx} value={data} >{data}</MenuItem>
                                                 ))
                                             }
-                                        </Select>
+                                        </TextField>
                                         <FormHelperText>{touched.employmentType && errors.employmentType}</FormHelperText>
                                     </Stack>
                                     <Box>
@@ -484,31 +758,40 @@ export default function CreateJob() {
                                         </FormControl>
                                         <FormHelperText>{touched.reLocation && errors.reLocation}</FormHelperText>
                                     </Box>
-                                </Stack>
-                                <Button size="small" variant="outlined" type="submit"
-                                    onClick={() => console.log(errors)}
-                                    sx={{ fontSize: 14, width: "124px", fontWeight: 500 }}
-                                >Save</Button>
-                            </Stack>
-                        </Box>
+                                </Stack> */}
+
+                        <Button size="small" variant="outlined" type="submit"
+                            onClick={() => console.log(errors)}
+                            sx={{ fontSize: 14, width: "124px", fontWeight: 500 }}
+                        >Save</Button>
+
                     </Stack>
+                    {/* </Box> */}
+                    {/* </Stack> */}
                 </Form>
             </FormikProvider>
-        </Box>
+        </Container>
     )
 }
 
-
-// const dropzoneStyles = {
-//     border: '2px dashed #cccccc',
-//     borderRadius: '4px',
-//     padding: '20px',
-//     textAlign: 'center',
-//     cursor: 'pointer',
-// };
-
-// const imagePreviewStyles = {
-//     marginTop: '20px',
-//     maxWidth: '200px', // Adjust the maximum width of the preview as needed
-//     maxHeight: '200px', // Adjust the maximum height of the preview as needed
-// };
+const Wrapper = ({ header, subText, Children }) => {
+    return (
+        <Stack direction={{ xs: "column", lg: 'row' }} sx={{
+            pt: 0, borderBottom: "1px solid #eee",
+            // height: { xs: 200, lg: 120 }
+            pb: 2.8
+        }} spacing={{ xs: 2, lg: 4 }} >
+            <Stack sx={{ width: { xs: "100%", sm: "100%", md: "30%", lg: "30%" } }} spacing={0.1} >
+                <Typography
+                    sx={{ fontSize: 22, fontWeight: 600 }}
+                >{header}</Typography>
+                <Typography variant="profilePageSubText" sx={{ pb: 0.8 }} >{subText}</Typography>
+            </Stack>
+            <Stack
+                sx={{ width: { xs: "94%", sm: "94%", md: "60%", lg: "60%" } }}
+                spacing={2.6} >
+                {Children}
+            </Stack>
+        </Stack>
+    )
+}

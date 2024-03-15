@@ -4,6 +4,7 @@ import generateToken from '../custom/generateToken.js'
 import Job from '../model/jobModel.js'
 import Recruiter from '../model/recruiterModel.js'
 import Application from '../model/applicationSchema.js'
+import { recruiterNav } from '../custom/customNavLinks.js'
 
 // @desc    login Recruiter
 // @route   POST /api/recruiter/login
@@ -55,6 +56,7 @@ const registerRecruiter = async (req, res) => {
             password,
             privacyChecked,
             role,
+            recruiterNav
         })
         res.status(200).json({
             success: true,

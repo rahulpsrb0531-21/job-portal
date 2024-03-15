@@ -1,6 +1,6 @@
 import express from "express"
 const router = express.Router()
-import { candidateDeleteEducation, candidateDeleteResume, candidateDeleteWorkExpr, getAllCandidate, getCandidateAppliedJob, getCandidateByid, getResumeCandidateById, loginCandidate, registerCandidate, updateCandidate } from "../controllers/candidateController.js"
+import { candidateDeleteEducation, candidateDeleteResume, candidateDeleteWorkExpr, getAllCandidate, getCandidateAppliedJob, getCandidateByid, getResumeCandidateById, loginCandidate, registerCandidate, updateCandidate, updatePreference } from "../controllers/candidateController.js"
 import { isAdmin, isCandidate, isRecruiter, verifyToken } from "../middleware/verifyJWT.js"
 
 // router.get('/get/:id', getJob)
@@ -11,6 +11,7 @@ router.get('/applied/job/:candidateId', verifyToken, isCandidate, getCandidateAp
 router.put('/update/:id', verifyToken, isCandidate, updateCandidate)
 router.post('/login', loginCandidate)
 router.post('/register', registerCandidate)
+router.put('/preference/:id', verifyToken, isCandidate, updatePreference)
 router.post('/delete/resume', verifyToken, isCandidate, candidateDeleteResume)
 router.post('/work/experience', verifyToken, isCandidate, candidateDeleteWorkExpr)
 router.post('/education/graduation', verifyToken, isCandidate, candidateDeleteEducation)

@@ -122,10 +122,10 @@ const currencyData = [
 ]
 
 const experienceData = [
-    "0 - 1 Year", "1 - 5 Years", "5 - 10 Years", "> 10 Years"
+    "< 1 Year", "1 Year", "2 Year", "3 Year", "4 Year", "5 Year", "6 Year", "7 Year", "8 Year", "9 Year", "10+ Year",
 ]
 
-const employmentTypeData = ["Full-Time", "Part-Time", "Permanent", "Temporary", "Contract"]
+const employmentTypeData = ["Full Time", "Part Time", "Permanent", "Temporary", "Contract"]
 
 const companyServiceData = [
     {

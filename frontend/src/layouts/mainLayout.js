@@ -14,14 +14,14 @@ const MainStyle = styled('div')(({ theme }) => ({
     // left: { xs: 0, lg: 120 },
     flexGrow: 1,
     overflow: 'hidden',
-    width: "90%",
+    // width: "80%",
     backgroundColor: "rgb(255, 255, 255)",
     // backgroundColor: "red",
     [theme.breakpoints.up('lg')]: {
-        left: 120
+        left: 40
     },
     [theme.breakpoints.up('md')]: {
-        left: 120
+        left: 30
     },
     // paddingBottom: theme.spacing(10),
     // [theme.breakpoints.up('lg')]: {
@@ -35,48 +35,40 @@ export default function MainLayout() {
 
     return (
         <Stack
-        // maxWidth='lg'
-        // sx={{ bgcolor: "red" }}
-        // sx={{
-        //     "& .MuiBox-root": {
-        //         height: 'auto', overflow: 'hidden',
-        //     },
-        //     // bgcolor: 'rgb(250, 250, 251)'
-        // }}
-        // direction={'row'}
+            sx={{
+                "& .MuiBox-root": {
+                    height: 'auto', overflow: 'hidden',
+                },
+                // bgcolor: 'rgb(250, 250, 251)'
+            }}
         >
             <CssBaseline />
-            {/* <Container maxWidth='lg' > */}
+
             <Header />
-            <Stack direction={'row'} >
+            <Stack
+                direction={{ xs: "column", lg: 'row' }}
+                sx={{
+                    mt: 9,
+                    ml: 1,
+                    mb: 4,
+                    overflow: "hidden",
+                    // height: '80vh'
+                    // minHeight: '100%'
+                    // position: "absolute"
+                    // bgcolor: "red"
+
+                }}
+            >
                 <DashboardSidebar />
-                <Box
-                    component="main"
-                    sx={{
-                        flexGrow: 1,
-                        bgcolor: 'background.default',
-                        p: 0,
-                        paddingTop: '64px'
-                    }}
-                >
-                    <Container maxWidth="lg">
-                        <Outlet />
-                    </Container>
-                    <Box sx={{ pb: 2 }} />
-                </Box>
+                <MainStyle sx={{ width: { xs: '100%', sm: '100%', md: '80%', lg: '80%' } }} >
+                    <Outlet />
+                </MainStyle>
+                {/* <DashboardSidebar device="mobile"/> */}
             </Stack>
-            {/* <Box
-                    component="footer"
-                // sx={{
-                //     width: '100%',
-                //     textAlign: 'center',
-                //     p: 2,
-                //     mt: 'auto',
-                //     backgroundColor: 'background.paper',
-                // }}
-                >
-                </Box> */}
-            {/* </Container> */}
+            {/* <Divider /> */}
+            {/* <Box sx={{ position: "static", bottom: 0, width: '100%' }} >
+                <Footer />
+            </Box> */}
             <Footer />
         </Stack>
     )

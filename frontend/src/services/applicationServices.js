@@ -10,7 +10,17 @@ const create = (data) => {
         })
 }
 
+const getApplicationsByUserId = (id) => {
+    return server.post(`api/application/${id}`)
+        .then(res => {
+            return res.data
+        })
+        .catch(err => {
+            return null
+        })
+}
+
 const applicationServices = {
-    create
+    create, getApplicationsByUserId
 }
 export default applicationServices

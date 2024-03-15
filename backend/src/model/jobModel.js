@@ -10,10 +10,11 @@ const jobSchema = mongoose.Schema(
         title: { type: String, required: true },
         company: { type: Object, required: true },
         experience: { type: String, required: true },
-        jobOverview: [{ type: String }],
-        qualifications: [{ type: String }],
-        jobRequirements: [{ type: String, required: true }],
-        jobResponsibilities: [{ type: String }],
+        jobDescription: { type: String },
+        // jobOverview: [{ type: String }],
+        // qualifications: [{ type: String }],
+        // jobRequirements: [{ type: String, required: true }],
+        // jobResponsibilities: [{ type: String }],
         salaryRange: {
             type: {
                 minimum: {
@@ -45,7 +46,7 @@ const jobSchema = mongoose.Schema(
         skills: [{ type: String, required: true }],
         employmentType: {
             type: String,
-            enum: ["Full-Time", "Part-Time", "Permanent", "Temporary", "Contract"]
+            enum: ["Full Time", "Part Time", "Permanent", "Temporary", "Contract"]
         },
         visaSponsorship: {
             type: Boolean,

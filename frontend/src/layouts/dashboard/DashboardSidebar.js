@@ -8,8 +8,9 @@ import { Box, Divider, Drawer, Stack, Typography } from '@mui/material';
 import useResponsive from '../../hooks/useResponsive';
 // components 
 import NavSection from '../../components/NavSection';
-import navConfig from './NavConfig';
+// import navConfig from './NavConfig';
 import { margin } from '@mui/system';
+import { useSelector } from 'react-redux';
 // import { useSelector } from 'react-redux';
 
 // ----------------------------------------------------------------------
@@ -21,7 +22,7 @@ const RootStyle = styled('div')(({ theme }) => ({
     flexShrink: 0,
     width: 156,
   },
-  zIndex: 1,
+  zIndex: 1
 
 
 }))
@@ -31,7 +32,8 @@ const RootStyle = styled('div')(({ theme }) => ({
 
 export default function DashboardSidebar() {
   const { pathname } = useLocation()
-  // const { user } = useSelector((state) => state.auth)
+  const { user } = useSelector((state) => state.auth)
+  // console.log("user sidebar", user)
   const isDesktop = useResponsive('up', 'lg', "only")
   // console.log('mediaBetween', isDesktop)
 
@@ -42,27 +44,15 @@ export default function DashboardSidebar() {
   // }, [pathname]);
 
   const renderContent = (
-    <Box
-    // sx={{ bgcolor: "rgb(250, 250, 251)" }}
-    >
-      <NavSection navConfig={navConfig} />
+    <Box>
+      <NavSection navConfig={user?.navConfig} />
     </Box>
   );
 
   return (
     <Stack spacing={2}
-      // sx={{
-      //   display: { xs: "none", sm: "none", md: "block", lg: "block" },
-      //   position: 'sticky',
-      //   overflow: "hidden",
-      //   height: "100vh",
-      //   // bgcolor: 'red'
-      // }}
       sx={{
-        position: 'sticky',
-        top: '84px',
-        maxHeight: 'calc(100vh - 84px)',
-        overflowY: 'auto'
+        display: { xs: "none", sm: "none", md: "block", lg: "block" },
       }}
     >
       {renderContent}

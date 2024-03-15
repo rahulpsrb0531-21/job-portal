@@ -78,8 +78,9 @@ export default function RecruiterJobs() {
                                     >
                                         <Stack sx={{ width: { xs: "100%", lg: "60%" } }} flexWrap={"wrap"} spacing={1.4} >
                                             <Typography sx={{ fontSize: 16, fontWeight: 700 }} >{job?.title}</Typography>
+                                            {/* <Typography sx={{ fontSize: 12, }} >{job?.jobDescription}</Typography> */}
                                             <Typography sx={{ fontSize: 12 }}
-                                                dangerouslySetInnerHTML={{ __html: job?.jobOverview[0] }} />
+                                                dangerouslySetInnerHTML={{ __html: job?.jobDescription }} />
                                             <Stack direction={'row'} flexWrap={'wrap'} spacing={1} useFlexGap
                                             >
                                                 <Typography sx={{ fontSize: 14, fontWeight: 700 }} >Skills:</Typography>

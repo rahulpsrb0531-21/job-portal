@@ -1,8 +1,7 @@
 import { useEffect, useState } from "react"
 import { FormControl, FormLabel, Box, Stack, TextField, Typography, Select, MenuItem, Divider, Button, Chip, FormHelperText } from "@mui/material"
 import * as Yup from "yup"
-import { useFormik, Form, FormikProvider, FieldArray, Field, getIn } from "formik"
-import moment from "moment"
+import { useFormik, Form, FormikProvider } from "formik"
 import { useSnackbar } from "notistack"
 import { DemoContainer } from '@mui/x-date-pickers/internals/demo'
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs'
@@ -14,6 +13,7 @@ import { useSelector } from "react-redux"
 import ExperienceFormModal from "../modal/experienceFormModal"
 import EditExperienceFormModal from "../modal/graduationFormModal"
 import GraduationExperienceFormModal from "../modal/graduationFormModal"
+import { experienceData } from "../../utils/basicData"
 
 
 export function CandidateProfile() {
@@ -223,9 +223,9 @@ export function CandidateProfile() {
         "Attorney", "Data Analyst", "Investor", "Founder"
     ]
 
-    const experienceData = [
-        "< 1 Year", "1 Year", "2 Year", "3 Year", "4 Year", "5 Year", "6 Year", "7 Year", "8 Year", "9 Year", "10+ Year",
-    ]
+    // const experienceData = [
+    //     "< 1 Year", "1 Year", "2 Year", "3 Year", "4 Year", "5 Year", "6 Year", "7 Year", "8 Year", "9 Year", "10+ Year",
+    // ]
 
     const degreeData = [
         "Associate's Degree", "Bachelor of Arts (BA)", "Bachelor of Business Administration (BBA)", "Bachelor of Engineering (BEng)", "Bachelor of Fine Arts (BFA)", "Bachlor of Science (BS)", "Bachelor's Degree", "Engineer's Degree", "Master of Arts (MA)", "Master of Business Administration (MBA)", "Master of Fine Arts (MFA)", "Master of Science (MS)", "Master's Degree", "Doctor of Philosophy (PhD)", "Doctor of Medicine (MD)", "juris Doctor (JD)", "High School Diploma", "Non-Degree Program (eg. Coursera certificate)", "Other"
@@ -244,14 +244,14 @@ export function CandidateProfile() {
                 <Stack spacing={3.6} sx={{ pb: 0 }}>
                     {/* about us  */}
                     <Stack direction={{ xs: "column", lg: 'row' }} sx={{ pt: 4 }} spacing={4} >
-                        <Stack sx={{ width: { xs: "100%", sm: "100%", md: "40%", lg: "40%" } }} spacing={0.1} >
+                        <Stack sx={{ width: { xs: "100%", sm: "100%", md: "30%", lg: "30%" } }} spacing={0.1} >
                             <Typography
                                 sx={{ fontSize: 22, fontWeight: 600 }}
                             >About</Typography>
                             <Typography variant="profilePageSubText" sx={{ pb: 0.8 }} >Tell us about yourself so startups know who you are.</Typography>
                         </Stack>
                         <Stack
-                            sx={{ width: { xs: "94%", sm: "94%", sm: "40%", lg: "40%" } }}
+                            sx={{ width: { xs: "94%", sm: "94%", sm: "70%", lg: "70%" } }}
                             spacing={2.6} >
                             <TextField
                                 sx={{
@@ -344,13 +344,13 @@ export function CandidateProfile() {
                     {/* SocialLink*/}
                     <Stack direction={{ xs: "column", lg: 'row' }} spacing={4} >
                         <Stack sx={{
-                            width: { xs: "100%", sm: "100%", md: "40%", lg: "40%" }
+                            width: { xs: "100%", sm: "100%", md: "30%", lg: "30%" }
                         }} spacing={0.1} >
                             <Typography sx={{ fontSize: 22, fontWeight: 600 }}>Social Profiles</Typography>
                             <Typography variant="profilePageSubText" sx={{ pb: 0.8 }} >Where can people find you online?</Typography>
                         </Stack>
                         {/* </Box> */}
-                        <Stack sx={{ width: { xs: "94%", sm: "94%", sm: "40%", lg: "40%" } }}
+                        <Stack sx={{ width: { xs: "94%", sm: "94%", sm: "70%", lg: "70%" } }}
                             spacing={2.8} >
                             <FormControlCompoment
                                 errors={errors} touched={touched} values={values} setFieldValue={setFieldValue} getFieldProps={getFieldProps}
@@ -381,12 +381,12 @@ export function CandidateProfile() {
                     <Stack direction={{ xs: 'column', sm: "column", md: 'row', lg: 'row' }}
                         spacing={4} >
                         <Stack sx={{
-                            width: { xs: "100%", sm: "100%", md: "40%", lg: "40%" }
+                            width: { xs: "100%", sm: "100%", md: "30%", lg: "30%" }
                         }} spacing={0.1}>
                             <Typography sx={{ fontSize: 22, fontWeight: 600 }} >Your work experience</Typography>
                             <Typography variant="profilePageSubText" sx={{ pb: 0.8 }} >What other positions have you held?</Typography>
                         </Stack>
-                        <Box sx={{ width: { xs: "94%", sm: "94%", sm: "40%", lg: "40%" } }}>
+                        <Box sx={{ width: { xs: "94%", sm: "94%", sm: "70%", lg: "70%" } }}>
                             <Stack spacing={3.2}
                             >
                                 {
@@ -430,13 +430,13 @@ export function CandidateProfile() {
                     {/* Education */}
                     <Stack direction={{ xs: 'column', sm: "column", md: 'row', lg: 'row' }} spacing={4} >
                         <Stack sx={{
-                            width: { xs: "100%", sm: "100%", md: "40%", lg: "40%" }
+                            width: { xs: "100%", sm: "100%", md: "30%", lg: "30%" }
                         }} spacing={0.1}>
                             <Typography sx={{ fontSize: 22, fontWeight: 600 }} >Education</Typography>
                             <Typography variant="profilePageSubText" sx={{ pb: 0.8 }} >What schools have you studied at?</Typography>
                         </Stack>
                         <Stack spacing={3.2}
-                            sx={{ width: { xs: "94%", sm: "94%", sm: "40%", lg: "40%" } }}
+                            sx={{ width: { xs: "94%", sm: "94%", sm: "70%", lg: "70%" } }}
                         >
                             {
                                 values?.education.map((data, idx) => (
@@ -481,7 +481,7 @@ export function CandidateProfile() {
                     <Stack direction={{ xs: "column", lg: 'row' }} spacing={4}>
                         <Box
                             sx={{
-                                width: { xs: "100%", sm: "100%", md: "40%", lg: "40%" }
+                                width: { xs: "100%", sm: "100%", md: "30%", lg: "30%" }
                             }}
                         >
                             <Stack>
@@ -489,7 +489,7 @@ export function CandidateProfile() {
                                 <Typography variant="profilePageSubText" >This will help startups hone in on your strengths.</Typography>
                             </Stack>
                         </Box>
-                        <Stack sx={{ width: { xs: "94%", sm: "94%", sm: "40%", lg: "40%" } }}
+                        <Stack sx={{ width: { xs: "94%", sm: "94%", sm: "70%", lg: "70%" } }}
                             spacing={2} >
                             <Stack direction={'row'} flexWrap={'wrap'} spacing={1} useFlexGap >
                                 {
@@ -533,12 +533,12 @@ export function CandidateProfile() {
                     {/* <Achievements /> */}
                     <Stack direction={{ xs: 'column', lg: 'row' }} spacing={4}>
                         <Stack sx={{
-                            width: { xs: "100%", sm: "100%", md: "40%", lg: "40%" }
+                            width: { xs: "100%", sm: "100%", md: "30%", lg: "30%" }
                         }} spacing={0.1}>
                             <Typography sx={{ fontSize: 22, fontWeight: 600 }} >Achievements</Typography>
                             <Typography variant="profilePageSubText" sx={{ pb: 0.8 }} >Sharing more details about yourself will help you stand out more.</Typography>
                         </Stack>
-                        <Stack sx={{ width: { xs: "94%", sm: "94%", sm: "40%", lg: "40%" } }} >
+                        <Stack sx={{ width: { xs: "94%", sm: "94%", sm: "70%", lg: "70%" } }} >
                             <FormControl>
                                 <TextField multiline={true} rows={6}
                                     sx={{ ".MuiInputBase-root": { borderRadius: '4px' } }}

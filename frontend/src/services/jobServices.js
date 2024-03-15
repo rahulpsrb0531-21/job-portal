@@ -52,6 +52,18 @@ const getAllJobs = () => {
         })
 }
 
+const getRecommendedJobs = (id) => {
+    return server.get(`api/job/recommended-jobs/${id}`)
+        .then(res => {
+            // console.log(res.data);
+            return res.data
+        })
+        .catch(err => {
+            // console.log(err.response.data.details.message);
+            return null
+        })
+}
+
 const savedJob = (data) => {
     return server.post(`api/job/saved/candidate`, data)
         .then(res => {
@@ -96,6 +108,6 @@ const adminCreateJob = (data) => {
 }
 
 const jobServices = {
-    createJob, updateJob, getAllJobs, savedJob, deleteSavedJob, deleteJob, getJobs, adminCreateJob, searchJob
+    createJob, updateJob, getAllJobs, savedJob, deleteSavedJob, deleteJob, getJobs, adminCreateJob, searchJob, getRecommendedJobs
 }
 export default jobServices

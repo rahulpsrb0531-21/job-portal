@@ -17,7 +17,7 @@ import { currencyData, employmentTypeData, experienceData } from "../../utils/ba
 export default function EditJob() {
     const navigate = useNavigate()
     const { state } = useLocation()
-    console.log("state", state)
+    // console.log("state", state)
     const { enqueueSnackbar } = useSnackbar()
     const { user } = useSelector((state) => state.auth)
     const token = localStorage.getItem('access')
@@ -40,6 +40,7 @@ export default function EditJob() {
     }
 
     const addLocation = () => {
+
         if (newLocation?.length !== 0) {
             setLocations([...locations, newLocation])
             setNewLocation('')
@@ -62,10 +63,11 @@ export default function EditJob() {
         // recruiterId
         title: Yup.string().required("Title is required"),
         experience: Yup.string().required("Experience is required"),
-        jobOverview: Yup.string().required("Job Overview is required"),
-        qualifications: Yup.string().required("Qualifications is required"),
-        jobRequirements: Yup.string().required("Job Requirements is required"),
-        jobResponsibilities: Yup.string().required("Job Responsibilities is required"),
+        jobDescription: Yup.string().required("Job Overview is required"),
+        // jobOverview: Yup.string().required("Job Overview is required"),
+        // qualifications: Yup.string().required("Qualifications is required"),
+        // jobRequirements: Yup.string().required("Job Requirements is required"),
+        // jobResponsibilities: Yup.string().required("Job Responsibilities is required"),
         salaryMin: Yup.number().required("Salary Minimum is required"),
         salaryMax: Yup.number().required("Salary Maximum is required"),
         // salaryCurrency: Yup.string().required("Salary Currency is required"),
@@ -83,10 +85,11 @@ export default function EditJob() {
         initialValues: {
             title: "",
             experience: "",
-            jobOverview: "",
-            qualifications: "",
-            jobRequirements: "",
-            jobResponsibilities: "",
+            jobDescription: "",
+            // jobOverview: "",
+            // qualifications: "",
+            // jobRequirements: "",
+            // jobResponsibilities: "",
             salaryMin: 0,
             salaryMax: 0,
             currencyName: "",
@@ -108,10 +111,11 @@ export default function EditJob() {
                 recruiterId: user?._id,
                 title: (v?.title).charAt(0).toUpperCase() + (v?.title).substring(1),
                 experience: v?.experience,
-                jobOverview: v?.jobOverview,
-                qualifications: v?.qualifications,
-                jobRequirements: v?.jobRequirements,
-                jobResponsibilities: v?.jobResponsibilities,
+                jobDescription: v?.jobDescription,
+                // jobOverview: v?.jobOverview,
+                // qualifications: v?.qualifications,
+                // jobRequirements: v?.jobRequirements,
+                // jobResponsibilities: v?.jobResponsibilities,
                 salaryRange: {
                     minimum: v?.salaryMin,
                     maximum: v?.salaryMax
@@ -120,12 +124,13 @@ export default function EditJob() {
                     name: v?.currencyName,
                     symbol: v?.currencySymbol
                 },
-                location: v?.location,
-                skills: v?.skills,
+                location: locations,
+                skills: skillValues,
                 employmentType: v?.employmentType,
                 visaSponsorship: v?.visaSponsorship,
                 reLocation: v?.reLocation,
             }
+            // console.log(data)
             jobUpdate(data)
         }
     })
@@ -135,10 +140,11 @@ export default function EditJob() {
             console.log('state>>>>>>', state)
             setFieldValue("title", state?.title)
             setFieldValue("experience", state?.experience)
-            setFieldValue("jobOverview", state?.jobOverview[0])
-            setFieldValue("qualifications", state?.qualifications[0])
-            setFieldValue("jobRequirements", state?.jobRequirements[0])
-            setFieldValue("jobResponsibilities", state?.jobResponsibilities[0])
+            setFieldValue("jobDescription", state?.jobDescription)
+            // setFieldValue("jobOverview", state?.jobOverview[0])
+            // setFieldValue("qualifications", state?.qualifications[0])
+            // setFieldValue("jobRequirements", state?.jobRequirements[0])
+            // setFieldValue("jobResponsibilities", state?.jobResponsibilities[0])
             setFieldValue("salaryMin", state?.salaryRange?.minimum)
             setFieldValue("salaryMax", state?.salaryRange?.maximum)
             setFieldValue("currencyName", state?.salaryCurrency?.name)
@@ -190,6 +196,13 @@ export default function EditJob() {
         setFieldValue('location', values.location.filter((data, i) => i !== idx))
     }
 
+    const handleKeyPress = (event) => {
+        if (event.key === 'Enter') {
+            event.preventDefault(); // Prevent default behavior for Enter key
+        }
+    };
+
+
     return (
         <Box sx={{ pb: 6 }}>
             <FormikProvider value={formik}>
@@ -197,11 +210,11 @@ export default function EditJob() {
                     <Stack justifyContent={'space-between'} direction={'row'}
                     // sx={{ "& .css-pis1bl": { p: 0 } }}
                     >
-                        <Box sx={{
+                        {/* <Box sx={{
                             bgcolor: 'black', width: '18%', textAlign: "center", px: 1,
                             display: { xs: "none", sm: "none", md: "block", lg: "block" }
                         }} >
-                        </Box>
+                        </Box> */}
                         <Box sx={{ width: { xs: '100%', sm: "100%", md: "80%", lg: "80%" } }} >
                             <Stack spacing={2} sx={{
                                 width: { xs: "100%", lg: '50%' },
@@ -209,78 +222,133 @@ export default function EditJob() {
                                 borderRadius: 0.4, p: 1, pt: 4
                             }}>
                                 <Typography variant="companyTitle" >Update job</Typography>
-                                <Stack>
-                                    <Typography variant="profilePageTitle" >title*</Typography>
-                                    <TextField sx={{
-                                        ".MuiInputBase-root": { borderRadius: '4px' }
+                                <TextField
+                                    sx={{
+                                        ".MuiInputBase-root": { borderRadius: '4px' },
+                                        '& > :not(style)': { m: 0 },
+                                        "& .MuiInputLabel-root": { fontSize: 15 },
                                     }}
-                                        {...getFieldProps("title")}
-                                        error={Boolean(touched.title && errors.title)}
-                                        helperText={touched.title && errors.title}
-                                    />
-                                </Stack>
+                                    {...getFieldProps("title")}
+                                    onKeyPress={handleKeyPress}
+                                    error={Boolean(touched.title && errors.title)}
+                                    helperText={touched.title && errors.title}
+                                    label="Title*"
+                                />
+
+                                <TextField
+                                    sx={{
+                                        ".MuiInputBase-root": { borderRadius: '4px' },
+                                        '& > :not(style)': { m: 0 },
+                                        "& .MuiInputLabel-root": { fontSize: 15 }
+                                    }}
+                                    label="Job Overview*"
+                                    multiline={true} rows={8}
+                                    onKeyPress={handleKeyPress}
+                                    {...getFieldProps("jobOverview")}
+                                    error={Boolean(touched.jobOverview && errors.jobOverview)}
+                                    helperText={touched.jobOverview && errors.jobOverview}
+                                />
+                                <TextField
+                                    sx={{
+                                        ".MuiInputBase-root": { borderRadius: '4px' },
+                                        '& > :not(style)': { m: 0 },
+                                        "& .MuiInputLabel-root": { fontSize: 15 }
+                                    }}
+                                    label="Qualifications*"
+                                    multiline={true} rows={8}
+                                    onKeyPress={handleKeyPress}
+                                    {...getFieldProps("qualifications")}
+                                    error={Boolean(touched.qualifications && errors.qualifications)}
+                                    helperText={touched.qualifications && errors.qualifications}
+                                />
+                                <TextField
+                                    sx={{
+                                        ".MuiInputBase-root": { borderRadius: '4px' },
+                                        '& > :not(style)': { m: 0 },
+                                        "& .MuiInputLabel-root": { fontSize: 15 }
+                                    }}
+                                    label="Job Requirements*"
+                                    multiline={true} rows={8}
+                                    onKeyPress={handleKeyPress}
+                                    {...getFieldProps("jobRequirements")}
+                                    error={Boolean(touched.jobRequirements && errors.jobRequirements)}
+                                    helperText={touched.jobRequirements && errors.jobRequirements}
+                                />
+                                <TextField
+                                    sx={{
+                                        ".MuiInputBase-root": { borderRadius: '4px' },
+                                        '& > :not(style)': { m: 0 },
+                                        "& .MuiInputLabel-root": { fontSize: 15 }
+                                    }}
+                                    label="Job Responsibilities*"
+                                    multiline={true} rows={8}
+                                    onKeyPress={handleKeyPress}
+                                    {...getFieldProps("jobResponsibilities")}
+                                    error={Boolean(touched.jobResponsibilities && errors.jobResponsibilities)}
+                                    helperText={touched.jobResponsibilities && errors.jobResponsibilities}
+                                />
+
+
                                 <Stack>
-                                    <Typography variant="profilePageTitle">Job Overview*</Typography>
-                                    <CustomDescription value={values.jobOverview} setFieldValue={(value) => setFieldValue("jobOverview", value === "<p><br></p>" ? '' : value)}
-                                        error={touched.jobOverview && errors.jobOverview} />
-                                </Stack>
-                                <Stack >
-                                    <Typography variant="profilePageTitle" >Qualifications*</Typography>
-                                    <CustomDescription value={values.qualifications} setFieldValue={(value) => setFieldValue("qualifications", value === "<p><br></p>" ? '' : value)}
-                                        error={touched.qualifications && errors.qualifications} />
-                                </Stack>
-                                <Stack >
-                                    <Typography variant="profilePageTitle" >Job Requirements*</Typography>
-                                    <CustomDescription value={values.jobRequirements} setFieldValue={(value) => setFieldValue("jobRequirements", value === "<p><br></p>" ? '' : value)}
-                                        error={touched.jobRequirements && errors.jobRequirements} />
-                                </Stack>
-                                <Stack>
-                                    <Typography variant="profilePageTitle" >Job Responsibilities*</Typography>
-                                    <CustomDescription value={values.jobResponsibilities} setFieldValue={(value) => setFieldValue("jobResponsibilities", value === "<p><br></p>" ? '' : value)}
-                                        error={touched.jobResponsibilities && errors.jobResponsibilities} />
-                                </Stack>
-                                <Stack>
-                                    <Typography variant="profilePageTitle" >Years of experience*</Typography>
-                                    <Select
-                                        sx={{ ".css-k6dkf7-MuiSelect-select-MuiInputBase-input-MuiOutlinedInput-input": { p: 2 }, borderRadius: "4px" }}
-                                        value={values.experience} {...getFieldProps('experience')}
-                                    >
+                                    <TextField
+                                        select
+                                        sx={{
+                                            ".MuiInputBase-root": { borderRadius: '4px' },
+                                            '& > :not(style)': { m: 0 },
+                                            "& .MuiInputLabel-root": { fontSize: 15 },
+                                            width: '100%'
+                                        }}
+                                        label="Years of experience*"
+                                        value={values.experience}
+                                        {...getFieldProps('experience')} >
                                         {
                                             experienceData?.map((data, idx) => (
                                                 <MenuItem key={idx} value={data} >{data}</MenuItem>
                                             ))
                                         }
-                                    </Select>
+                                    </TextField>
                                     <FormHelperText>{touched.experience && errors.experience}</FormHelperText>
                                 </Stack>
-                                <Stack sx={{ width: { xs: "100%", lg: "100%" } }} >
-                                    <Typography variant="profilePageTitle" >Locations*</Typography>
-                                    <Stack direction={'row'} flexWrap={'wrap'} spacing={1} useFlexGap sx={{ pb: 1 }} >
+
+                                <Stack>
+                                    <Stack direction={'row'} flexWrap={'wrap'} spacing={1} useFlexGap sx={{ pb: 1 }}  >
                                         {
-                                            locations.map((location, idx) => (
-                                                <Chip label={location} key={idx} sx={{ borderRadius: "4px" }}
+                                            locations.map((skill, idx) => (
+                                                <Chip label={skill} key={idx} sx={{ borderRadius: "4px" }}
                                                     onDelete={() => removeLocation(idx)}
                                                 />
                                             ))
                                         }
                                     </Stack>
                                     <FormControl>
-                                        <TextField sx={{
-                                            ".MuiInputBase-root": { borderRadius: '4px' }
-                                        }}
+                                        <TextField
+                                            sx={{
+                                                ".MuiInputBase-root": { borderRadius: '4px' },
+                                                '& > :not(style)': { m: 0 },
+                                                "& .MuiInputLabel-root": { fontSize: 15 }
+                                            }}
+                                            label="Location*"
                                             value={newLocation}
-                                            onChange={(e) => setNewLocation(e.target.value)}
+                                            onChange={(e) => { setNewLocation(e.target.value) }}
+                                            onKeyPress={handleKeyPress}
+                                            error={Boolean(touched.location && errors.location)}
+                                            helperText={touched.location && errors.location}
                                         />
-                                        <Button variant="blackButton" sx={{
-                                            fontSize: 12, width: 124, bgcolor: 'black', fontWeight: 500, mt: 1,
-                                            ":hover": { bgcolor: "black" }
-                                        }}
+                                        <Button size="small"
+                                            // type="submit"
+                                            variant="contained"
+                                            sx={{
+                                                width: 142,
+                                                fontWeight: 400,
+                                                borderRadius: 8,
+                                                letterSpacing: 0.4, mt: 1
+                                            }}
                                             onClick={() => addLocation()}
                                         >Add Location</Button>
                                     </FormControl>
                                 </Stack>
+
                                 <Stack>
-                                    <Typography variant="profilePageTitle" >Skills*</Typography>
                                     <Stack direction={'row'} flexWrap={'wrap'} spacing={1} useFlexGap sx={{ pb: 1 }}  >
                                         {
                                             skillValues.map((skill, idx) => (
@@ -291,67 +359,108 @@ export default function EditJob() {
                                         }
                                     </Stack>
                                     <FormControl>
-                                        <TextField sx={{
-                                            ".MuiInputBase-root": { borderRadius: '4px' }
-                                        }}
+                                        <TextField
+                                            sx={{
+                                                ".MuiInputBase-root": { borderRadius: '4px' },
+                                                '& > :not(style)': { m: 0 },
+                                                "& .MuiInputLabel-root": { fontSize: 15 }
+                                            }}
+                                            label="Skill*"
                                             value={newSkillValue}
+                                            onKeyPress={handleKeyPress}
                                             onChange={(e) => setNewSkillValue(e.target.value)}
                                             error={Boolean(touched.skills && errors.skills)}
                                             helperText={touched.skills && errors.skills}
                                         />
-                                        <Button variant="blackButton"
-                                            sx={{ fontSize: 12, width: 124, bgcolor: 'black', fontWeight: 500, mt: 1, ":hover": { bgcolor: "black" } }}
+                                        <Button size="small"
+                                            // type="submit"
+                                            variant="contained"
+                                            sx={{
+                                                width: 120,
+                                                fontWeight: 400,
+                                                borderRadius: 8,
+                                                letterSpacing: 0.4, mt: 1
+                                            }}
                                             onClick={() => addSkill()}
                                         >Add Skill</Button>
                                     </FormControl>
                                 </Stack>
-                                {/* <Typography>Salary</Typography> */}
+
                                 <Stack>
-                                    <Typography variant="profilePageTitle" >Currency*</Typography>
-                                    <Select sx={{ ".css-k6dkf7-MuiSelect-select-MuiInputBase-input-MuiOutlinedInput-input": { p: 2 }, borderRadius: "4px" }}
-                                        value={values.currencyName}
-                                        onChange={(e) => {
-                                            const selectedCurrency = currencyData.find(currency => currency.name === e.target.value);
-                                            if (selectedCurrency) {
-                                                setFieldValue("currencyName", selectedCurrency?.name)
-                                                setFieldValue("currencySymbol", selectedCurrency?.symbol)
-                                            }
+                                    <FormControl>
+                                        <TextField select sx={{
+                                            ".MuiInputBase-root": { borderRadius: '4px' },
+                                            '& > :not(style)': { m: 0 },
+                                            "& .MuiInputLabel-root": { fontSize: 15 },
+                                            width: '100%'
                                         }}
-                                    >
-                                        {
-                                            currencyData?.map((data, idx) => (
-                                                <MenuItem key={idx} value={data?.name} >{data?.name}</MenuItem>
-                                            ))
-                                        }
-                                    </Select>
-                                    <Stack sx={{ pt: 2 }}>
+                                            label="Currency*"
+                                            value={values.currencyName}
+                                            onChange={(e) => {
+                                                const selectedCurrency = currencyData.find(currency => currency.name === e.target.value);
+                                                if (selectedCurrency) {
+                                                    setFieldValue("currencyName", selectedCurrency?.name)
+                                                    setFieldValue("currencySymbol", selectedCurrency?.symbol)
+                                                }
+                                            }}
+                                        >
+                                            {
+                                                currencyData?.map((data, idx) => (
+                                                    <MenuItem key={idx} value={data?.name} >{data?.name}</MenuItem>
+                                                ))
+                                            }
+                                        </TextField>
+                                        <FormHelperText>{touched.currencyName && errors.currencyName}</FormHelperText>
+                                    </FormControl>
+                                    <Stack sx={{ pt: 2 }} spacing={2} >
                                         <Typography variant="profilePageTitle">Salary Range*</Typography>
                                         <Stack direction={'row'} alignItems={'center'} spacing={1} >
-                                            <TextField sx={{ ".MuiInputBase-root": { borderRadius: "4px" }, width: '50%' }}
+                                            <TextField
+                                                sx={{
+                                                    ".MuiInputBase-root": { borderRadius: '4px' },
+                                                    '& > :not(style)': { m: 0 },
+                                                    "& .MuiInputLabel-root": { fontSize: 15 },
+                                                }}
                                                 {...getFieldProps("salaryMin")}
+                                                onKeyPress={handleKeyPress}
                                                 error={Boolean(touched.salaryMin && errors.salaryMin)}
                                                 helperText={touched.salaryMin && errors.salaryMin}
+                                                label="Minimum*"
                                             />
-                                            <TextField sx={{ ".MuiInputBase-root": { borderRadius: "4px" }, width: '50%' }}
+                                            <TextField
+                                                sx={{
+                                                    ".MuiInputBase-root": { borderRadius: '4px' },
+                                                    '& > :not(style)': { m: 0 },
+                                                    "& .MuiInputLabel-root": { fontSize: 15 },
+                                                }}
                                                 {...getFieldProps("salaryMax")}
+                                                onKeyPress={handleKeyPress}
                                                 error={Boolean(touched.salaryMax && errors.salaryMax)}
                                                 helperText={touched.salaryMax && errors.salaryMax}
+                                                label="Miximum*"
                                             />
                                         </Stack>
                                     </Stack>
                                 </Stack>
                                 <Stack>
-                                    <Typography variant="profilePageTitle" >Type of position*</Typography>
-                                    <Select sx={{ ".css-k6dkf7-MuiSelect-select-MuiInputBase-input-MuiOutlinedInput-input": { p: 2 }, borderRadius: "4px" }}
-                                        value={values.employmentType} {...getFieldProps('employmentType')}
-                                    >
+                                    <TextField
+                                        select
+                                        sx={{
+                                            ".MuiInputBase-root": { borderRadius: '4px' },
+                                            '& > :not(style)': { m: 0 },
+                                            "& .MuiInputLabel-root": { fontSize: 15 },
+                                            width: '100%'
+                                        }}
+                                        label="Type of position*"
+                                        value={values.employmentType}
+                                        {...getFieldProps('employmentType')} >
                                         {
                                             employmentTypeData?.map((data, idx) => (
                                                 <MenuItem key={idx} value={data} >{data}</MenuItem>
                                             ))
                                         }
-                                    </Select>
-                                    {/* <FormHelperText>{touched.employmentType && errors.employmentType}</FormHelperText> */}
+                                    </TextField>
+                                    <FormHelperText>{touched.employmentType && errors.employmentType}</FormHelperText>
                                 </Stack>
                                 <Box>
                                     <FormControl>

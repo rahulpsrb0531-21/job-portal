@@ -49,7 +49,7 @@ export default function Login() {
 
     useEffect(() => {
         if (token && user?.role === 'CANDIDATE') {
-            navigate("/candidate/profile", { replace: true })
+            navigate("/candidate/dashboard", { replace: true })
         }
         if (user && user?.role === "RECRUITER") {
             navigate("/recruiter/dashboard", { replace: true })
@@ -66,9 +66,11 @@ export default function Login() {
                 anchorOrigin: { horizontal: "right", vertical: "top" },
                 autoHideDuration: 1000
             })
+
             dispatch(setCredentials({ ...res }))
             localStorage.setItem("access", res.accessToken)
-            navigate("/candidate/profile", { replace: true })
+            console.log(res?.candidate)
+            // navigate(res?.candidate?.navConfig[0]?.path, { replace: true })
         } else {
             enqueueSnackbar(res?.data || "server error", {
                 variant: "error",

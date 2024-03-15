@@ -98,10 +98,27 @@ const conditateSchema = mongoose.Schema(
         linkedin: { type: String },
         twitter: { type: String },
         gitHub: { type: String },
-        // socialMedia: [socialMediaSchema],
         workExperience: [workExperienceSchema],
         eduction: [eductionSchema],
         skills: [],
+
+        // Preference 
+        preferences: {
+            locations: [{ type: String, required: true, }],
+            skills: [{ type: String, required: true, }],
+            experience: { type: String, required: true, },
+            employmentType: { type: String, required: true, },
+        },
+
+        // navConfig
+        navConfig: [
+            {
+                title: { type: String },
+                path: { type: String },
+                icon: { type: String },
+            }
+        ],
+
         achivements: { type: String },
         jobsApplied: [{ type: Object }],
         jobsSaved: [{}],

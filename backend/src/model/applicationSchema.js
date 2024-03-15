@@ -26,10 +26,11 @@ const applicationSchema = mongoose.Schema(
         sentApproveRequest: { type: Boolean, default: false },
         status: {
             type: String,
-            default: 'pending',
-            enum: ['pending', 'approve', 'rejected']
+            default: 'Pending',
+            enum: ['Pending', 'Accepted', 'Not Accepted']
         }
-    }
+    },
+    { timestamps: { createdAt: 'created_at', updatedAt: 'updated_at' } }
 )
 const Application = mongoose.model("Application", applicationSchema);
 export default Application

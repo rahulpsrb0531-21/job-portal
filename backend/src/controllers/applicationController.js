@@ -2,7 +2,7 @@ import customError from "../custom/customError.js";
 import Application from "../model/applicationSchema.js";
 import Candidate from "../model/candidateModal.js";
 import Job from "../model/jobModel.js";
-
+import { Types } from 'mongoose'
 
 // @desc    Create Application For Applying Job
 // @route   POST /api/application/create
@@ -44,7 +44,7 @@ const applyApplication = async (req, res) => {
         // Update the candidate document to include the application ID in the appliedJobs array
         Candidate.findByIdAndUpdate(
             { _id: candidateId },
-            { $push: { jobsApplied: jobExists._id } },
+            { $push: { jobsApplied: jobExists } },
             { new: true }
         )
             .exec()
@@ -83,4 +83,29 @@ const applyApplication = async (req, res) => {
     }
 }
 
-export { applyApplication }
+// @desc    Get Application By UserId
+// @route   GET /api/application/:id
+// @access  public
+const getApplicationsByUserId = async (req, res) => {
+    try {
+        // const _id = req.params.id
+        const _Id = new Types.ObjectId(req.params.id)
+        const applications = await Application.find({ "candidate._id": _Id })
+        // const applications = await Application.find({ candidate: { $elemMatch: { _id: "65ad0ba1b7bd7db89d337a50" } } })
+        // console.log("applications", applications?.length)
+        res.status(200).json({
+            success: true,
+            data: applications,
+            message: 'Get Applications successfully',
+        })
+    } catch (error) {
+        console.log(`***** ERROR: ${req.originalUrl, error} error`)
+        res.status({
+            success: false,
+            data: error
+        })
+    }
+}
+
+
+export { applyApplication, getApplicationsByUserId }
